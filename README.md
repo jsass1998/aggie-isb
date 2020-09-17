@@ -1,18 +1,23 @@
 [![License: MIT](https://img.shields.io/github/license/vintasoftware/django-react-boilerplate.svg)](LICENSE.txt)
 
-# The Dream Team - CSCE 482
+# Aggie Intelligent Schedule Builder - CSCE 482
+
+## A quick note
+Most of the readme past this point came from the [boilerplate project](https://github.com/vintasoftware/django-react-boilerplate) repo, however some adjustments have been made. Namely, the Django application was refactored to function as a RESTful API with Webpack serving the React application completely separate from the backend application. Multiple adjustments were also made to the Webpack configuration. Therefore, take everything from the 'About' section and below with a grain of salt, as some things may no longer be accurate. A section dedicated to solving potential issues during the initial setup phase (Troubleshooting) as well as the basic provisioning process (Initializing the Development Environment) has also been added for convenience.
 
 ## About
-A [Django](https://www.djangoproject.com/) project boilerplate/template with lots of state of the art libraries and tools like:
+All issue tracking and task management for this project is done through Jira
+
+A [Django](https://www.djangoproject.com/) project with lots of state of the art libraries and tools like:
 - [React](https://facebook.github.io/react/), for building interactive UIs
-- [django-js-reverse](https://github.com/ierror/django-js-reverse), for generating URLs on JS
+- [django-js-reverse](https://github.com/ierror/django-js-reverse), for generating URLs on JS (not used)
 - [Bootstrap 4](https://v4-alpha.getbootstrap.com/), for responsive styling
 - [Webpack](https://webpack.js.org/), for bundling static assets
 - [Celery](http://www.celeryproject.org/), for background worker tasks
-- [WhiteNoise](http://whitenoise.evans.io/en/stable/) with [brotlipy](https://github.com/python-hyper/brotlipy), for efficient static files serving
+- [WhiteNoise](http://whitenoise.evans.io/en/stable/) with [brotlipy](https://github.com/python-hyper/brotlipy), for efficient static files serving (not used)
 - [prospector](https://prospector.landscape.io/en/master/) and [ESLint](https://eslint.org/) with [pre-commit](http://pre-commit.com/) for automated quality assurance (does not replace proper testing!)
 
-For continuous integration, a [CircleCI](https://circleci.com/) configuration `.circleci/config.yml` is included.
+For continuous integration, a [CircleCI](https://circleci.com/) configuration `.circleci/config.yml` is included, but currently not used.
 
 Also, includes a Heroku `app.json` and a working Django `production.py` settings, enabling easy deployments with ['Deploy to Heroku' button](https://devcenter.heroku.com/articles/heroku-button). Those Heroku plugins are included in `app.json`:
 - PostgreSQL, for DB
@@ -20,32 +25,83 @@ Also, includes a Heroku `app.json` and a working Django `production.py` settings
 - Sendgrid, for e-mail sending
 - Papertrail, for logs and platform errors alerts (must set them manually)
 
-This is a good starting point for modern Python/JavaScript web projects.
+## Initializing the Development Environment
+The following steps should be taken in the event you must provision your Vagrant machine by hand
+- Install Vagrant version 2.2.6
+- Inside the project directory (where your `Vagrantfile` is located), run `vagrant up` in the terminal
+- SSH into vagrant
+- run `sudo apt install libsqlite3-dev`
+- install python 2.7 from source (needed for npm install) [Guide](https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/)
+- run `sudo ln -s /usr/src/Python-2.7.18/python python2`
+Installing Python 3.8 (optional):
+Django can run with python 3.6, which comes with Ubuntu 18.04 LTS, so you do not need to install python 3.8 unless you encounter issues.
+- install python 3.8 from source - [Guide](https://tech.serhatteker.com/post/2019-12/how-to-install-python38-on-ubuntu/)
+  run `sudo make install` instead of `sudo make altinstall`
+Please note: the following two commands will replace the link to python 3.6 with a link to python 3.8. This will result in the `python3` command using v3.8 instead of v3.6. This may result in an unpleasant side-effect where Ubuntu does not process certain commands that rely on python properly. Alternatively, you can avoid this by typing `python3.8` from here on every time you need to run python
+- run `sudo rm /usr/bin/python3`
+- run `sudo ln -s python3.8 /usr/bin/python3`
+- run `cd /usr/bin/`
+The following command will create a link used by the terminal for the command `python` that points to python 3.8
+- run `sudo ln -fs ~/tmp/Python-3.8.1/python python`
+- run `sudo apt install libpq-dev`
+Install Node Version Manager (nvm) and Node.js:
+- run `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
+- exit vagrant with `exit` and restart session with `vagrant ssh` to refresh shell
+- verify ubuntu uses python 3.8 by default by running `python3 --version`
+output should be "Python 3.8.1"
+- run `pip3 install django --user`
+- run `nvm install node`
+
+## Troubleshooting
+Below are some common issues you may run into with your development environment when doing first-time set up 
+- No/invalid vagrant provider
+	run `vagrant up --provider=PROVIDER` where PROVIDER is either virtualbox (windows) or parallels (macOS)
+	[Guide](https://stackoverflow.com/questions/21840883/specify-default-provider-in-vagrantfile)
+ - Installing Python3.8
+	point `python3` to python3.8
+	[Guide](https://tech.serhatteker.com/post/2019-12/upgrade-python38-on-ubuntu/)
+	install python3.8
+	[Guide](https://tech.serhatteker.com/post/2019-12/how-to-install-python38-on-ubuntu/)
+ - Python pip3 is not installed
+	run `sudo apt install python3-pip`
+ - pip install error: locale.Error: unsupported locale setting
+	run `export LC_ALL=C`
+	[Guide](https://stackoverflow.com/questions/36394101/pip-install-locale-error-unsupported-locale-setting)
+ - ImportError: cannot import name 'sysconfig' from 'distutils' with python3/pip3
+	run `sudo apt install python3-distutils`
+ - Error: pg_config executable not found
+	run `sudo apt install libpq-dev` in vagrant
+	[Guide](https://stackoverflow.com/questions/11618898/pg-config-executable-not-found)
+ - Node Version Manager (nvm) is not installed
+	run `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash` in vagrant, then restart your terminal session by exiting vagrant and logging in again
+	[Guide](https://ostechnix.com/install-node-js-linux/)
+ - Node or Node Package Manager (npm) is not installed
+	run `nvm install node` in vagrant
+
 
 ## Running
+*All commands should be run inside vagrant. Use `vagrant ssh` and navigate to the project directory*
+*Note: some commands specify they should be ran with `python` but you may need to run them with `python3`*
 ### Setup
+- Make sure you have created a python virtual environment:
+  In vagrant `~/csce482/csce482/` run `python3 -m venv csce482-venv`
+  Run `source csce482-venv/bin/activate` to activate your virtual environment (necessary for python to recognize certain packages)
 - Inside the `backend` folder, do the following:
 - Create a copy of ``csce482/settings/local.py.example``:  
   `cp csce482/settings/local.py.example csce482/settings/local.py`
 - Create a copy of ``.env.example``:
   `cp .env.example .env`
 
-#### If you are using plain python:
-- Create the migrations for `users` app: 
-  `python manage.py makemigrations`
+#### Creating migrations
+- Create the migrations by running the following: 
+  `python3 manage.py makemigrations`
 - Run the migrations:
-  `python manage.py migrate`
-
-#### If you are using Docker:
-- Create the migrations for `users` app:  
-  `docker-compose run --rm backend python manage.py makemigrations`
-- Run the migrations:
-  `docker-compose run --rm backend python manage.py migrate`
+  `python3 manage.py migrate`
 
 ### Tools
 - Setup [editorconfig](http://editorconfig.org/), [prospector](https://prospector.landscape.io/en/master/) and [ESLint](http://eslint.org/) in the text editor you will use to develop.
 
-### Running the project (without docker)
+### Running the project
 - Open a command line window and go to the project's directory.
 - `pip install -r requirements.txt && pip install -r dev-requirements.txt`
 - `npm install`
@@ -55,15 +111,9 @@ This is a good starting point for modern Python/JavaScript web projects.
 - Go to the `backend` directory.
 - `python manage.py runserver`
 
-
-### Running the project (with docker)
-- Open a command line window and go to the project's directory.
-- `docker-compose up -d `
-To access the logs for each service run `docker-compose logs -f service_name` (either backend, frontend, etc)
-
 #### Celery
 - Open a command line window and go to the project's directory
-- `workon theprojectname` or `source theprojectname/bin/activate` depending on if you are using virtualenvwrapper or just virtualenv.
+- `source theprojectname/bin/activate` to activate your virtualenv.
 - `python manage.py celery`
 
 ### Testing
@@ -133,16 +183,5 @@ Some settings defaults were decided based on Vinta's experiences. Here's the rat
 
 ### `CELERY_ACKS_LATE = True`
 We believe Celery tasks should be idempotent. So for us it's safe to set `CELERY_ACKS_LATE = True` to ensure tasks will be re-queued after a worker failure. Check Celery docs on ["Should I use retry or acks_late?"](https://docs.celeryproject.org/en/latest/faq.html#should-i-use-retry-or-acks-late) for more info.
-
-## Contributing
-
-If you wish to contribute to this project, please first discuss the change you wish to make via an [issue](https://github.com/vintasoftware/django-react-boilerplate/issues).
-
-Check our [contributing guide](https://github.com/vintasoftware/django-react-boilerplate/blob/master/CONTRIBUTING.md) to learn more about our development process and how you can test your changes to the boilerplate.
-
-## Commercial Support
-This project, as other Vinta open-source projects, is used in products of Vinta clients. We are always looking for exciting work, so if you need any commercial support, feel free to get in touch: contact@vinta.com.br
-
-Copyright (c) 2020 Vinta Serviços e Soluções Tecnológicas Ltda.
 
 [MIT License](LICENSE.txt)
