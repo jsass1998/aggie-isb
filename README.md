@@ -33,10 +33,11 @@ The following steps should be taken in the event you must provision your Vagrant
 - run `sudo apt install libsqlite3-dev`
 - install python 2.7 from source (needed for npm install) [Guide](https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/)
 - run `sudo ln -s /usr/src/Python-2.7.18/python python2`
+
 Installing Python 3.8 (optional):
 Django can run with python 3.6, which comes with Ubuntu 18.04 LTS, so you do not need to install python 3.8 unless you encounter issues.
-- install python 3.8 from source - [Guide](https://tech.serhatteker.com/post/2019-12/how-to-install-python38-on-ubuntu/)
-  run `sudo make install` instead of `sudo make altinstall`
+- install python 3.8 from source, run `sudo make install` instead of `sudo make altinstall` - [Guide](https://tech.serhatteker.com/post/2019-12/how-to-install-python38-on-ubuntu/)
+
 Please note: the following two commands will replace the link to python 3.6 with a link to python 3.8. This will result in the `python3` command using v3.8 instead of v3.6. This may result in an unpleasant side-effect where Ubuntu does not process certain commands that rely on python properly. Alternatively, you can avoid this by typing `python3.8` from here on every time you need to run python
 - run `sudo rm /usr/bin/python3`
 - run `sudo ln -s python3.8 /usr/bin/python3`
@@ -85,6 +86,7 @@ Below are some common issues you may run into with your development environment 
 ### Setup
 - Make sure you have created a python virtual environment:
   In vagrant `~/csce482/csce482/` run `python3 -m venv csce482-venv`
+  
   Run `source csce482-venv/bin/activate` to activate your virtual environment (necessary for python to recognize certain packages)
 - Inside the `backend` folder, do the following:
 - Create a copy of ``csce482/settings/local.py.example``:  
