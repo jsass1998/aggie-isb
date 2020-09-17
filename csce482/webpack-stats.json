@@ -1,0 +1,1 @@
+{"status":"error","publicPath":"/","error":"ModuleNotFoundError","message":"Module not found: Error: Can't resolve './pages/Home' in '/home/vagrant/csce_482/csce482/frontend/js'"}

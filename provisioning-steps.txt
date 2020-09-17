@@ -1,0 +1,17 @@
+ - SSH into vagrant
+ - run `sudo apt install libsqlite3-dev`
+ - install python 2.7 from source (needed for npm install) https://tecadmin.net/install-python-2-7-on-ubuntu-and-linuxmint/
+ - run `sudo ln -s /usr/src/Python-2.7.18/python python2`
+ - install python 3.8 from source - https://tech.serhatteker.com/post/2019-12/how-to-install-python38-on-ubuntu/
+	run `sudo make install` instead of `sudo make altinstall`
+ - run `sudo rm /usr/bin/python3`
+ - run `sudo ln -s python3.8 /usr/bin/python3`
+ - run `cd /usr/bin/
+ - run `sudo ln -fs ~/tmp/Python-3.8.1/python python`
+ - run `sudo apt install libpq-dev`
+ - run `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
+ - exit vagrant with `exit` and restart session with `vagrant ssh` to refresh shell
+ - verify ubuntu uses python 3.8 by default by running `python3 --version`
+	output should be "Python 3.8.1"
+ - run `pip3 install django --user`
+ - run `nvm install node`
