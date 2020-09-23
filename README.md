@@ -53,7 +53,7 @@ output should be "Python 3.8.1"
 - run `nvm install node`
 
 ## Troubleshooting
-Below are some common issues you may run into with your development environment when doing first-time set up 
+Below are some common issues you may run into with your development environment when doing first-time set up
 - No/invalid vagrant provider
 	run `vagrant up --provider=PROVIDER` where PROVIDER is either virtualbox (windows) or parallels (macOS)
 	[Guide](https://stackoverflow.com/questions/21840883/specify-default-provider-in-vagrantfile)
@@ -77,6 +77,8 @@ Below are some common issues you may run into with your development environment 
 	[Guide](https://ostechnix.com/install-node-js-linux/)
  - Node or Node Package Manager (npm) is not installed
 	run `nvm install node` in vagrant
+ - ERROR in /frontend/.../style.scss: Module build failed
+	try rebuilding sass with `npm rebuild node-sass` 
 
 
 ## Running
@@ -93,7 +95,7 @@ Below are some common issues you may run into with your development environment 
   `cp .env.example .env`
 
 #### Creating migrations
-- Create the migrations by running the following: 
+- Create the migrations by running the following:
   `python3 manage.py makemigrations`
 - Run the migrations:
   `python3 manage.py migrate`
@@ -103,18 +105,18 @@ Below are some common issues you may run into with your development environment 
 
 ### Running the project
 - Open a command line window and go to the project's directory.
-- `pip install -r requirements.txt && pip install -r dev-requirements.txt`
+- `pip3 install -r requirements.txt && pip3 install -r dev-requirements.txt`
 - `npm install`
 - `npm run start`
 - Open another command line window.
-- `workon theprojectname` or `source theprojectname/bin/activate` depending on if you are using virtualenvwrapper or just virtualenv.
+- `source csce482-venv/bin/activate` to activate the virtual environment.
 - Go to the `backend` directory.
-- `python manage.py runserver`
+- `python3 manage.py runserver`
 
 #### Celery
 - Open a command line window and go to the project's directory
-- `source theprojectname/bin/activate` to activate your virtualenv.
-- `python manage.py celery`
+- `source csce482-venv/bin/activate` to activate your virtualenv.
+- `python3 manage.py celery`
 
 ### Testing
 `make test`
@@ -134,13 +136,13 @@ Before you start creating your own apps remove the example:
 - Deregister the example app by removing `'exampleapp.apps.ExampleappConfig'` from ``backend/csce482/settings/base.py``.
 - Adjust ``backend/csce482/urls.py`` to point to your newly created Django app and remove the path configuration that redirects to the deleted example app.
 
-## Deployment 
+## Deployment
 ### Setup
 This project comes with an `app.json` file, which can be used to create an app on Heroku from a GitHub repository.
 
 After setting up the project, you can init a repository and push it on GitHub. If your repository is public, you can use the following button:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 If you are in a private repository, access the following link replacing `$YOUR_REPOSITORY_LINK$` with your repository link.
 

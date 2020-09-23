@@ -26,6 +26,8 @@ Project setup errors:
 	https://ostechnix.com/install-node-js-linux/
  - Node or Node Package Manager (npm) is not installed
 	run `nvm install node` in vagrant
+ - ERROR in /frontend/.../style.scss: Module build failed
+	try rebuilding sass with `npm rebuild node-sass` https://stackoverflow.com/questions/37986800/node-sass-couldnt-find-a-binding-for-your-current-environment
 
 ToDo:
  - Pick project name and update `name` and `description` fields in package.json
