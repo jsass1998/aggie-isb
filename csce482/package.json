@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:update": "npm test -- --u",
-    "start": "babel-node server.js",
+    "start": "./node_modules/@babel/node/bin/babel-node.js server.js",
     "build": "NODE_ENV=production webpack -p --progress --colors --config webpack.prod.config.js --bail",
     "lint": "eslint frontend",
     "coverage": "jest --coverage"
@@ -37,7 +37,7 @@
     "popper.js": "~1.16.0",
     "postcss": "~7.0.13",
     "postcss-loader": "~2.0.6",
-    "prop-types": "~15.5.10",
+    "prop-types": "^15.7.2",
     "react": "~16.13.0",
     "react-dom": "~16.13.0",
     "react-hot-loader": "~4.12.3",
@@ -49,7 +49,7 @@
     "url-loader": "~3.0.0",
     "webpack": "~4.41.5",
     "webpack-bundle-tracker": "~0.4.2-beta",
-    "webpack-dev-server": "~3.10.1",
+    "webpack-dev-server": "^3.11.0",
     "whatwg-fetch": "~2.0.3"
   },
   "devDependencies": {
@@ -63,7 +63,7 @@
     "enzyme": "~3.11.0",
     "enzyme-adapter-react-16": "~1.15.2",
     "enzyme-to-json": "~3.4.0",
-    "eslint": "~6.8.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "~6.10.1",
     "eslint-config-vinta": "~1.4.5",
     "eslint-import-resolver-webpack": "~0.12.0",
