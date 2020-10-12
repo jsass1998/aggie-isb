@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   if OS.windows? then
-    config.vm.box = "ubuntu/xenial64"
+    config.vm.box = "generic/ubuntu1804"
   end
   if OS.mac?
     config.vm.box = "generic/ubuntu1804"
