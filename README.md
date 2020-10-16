@@ -113,6 +113,33 @@ Below are some common issues you may run into with your development environment 
 - Go to the `backend` directory.
 - `python3 manage.py runserver`
 
+### PostgreSQL set-up
+- Note: For the back-end code to run correctly, make sure you use the same names, passwords, emails, etc. shown here. These will be the ones we use for the set-up on the remote server once we move from local.
+- Run `sudo apt install postgresql`
+- Login into the PostgreSQL shell: `sudo -u postgres psql`
+- You can use `\du` to check the list of users.
+- We're gonna change the root user password: `ALTER USER postgres PASSWORD 'Watermelon482';`
+- Use `\q` to exit the shell
+- You can now reenter the shell whenever you want by using `psql -U postgres -h localhost`
+- reenter the shell
+- Use `\l` to see the list of databases
+- If it doesn't exist, enter `CREATE DATABASE aggieisb_db;`
+- Exit the shell and update your migrations with `sudo python3 manage.py makemigrations`
+- Apply the new migrations with `sudo python3 manage.py migrate`
+- You will need to update migrations like this whenever you make or pull changes to Django settings or models.
+- Go to `csce482/backend` and run `sudo python3 manage.py shell < api/testdata.py` to fill the database with test data.
+
+### Django DB Admin and API Endpoints in the Browser
+- Run the server with `sudo python3 manage.py runserver 0:8000`
+- Visit `localhost:8080\admin` in your browser (Vagrant forwards port 8000 to 8080 on your actual machine)
+- Login with aggieisb@gmail.com, password is Watermelon482.
+- You can view instances of different models and manage them through this directory.
+- Visit `localhost:8080\api` next.
+- Here you will find links to instance lists for each model.
+- You can focus on a specific instances by append `\<id>`, where `\<id>` is the id of the instance you want to focus on, to the end of the directory of a specific list.
+  -Example: `localhost:8080\api\activities\3` routes to the instance of the Activity model with an id of 3.
+- These `\api` directories are endpoints for the data. If you're having trouble with a GET or POST, make sure you can visit the endpoint in your browser. If not, you're probably not using the correct endpoint url.
+
 #### Celery
 - Open a command line window and go to the project's directory
 - `source csce482-venv/bin/activate` to activate your virtualenv.
