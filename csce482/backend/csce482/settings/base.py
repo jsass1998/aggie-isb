@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "import_export",
     "common",
     "users",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
