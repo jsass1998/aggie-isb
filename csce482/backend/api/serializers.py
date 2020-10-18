@@ -47,6 +47,7 @@ class ActivitySerializer(serializers.ModelSerializer):
             'id',
             'title',
             'term',
+            'activity_instance_set',
         )
         model = Activity
 
