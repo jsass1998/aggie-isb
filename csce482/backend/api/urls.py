@@ -7,6 +7,7 @@ router.register(r'courses', views.CourseViewSet)
 router.register(r'professors', views.ProfessorViewSet)
 router.register(r'course_profs', views.CourseProfViewSet)
 router.register(r'activities', views.ActivityViewSet)
+router.register(r'sections', views.SectionViewSet)
 router.register(r'schedules', views.ScheduleViewSet)
 router.register(r'activity_instances', views.ActivityInstanceViewSet)
 
