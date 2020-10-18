@@ -18,7 +18,10 @@ SECURE_HSTS_PRELOAD = True
 
 DEBUG = True
 
-ADMINS = (("Admin", "benjamin.lane@tamu.edu"),)
+ADMINS = (
+    ("Admin", "benjamin.lane@tamu.edu"),
+    ("Admin", "carlsonblindley@tamu.edu")
+)
 
 AUTH_USER_MODEL = "users.User"
 
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     "import_export",
     "common",
     "users",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
