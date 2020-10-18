@@ -125,6 +125,7 @@ Below are some common issues you may run into with your development environment 
 - `pip3 install -r requirements.txt && pip3 install -r dev-requirements.txt`
 - `npm install`
 - If on windows: Open `package.json` in your preferred text editor, look under `"scripts":` and change `"start": babel-node server.js",` to `"start": ./node_modules/@babel/node/bin/babel-node.js server.js",`
+- Under `node_modules/@remotelock/react-week-scheduler` rename `index.mjs` to `index.m.js` - Webpack currently has problems handling these file types
 - Now you can start node with: `npm run start`
 - Open another command line window.
 - `source csce482-venv/bin/activate` to activate the virtual environment.
@@ -143,9 +144,13 @@ Below are some common issues you may run into with your development environment 
 - Use `\l` to see the list of databases
 - If it doesn't exist, enter `CREATE DATABASE aggieisb_db;`
 - Exit the shell and update your migrations with `sudo python3 manage.py makemigrations`
-- Apply the new migrations with `sudo python3 manage.py migrate`
+- Apply the new migrations with `sudo python3 manage.py migrate` (try running without `sudo` if you encounter issues)
 - You will need to update migrations like this whenever you make or pull changes to Django settings or models.
-- Go to `csce482/backend` and run `sudo python3 manage.py shell < api/testdata.py` to fill the database with test data.
+- Run `sudo python3 manage.py createsuperuser`
+  - Leave the username field blank
+  - Enter `aggieisb@gmail.com` for the emails
+  - Enter `Watermelon482` for the password
+- Go to `csce482/backend` and run `sudo python3 manage.py shell < api/testdata.py` to fill the database with test data. (again, try without `sudo` if you have issues)
 
 ### Django DB Admin and API Endpoints in the Browser
 - Run the server with `sudo python3 manage.py runserver 0:8000`
