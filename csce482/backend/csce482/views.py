@@ -3,11 +3,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
-from datetime import datetime 
+from datetime import datetime
 
 from exampleapp.models import Question
-
-# Two examples of how view functions can be created
 
 class HelloWorldView(APIView):
     def get(self, request):  

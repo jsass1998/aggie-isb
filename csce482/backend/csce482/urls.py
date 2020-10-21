@@ -10,6 +10,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('rest-auth/google/', include('login.urls')),
     path("example/", lambda request : redirect("exampleapp/")),
     path("example/helloworld/", views.HelloWorldView.as_view(), name='hello_world'),
     path("example/create_question/", views.create_question, name='create_question'),
