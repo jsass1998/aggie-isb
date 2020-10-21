@@ -50,7 +50,16 @@ Install Node Version Manager (nvm) and Node.js:
 - verify ubuntu uses python 3.8 by default by running `python3 --version`
 output should be "Python 3.8.1"
 - run `pip3 install django --user`
-- run `nvm install node`
+- If on Linux:
+  - run `nvm install node` 
+- If on Windows, run all the following:
+  - `nvm install stable`
+  - `nvm alias default stable`
+  - `nvm list` and make sure the arrow is pointing to the latest version
+  - `npm -g install npm@latest`
+  - `sudo rm /usr/bin/node`
+  - `sudo ln -s /home/vagrant/.nvm/versions/node/v14.13.0/bin/node /usr/bin/node`
+  - `npm config set bin-links false`
 
 ## Troubleshooting
 Below are some common issues you may run into with your development environment when doing first-time set up
@@ -85,8 +94,8 @@ Below are some common issues you may run into with your development environment 
 *All commands should be run inside vagrant. Use `vagrant ssh` and navigate to the project directory*
 *Note: some commands specify they should be ran with `python` but you may need to run them with `python3`*
 ### Setup
-- Make sure you have created a python virtual environment:
-  In vagrant `~/csce482/csce482/` run `python3 -m venv csce482-venv`
+- Make sure you have created a python virtual environment: In vagrant `~/csce482/csce482/` run `python3 -m venv csce482-venv`
+  - If on Windows: use `sudo apt install virtualenv` and then `virtualenv csce482-venv --always-copy` instead.
 - Run `source csce482-venv/bin/activate` to activate your virtual environment (necessary for python to recognize certain packages)
 - Inside the `backend` folder, do the following:
 - Create a copy of ``csce482/settings/local.py.example``:  
@@ -95,6 +104,14 @@ Below are some common issues you may run into with your development environment 
   `cp .env.example .env`
 
 #### Creating migrations
+- Go to the project's directory.
+- For Linux machines:
+  - `pip3 install -r requirements.txt && pip3 install -r dev-requirements.txt`
+- For Windows machines:
+  - `sudo python3 -m pip install -r requirements.txt`
+  - `sudo python3 -m pip install -r dev-requirements.txt`
+  - (In general, use `sudo python3 -m pip install <THINGTOINSTALL>` for any pip installs if you're on Windows.
+- Then run:`npm install`
 - Create the migrations by running the following:
   `python3 manage.py makemigrations`
 - Run the migrations:
@@ -107,10 +124,11 @@ Below are some common issues you may run into with your development environment 
 - Open a command line window and go to the project's directory.
 - `pip3 install -r requirements.txt && pip3 install -r dev-requirements.txt`
 - `npm install`
-- `npm run start`
+- If on windows: Open `package.json` in your preferred text editor, look under `"scripts":` and change `"start": babel-node server.js",` to `"start": ./node_modules/@babel/node/bin/babel-node.js server.js",`
+- Now you can start node with: `npm run start`
 - Open another command line window.
 - `source csce482-venv/bin/activate` to activate the virtual environment.
-- Go to the `backend` directory.
+- Go to the `backend` directory and run the following to start django.
 - `python3 manage.py runserver`
 
 ### PostgreSQL set-up
