@@ -48,6 +48,7 @@ class ActivityInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
+            'activity',
             'location',
             'day',
             'starttime',
@@ -56,8 +57,11 @@ class ActivityInstanceSerializer(serializers.ModelSerializer):
         model = Activity_Instance
 
 class SectionSerializer(serializers.ModelSerializer):
+    course_prof = CourseProfSerializer()
+
     class Meta:
         fields = (
+            'activity',
             'course_prof',
             'section_num',
             'honors',
