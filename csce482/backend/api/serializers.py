@@ -27,6 +27,9 @@ class ProfessorSerializer(serializers.ModelSerializer):
         model = Professor
 
 class CourseProfSerializer(serializers.ModelSerializer):
+    course = CourseSerializer()
+    professor = ProfessorSerializer()
+    
     class Meta:
         fields = (
             'id',
@@ -41,28 +44,52 @@ class CourseProfSerializer(serializers.ModelSerializer):
         )
         model = Course_Prof
 
-class ActivitySerializer(serializers.ModelSerializer):
+class ActivityInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
-            'title',
-            'term',
-            'activity_instance_set',
+            'location',
+            'day',
+            'starttime',
+            'endtime',
         )
-        model = Activity
+        model = Activity_Instance
 
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
-            'activity',
             'course_prof',
-            'term',
             'section_num',
             'honors',
         )
         model = Section
 
+class ActivitySerializer(serializers.ModelSerializer):
+    instances = ActivityInstanceSerializer(many=True)
+    section = SectionSerializer()
+    
+    class Meta:
+        fields = (
+            'id',
+            'title',
+            'term',
+            'section'
+            'instances',
+        )
+        model = Activity
+    
+    def create(self, validated_data):
+        section_data = validated_data.pop('section')
+        instances_data = validated_data.pop('instances')
+        activity = Activity.objects.create(**validated_data)
+        Section.objects.create(activity=activity, **section_data)
+        for instance_data in instances_data:
+            Activity_Instance.objects.create(activity=activity, **instance_data)
+        return activity
+
 class ScheduleSerializer(serializers.ModelSerializer):
+    activities = ActivitySerializer(many=True)
+    
     class Meta:
         fields = (
             'id',
@@ -70,15 +97,3 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'activities',
         )
         model = Schedule
-
-class ActivityInstanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'id',
-            'activity',
-            'location',
-            'day',
-            'starttime',
-            'endtime',
-        )
-        model = Activity_Instance
