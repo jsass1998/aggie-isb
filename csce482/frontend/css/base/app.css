@@ -1,0 +1,55 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  font-family: system-ui, sans-serif;
+}
+
+.time-grid {
+    margin: 50px auto;
+    width: 80vw;
+    height: 80vh;
+    --cell-height: 20px;
+    --cell-width: 50px;
+}
+
+.aisb-topbar {
+    padding-left: 30px;
+    padding-right: 30px;
+    background: var(--maroon);
+    color: var(--white);
+    display: flex;
+    flex-direction: row;
+}
+
+.aisb-topbar > * {
+    padding: 15px;
+}
+
+#sign-in {
+    margin-left: auto;
+    background-color: black;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+#sign-in > * {
+    padding: 10px;
+}
+
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: var(--grey);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Create a drop shadow on all sides to create the effect of a floating card */
+div.aisb-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
