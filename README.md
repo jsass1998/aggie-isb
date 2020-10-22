@@ -154,14 +154,28 @@ Below are some common issues you may run into with your development environment 
 
 ### Django DB Admin and API Endpoints in the Browser
 - Run the server with `sudo python3 manage.py runserver 0:8000`
-- Visit `localhost:8080\admin` in your browser (Vagrant forwards port 8000 to 8080 on your actual machine)
+- Visit `localhost:8080/admin` in your browser (Vagrant forwards port 8000 to 8080 on your actual machine)
 - Login with aggieisb@gmail.com, password is Watermelon482.
 - You can view instances of different models and manage them through this directory.
-- Visit `localhost:8080\api` next.
+- Visit `localhost:8080/api` next.
 - Here you will find links to instance lists for each model.
-- You can focus on a specific instances by append `\<id>`, where `\<id>` is the id of the instance you want to focus on, to the end of the directory of a specific list.
-  -Example: `localhost:8080\api\activities\3` routes to the instance of the Activity model with an id of 3.
-- These `\api` directories are endpoints for the data. If you're having trouble with a GET or POST, make sure you can visit the endpoint in your browser. If not, you're probably not using the correct endpoint url.
+- You can focus on a specific instances by append `/<id>`, where `/<id>` is the id of the instance you want to focus on, to the end of the directory of a specific list.
+  -Example: `localhost:8080/api/activities/3` routes to the instance of the Activity model with an id of 3.
+- These `/api` directories are endpoints for the data. If you're having trouble with a GET or POST, make sure you can visit the endpoint in your browser. If not, you're probably not using the correct endpoint url.
+
+### Set up Google Auth
+- Go to `localhost:8080/admin`
+- Go to the `Site` model and add a new site instance.
+- Enter `localhost:8000` for both the domain and display names and then save the new instance.
+- Go the `Social Application` model and add a new instance.
+  - Provider: `Google`
+  - Name: `Google API`
+  - Client Id: `627245330757-i02jh16q75ba38fldohh71d5euth1dp2.apps.googleusercontent.com`
+  - Secret: `IxFijeSsCMvHkM1BqwGxuEAs`
+  - Key: (Leave this blank)
+  - Sites: Select `localhost:8000`
+- If you go to `localhost:8080/rest-auth/google` you should see an endpoint for receiving access tokens from the front end 
+- (Ben will need to implement the functionality for this.)
 
 #### Celery
 - Open a command line window and go to the project's directory

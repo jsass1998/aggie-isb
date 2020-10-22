@@ -25,12 +25,21 @@ ADMINS = (
 
 AUTH_USER_MODEL = "users.User"
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
 INSTALLED_APPS = [
-    "exampleapp.apps.ExampleappConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,13 +47,29 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_js_reverse",
-    "rest_framework",
     "corsheaders",
     "webpack_loader",
     "import_export",
     "common",
     "users",
+
+    #Django Rest Framework
+    "rest_framework",
+    "rest_framework.authtoken",
+    "rest_auth",
+
+    #Social Login
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    #Our Apps
+    "exampleapp.apps.ExampleappConfig",
     "api.apps.ApiConfig",
+    "login.apps.LoginConfig",
 ]
 
 MIDDLEWARE = [
@@ -90,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Chicago"
 
 USE_I18N = True
 

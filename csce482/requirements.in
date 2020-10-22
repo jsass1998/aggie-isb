@@ -16,3 +16,6 @@ ipython
 sentry-sdk
 djangorestframework
 django-cors-headers
+google-api-python-client
+django-rest-auth
+django-allauth
