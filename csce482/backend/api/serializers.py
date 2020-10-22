@@ -65,7 +65,7 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
 
 class ActivitySerializer(serializers.ModelSerializer):
-    instances = ActivityInstanceSerializer(many=True)
+    activity_instance_set = ActivityInstanceSerializer(many=True)
     section = SectionSerializer()
     
     class Meta:
@@ -73,14 +73,14 @@ class ActivitySerializer(serializers.ModelSerializer):
             'id',
             'title',
             'term',
-            'section'
-            'instances',
+            'section',
+            'activity_instance_set',
         )
         model = Activity
     
     def create(self, validated_data):
         section_data = validated_data.pop('section')
-        instances_data = validated_data.pop('instances')
+        instances_data = validated_data.pop('activity_instance_set')
         activity = Activity.objects.create(**validated_data)
         Section.objects.create(activity=activity, **section_data)
         for instance_data in instances_data:
