@@ -170,8 +170,8 @@ Below are some common issues you may run into with your development environment 
 - Go the `Social Application` model and add a new instance.
   - Provider: `Google`
   - Name: `Google API`
-  - Client Id: `627245330757-i02jh16q75ba38fldohh71d5euth1dp2.apps.googleusercontent.com`
-  - Secret: `IxFijeSsCMvHkM1BqwGxuEAs`
+  - Client Id: (See Discord for this)
+  - Secret: (See Discord for this)
   - Key: (Leave this blank)
   - Sites: Select `localhost:8000`
 - If you go to `localhost:8080/rest-auth/google` you should see an endpoint for receiving access tokens from the front end 
