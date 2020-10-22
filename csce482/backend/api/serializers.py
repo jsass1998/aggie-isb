@@ -6,6 +6,7 @@ from .models import Activity
 from .models import Section
 from .models import Schedule
 from .models import Activity_Instance
+from users.models import User
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,3 +102,17 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'activities',
         )
         model = Schedule
+
+class AppUserSerializer(serializers.ModelSerializer):
+    schedule_set = ScheduleSerializer(many=True)
+
+    class Meta:
+        fields = (
+            'id',
+            'email',
+            'is_staff',
+            'is_active',
+            'last_login',
+            'schedule_set',
+        )
+        model = User
