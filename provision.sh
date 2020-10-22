@@ -44,4 +44,13 @@ sudo apt-get install python3-venv -y
 pip3 install django --user
 echo "Done!"
 
+# Install yarn
+echo "Installing yarn..."
+sudo apt remove cmdtest # cmdtest interferes with yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update
+sudo apt install yarn
+echo "Done!"
+
 echo "~~~~~~~~~~~~~~ Done with provisioning! ~~~~~~~~~~~~~~"

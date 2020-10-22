@@ -45,10 +45,16 @@ module.exports = {
           { loader: 'sass-loader' },
         ],
       },
+      {
+        test: /\.mjs%/,
+        include: /node_modules/,
+        type: "javascript/auto",
+        use: [],
+      },
       ]
     },
     resolve: {
-      extensions: ['*', '.js', '.jsx']
+      extensions: ['*', '.js', '.jsx', '.mjs']
     },
     plugins: [
       new HtmlWebPackPlugin({
