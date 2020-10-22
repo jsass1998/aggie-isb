@@ -1,6 +1,5 @@
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
-from allauth.socialaccount.providers import registry
 
 localhost, created = Site.objects.get_or_create(
     domain = "localhost:8000",
