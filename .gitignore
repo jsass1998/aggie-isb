@@ -47,3 +47,5 @@ spritesmith.scss
 
 # templated email
 tmp_email/
+csce482/backend/google_client_id.txt
+csce482/backend/google_client_secret.txt
