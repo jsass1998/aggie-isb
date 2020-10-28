@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GoogleLogin from "react-google-login";
+import axios from 'axios';
 import { GOOGLE_CLIENT_ID } from "../utils/constants";
 
 class TopBar extends Component {
@@ -7,8 +8,20 @@ class TopBar extends Component {
         super(props);
     }
 
+    async signInUser(token) {
+      console.log(token);
+      let res = await axios.post(
+        'http://localhost:8080/rest-auth/google/',
+        {
+          access_token: token.accessToken,
+        }
+      );
+      console.log(res);
+      return res.status;
+    }
+
     render() {
-        const googleResponse = (response) => {
+        const googleErrorResponse = (response) => {
           console.log(response);
         }
         return(
@@ -19,8 +32,8 @@ class TopBar extends Component {
                     <GoogleLogin
                       clientId={GOOGLE_CLIENT_ID}
                       buttonText="Sign in"
-                      onSuccess={googleResponse}
-                      onFailure={googleResponse}
+                      onSuccess={this.signInUser}
+                      onFailure={googleErrorResponse}
                     />
                 </div>
             </div>
