@@ -61,9 +61,8 @@ class RateMyProfScraper:
             print("error")
             return "error"
         else:
-            print(self.professorlist[self.indexnumber]["overall_rating"])
-            print(self.professorlist[self.indexnumber]["rating_class"])
-            print(self.professorlist[self.indexnumber]["tNumRatings"])
+            RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
+            print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
             #print(self.requests[self.indexnumber])
             #print(str(self.indexnumber))
             #write to DB here
