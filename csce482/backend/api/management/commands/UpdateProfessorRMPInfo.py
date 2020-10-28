@@ -8,6 +8,8 @@ from django.apps import apps
 from django.conf import settings
 from django.core.management import base
 
+from api.models import Professor
+
 class RateMyProfScraper:
 
     def __init__(self,schoolid):
@@ -63,15 +65,30 @@ class RateMyProfScraper:
         else:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
             print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
+            
             #print(self.requests[self.indexnumber])
             #print(str(self.indexnumber))
             #write to DB here
-            #return self.professorlist[self.indexnumber][key]
+            
+            #try:
+            #    overwrite_prof = Professor.objects.get(
+            #        name = str(self.professorlist[self.indexnumber]['tFname'] + " " + self.professorlist[self.indexnumber]['tLname'])
+            #    )[0]
+            #    
+            #    overwrite_prof.overall_rating = str(self.professorlist[self.indexnumber]["overall_rating"])
+            #    overwrite_prof.rating_class   = str(self.professorlist[self.indexnumber]["rating_class"])
+            #    overwrite_prof.tNumRatings    = str(self.professorlist[self.indexnumber]["tNumRatings"])
+            #    overwrite_prof.RMP_link       = str(RMP_link)
+            #    
+            #    overwrite_prof.save()
+            #except:
+            #    print("prof object get and/or prof write to db failed")
 
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
         professors = ["Charles Hall"] #access db for professor list
-        
+        #professors_queryset = Professor.objects.all()
+        #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk
         TAMU = RateMyProfScraper(1003)
         for professor in professors: 
             print("Scraping: " + professor)
