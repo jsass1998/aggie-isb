@@ -31,11 +31,11 @@ function TimeGrid() {
       <div className="time-grid">
         <TimeGridScheduler
           classes={classes}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "94.6%" }}
           originDate={new Date('2019-03-04')}
           schedule={schedule}
           onChange={params => {setSchedule(params)}}
-          visualGridVerticalPrecision={15} // show grid lines in 'x' minute intervals
+          visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
           verticalPrecision={5} // Minute increments in which time blocks can be created
           cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
         />
