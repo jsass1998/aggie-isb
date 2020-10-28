@@ -17,8 +17,12 @@ new WebpackDevServer(webpack(config), {
   historyApiFallback: true,
   proxy: {
     '/api/*': {
-        target: 'http://0.0.0.0:8000/',
-        secure: 'false',
+      target: 'http://0.0.0.0:8000/',
+      secure: 'false',
+    },
+    '/rest-auth/*': {
+      target: 'http://0.0.0.0:8000/',
+      secure: 'false',
     },
   },
   headers: { 'Access-Control-Allow-Origin': '*' },
