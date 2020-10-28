@@ -31,10 +31,8 @@ body {
 
 #sign-in {
     margin-left: auto;
-    background-color: black;
+    margin-top: 5px;
     padding: 15px;
-    display: flex;
-    flex-direction: row;
 }
 
 #sign-in > * {
