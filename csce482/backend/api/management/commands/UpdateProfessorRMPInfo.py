@@ -66,8 +66,6 @@ class RateMyProfScraper:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
             print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
             
-            #print(self.requests[self.indexnumber])
-            #print(str(self.indexnumber))
             #write to DB here
             
             #try:
@@ -87,10 +85,12 @@ class RateMyProfScraper:
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
         professors = ["Charles Hall"] #access db for professor list
-        #professors_queryset = Professor.objects.all()
-        #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk
-        TAMU = RateMyProfScraper(1003)
+        #professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
+        #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk #for handling of actual professor objects instead of string
+        TAMU = RateMyProfScraper(1003) #1003 is tamus code
         for professor in professors: 
             print("Scraping: " + professor)
+            #print("Scraping: " + professor.name) #for handling of actual professor objects instead of string
             TAMU.SearchProfessor(professor)
+            #TAMU.SearchProfessor(professor.name) #for handling of actual professor objects instead of string
             TAMU.WriteProfessorDetails()
