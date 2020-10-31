@@ -30,7 +30,8 @@ django-model-utils==4.0.0  # via -r requirements.in
 django-rest-auth==0.9.5   # via -r requirements.in
 django-webpack-loader==0.7.0  # via -r requirements.in
 django==2.2.16            # via -r requirements.in, django-allauth, django-cors-headers, django-import-export, django-js-reverse, django-log-request-id, django-model-utils, django-rest-auth, djangorestframework
-djangorestframework==3.12.1  # via -r requirements.in, django-rest-auth
+# djangorestframework==3.12.1  # this version breaks django-rest-auth
+djangorestframework==3.10.3  # via -r requirements.in, django-rest-auth
 et-xmlfile==1.0.1         # via openpyxl
 google-api-core==1.23.0   # via google-api-python-client
 google-api-python-client==1.12.5  # via -r requirements.in

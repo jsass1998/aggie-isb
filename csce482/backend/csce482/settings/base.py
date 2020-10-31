@@ -11,8 +11,38 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 def base_dir_join(*args):
     return os.path.join(BASE_DIR, *args)
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
 
-SITE_ID = 1
+SITE_ID = 3
+
+'''
+SITE_ID must match whichever registered site the request is coming from
+Otherwise will result in 'Error: SocialApp matching query does not exist.'
+
+example.com     - SITE_ID = 1
+localhost:8000  - SITE_ID = 2
+localhost:3000  - SITE_ID = 3
+localhost:8080  - SITE_ID = 4
+'''
 
 SECURE_HSTS_PRELOAD = True
 

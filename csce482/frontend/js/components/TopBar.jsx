@@ -8,10 +8,10 @@ class TopBar extends Component {
         super(props);
     }
 
+    // TODO: Update Sign In button text with user name after authentication
     async signInUser(token) {
-      console.log(token);
       let res = await axios.post(
-        'http://localhost:8080/rest-auth/google/',
+        '/rest-auth/google/',
         {
           access_token: token.accessToken,
         }
