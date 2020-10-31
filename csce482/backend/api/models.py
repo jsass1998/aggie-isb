@@ -20,7 +20,7 @@ class Professor(models.Model):
     office = models.CharField(max_length=20)
     overall_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
     total_ratings = models.IntegerField(null=True)
-    RMP_link = models.CharField(max_length=100, null=True)
+    rmp_link = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return str(self.id)+': '+self.name
@@ -78,7 +78,7 @@ class Section(models.Model):
 
     term = models.CharField(max_length=20)
     section_num = models.IntegerField()
-    CRN = models.IntegerField()
+    crn = models.IntegerField()
     credit_hours = models.IntegerField()
     honors = models.BooleanField(default=False)
     web = models.BooleanField(default=False)

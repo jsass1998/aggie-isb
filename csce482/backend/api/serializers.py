@@ -25,7 +25,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
             'office',
             'overall_rating',
             'total_ratings',
-            'RMP_link',
+            'rmp_link',
         )
         model = Professor
 
@@ -67,7 +67,7 @@ class SectionSerializer(serializers.ModelSerializer):
             'activity',
             'course_prof',
             'section_num',
-            'CRN',
+            'crn',
             'credit_hours',
             'honors',
             'web',
