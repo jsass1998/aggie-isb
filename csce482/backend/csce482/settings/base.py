@@ -99,7 +99,6 @@ INSTALLED_APPS = [
     #Our Apps
     "exampleapp.apps.ExampleappConfig",
     "api.apps.ApiConfig",
-    "login.apps.LoginConfig",
 ]
 
 MIDDLEWARE = [
