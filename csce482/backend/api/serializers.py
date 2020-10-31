@@ -23,6 +23,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
             'name',
             'dept',
             'office',
+            'rating_class',
             'overall_rating',
             'total_ratings',
             'rmp_link',
