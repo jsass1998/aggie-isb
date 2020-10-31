@@ -1,6 +1,7 @@
 import requests
 import json
 import math
+import decimal
 
 import sys
 
@@ -67,7 +68,26 @@ class RateMyProfScraper:
             print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
             
             #write to DB here
-            
+            prof_json = self.professorlist[self.indexnumber]
+            prof_fname = str(prof_json['tFname'])
+            prof_lname = str(prof_json['tLname'])
+            prof_name = prof_fname + " " + prof_lname
+            prof_overall_rating = decimal.Decimal(prof_json["overall_rating"])
+            prof_rating_class = str(prof_json['rating_class'])
+            prof_num_ratings = int(prof_json['tNumRatings'])
+            prof_rmp_link = str(RMP_link)
+
+            overwrite_prof = Professor.objects.get(
+                name = prof_name
+            )
+
+            overwrite_prof.overall_rating = prof_overall_rating
+            overwrite_prof.rating_class = prof_rating_class
+            overwrite_prof.num_ratings = prof_num_ratings
+            overwrite_prof.rmp_link = prof_rmp_link
+            overwrite_prof.save()
+            #print("Prof object get and/or prof write to db failed")
+           
             #try:
             #    overwrite_prof = Professor.objects.get(
             #        name = str(self.professorlist[self.indexnumber]['tFname'] + " " + self.professorlist[self.indexnumber]['tLname'])
@@ -84,9 +104,11 @@ class RateMyProfScraper:
 
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
-        professors = ["Charles Hall"] #access db for professor list
-        #professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
+        #professors = ["Tracy Hammond"] #access db for professor list
+        professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
         #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk #for handling of actual professor objects instead of string
+        professors = [prof.name for prof in professors_queryset]
+        print("Initializing Scraper... (may take a bit)")
         TAMU = RateMyProfScraper(1003) #1003 is tamus code
         for professor in professors: 
             print("Scraping: " + professor)
