@@ -20,7 +20,7 @@ class Professor(models.Model):
     office = models.CharField(max_length=20)
     rating_class = models.CharField(max_length=20)
     overall_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
-    total_ratings = models.IntegerField(null=True)
+    num_ratings = models.IntegerField(null=True)
     rmp_link = models.CharField(max_length=100, null=True)
 
     def __str__(self):
