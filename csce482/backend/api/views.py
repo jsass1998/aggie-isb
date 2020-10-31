@@ -48,11 +48,12 @@ class ActivityViewSet(viewsets.ModelViewSet):
         course_param = self.request.query_params.get('course', None)
         term_param = self.request.query_params.get('term', None)
         if (course_param is not None):
-            queryset = queryset.filter(
-                section__isnull = False,
-                term__icontains = term_param,
-                section__course_prof__course__course_id__icontains = course_param
-            )
+            queryset = Course.objects.get(course_id__icontains=course_param).get_sections(term_param)
+            #queryset = queryset.filter(
+                #section__isnull = False,
+                #term__icontains = term_param,
+                #section__course_prof__course__course_id__icontains = course_param
+            #)
         return queryset
 
 class SectionViewSet(viewsets.ModelViewSet):

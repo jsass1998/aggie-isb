@@ -10,9 +10,9 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('rest-auth/google/', include('login.urls')),
-    path("example/", lambda request : redirect("exampleapp/")),
-    path("example/helloworld/", views.HelloWorldView.as_view(), name='hello_world'),
-    path("example/create_question/", views.create_question, name='create_question'),
-    path("example/exampleapp/", include('exampleapp.urls')) # include routes in other 'apps' - keep routes with relevant code
+    path('rest-auth/google/', views.GoogleLogin.as_view(), name='google_login'),
+    #path("example/", lambda request : redirect("exampleapp/")),
+    #path("example/helloworld/", views.HelloWorldView.as_view(), name='hello_world'),
+    #path("example/create_question/", views.create_question, name='create_question'),
+    #path("example/exampleapp/", include('exampleapp.urls')) # include routes in other 'apps' - keep routes with relevant code
 ]
