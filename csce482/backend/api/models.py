@@ -173,6 +173,7 @@ class Schedule(models.Model):
                 schedules.append(new_schedule)
             return schedules
         else:
+            schedules = generate_schedules(schedule_user, schedule_term, section_lists, count-1)
             next_schedules = []
             for schedule in schedules:
                 for section in section_lists[count]:
