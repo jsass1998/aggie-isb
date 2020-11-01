@@ -153,6 +153,7 @@ class Schedule(models.Model):
     def get_sections(self):
         return self.activities.all().filter(section__isnull = False)
     
+    '''
     def generate_schedules(schedule_user, selected_courses, schedule_term):
         count = len(selected_courses)
         section_lists = [course.get_sections(schedule_term) for course in selected_courses]
@@ -172,7 +173,6 @@ class Schedule(models.Model):
                 schedules.append(new_schedule)
             return schedules
         else:
-            schedules = generate_schedule(schedule_user, schedule_term, section_lists, count-1)
             next_schedules = []
             for schedule in schedules:
                 for section in section_lists[count]:
@@ -186,5 +186,5 @@ class Schedule(models.Model):
                         next_schedule.save()
                         next_schedules.append(next_schedule)
             return next_schedules
-                        
+    '''                   
 
