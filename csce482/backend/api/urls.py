@@ -14,10 +14,10 @@ router.register(r'users', views.AppUserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include(
-        'rest_framework.urls',
-        namespace='rest_framework'
-    )),
+    #path('api-auth/', include(
+    #    'rest_framework.urls',
+    #    namespace='rest_framework'
+    #)),
     #path('list/', views.ListSchedule.as_view()),
     #path('<int:pk>/', views.DetailSchedule.as_view()),
 ]

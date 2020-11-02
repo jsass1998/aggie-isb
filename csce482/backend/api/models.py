@@ -7,11 +7,21 @@ class Course(models.Model):
     def __str__(self):
         return "Course: %s" % self.course_id
 
+    def get_sections(self, t):
+        sections=[]
+        for cp in self.course_prof_set.all():
+            for s in cp.section_set.all().filter(term__exact = t):
+                sections = sections + [s.activity]
+        return sections
+
 class Professor(models.Model):
     name = models.CharField(max_length=50)
     dept = models.CharField(max_length=50)
     office = models.CharField(max_length=20)
-    rate_my_prof = models.CharField(max_length=100, null=True)
+    rating_class = models.CharField(max_length=20)
+    overall_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
+    num_ratings = models.IntegerField(null=True)
+    rmp_link = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return str(self.id)+': '+self.name
@@ -44,8 +54,14 @@ class Activity(models.Model):
     term = models.CharField(max_length=20)
 
     def __str__(self):
-        s="Activity "+str(self.id)+": "+self.title+", "+self.term
-        return s
+        return self.title+" - "+self.term
+    
+    def conflicts_with(self, other_activity):
+        for a in self.activity_instance_set:
+            for b in other_activity.activity_instance_set:
+                if a.conflicts_with(b):
+                    return True
+        return False
 
 class Section(models.Model): 
     #each Section is a special type of Activity
@@ -54,14 +70,24 @@ class Section(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
+
     #many Sections can exist for every Course_Prof pair
     course_prof = models.ForeignKey(
         Course_Prof,
         on_delete=models.CASCADE
     )
+
     term = models.CharField(max_length=20)
     section_num = models.IntegerField()
-    honors = models.BooleanField()
+    crn = models.IntegerField()
+    credit_hours = models.IntegerField()
+    honors = models.BooleanField(default=False)
+    web = models.BooleanField(default=False)
+    total_seats = models.IntegerField(default=0)
+    seats_taken = models.IntegerField(default=0)
+
+    # of students who have this section in a schedule
+    interested_students = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ('course_prof', 'term', 'section_num')
@@ -69,20 +95,12 @@ class Section(models.Model):
     def __str__(self):
         return "Section: "+self.activity.title+", "+self.term
 
-class Schedule(models.Model):
-    #Many Schedules can be associated with a User
-    user = models.ForeignKey(
-        'users.User',
-        on_delete=models.CASCADE
-    )
-    #A schedule can have many Activities
-    #An Activity can be part of many Schedules
-    activities = models.ManyToManyField(Activity)
-
-    def __str__(self):
-        s=str(self.id)+": "+str(self.user)
-        s=s+" ("+str(self.activities.count())+" activities)"
-        return s
+    def update_interested_students(self):
+       self.interested_students = self.activity.schedule_set.all().order_by(
+           'user'
+       ).distinct(
+           'user'
+       ).count()
 
 class Activity_Instance(models.Model):
     activity = models.ForeignKey(
@@ -102,3 +120,72 @@ class Activity_Instance(models.Model):
         s=s+str(self.starttime)+"-"+str(self.endtime)
         s=s+")"
         return s
+    
+    def conflicts_with(self, other_instance):
+        b = self.day == other_instance.day
+        b = b and self.starttime < other_instance.endtime
+        b = b and self.endtime > other_instance.starttime
+        return b
+
+
+class Schedule(models.Model):
+    #Many Schedules can be associated with a User
+    user = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE
+    )
+    #A schedule can have many Activities
+    #An Activity can be part of many Schedules
+    activities = models.ManyToManyField(Activity)
+    term = models.CharField(max_length=20)
+
+    def __str__(self):
+        s=str(self.id)+": "+str(self.user)
+        s=s+" ("+str(self.activities.count())+" activities)"
+        return s
+    
+    def conflicts_with(self, activity):
+        for a in self.activities:
+            if a.conflicts_with(activity):
+                return True
+        return False
+
+    def get_sections(self):
+        return self.activities.all().filter(section__isnull = False)
+    
+    '''
+    def generate_schedules(schedule_user, selected_courses, schedule_term):
+        count = len(selected_courses)
+        section_lists = [course.get_sections(schedule_term) for course in selected_courses]
+        schedules = generate_schedules(schedule_user, schedule_term, section_lists, count-1)
+        return schedules
+    
+    def generate_schedules(schedule_user, schedule_term, section_lists, count):
+        if count == 0:
+            schedules = []
+            for section in section_lists[0]:
+                new_schedule = Schedule.objects.create(
+                    user = schedule_user,
+                    term = schedule_term
+                )
+                new_schedule.activities.set([section.activity])
+                new_schedule.save()
+                schedules.append(new_schedule)
+            return schedules
+        else:
+            schedules = generate_schedules(schedule_user, schedule_term, section_lists, count-1)
+            next_schedules = []
+            for schedule in schedules:
+                for section in section_lists[count]:
+                    if not schedule.conflicts_with(section):
+                        curr_sections = schedule.get_sections()
+                        next_schedule = Schedule.objects.create(
+                            user = schedule_user,
+                            term = schedule_term
+                        )
+                        next_schedule.activities.set(curr_sections + [section.activity])
+                        next_schedule.save()
+                        next_schedules.append(next_schedule)
+            return next_schedules
+    '''                   
+
