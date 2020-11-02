@@ -17,6 +17,8 @@ class TopBar extends Component {
         }
       );
       console.log(res);
+      if (res.data.key)
+        localStorage.setItem('api_key', res.data.key);
       return res.status;
     }
 

@@ -9,7 +9,7 @@ body {
 }
 
 .time-grid {
-    margin: 50px auto;
+    margin: 50px auto 0px auto;
     width: 80vw;
     height: 80vh;
     --cell-height: 20px;
@@ -50,4 +50,35 @@ body {
 /* Create a drop shadow on all sides to create the effect of a floating card */
 div.aisb-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.dialog-background {
+    background-color: black;
+    position: absolute;
+    margin-top: -50px;
+    text-align: center;
+    /*z-index: 998;*/
+    height: 93.5%;
+    width: 100%;
+    opacity: 30%;
+}
+
+.dialog-contents {
+    position: absolute;
+    margin: 15% auto;
+    left: 0;
+    right: 0;
+    width: 25%;
+    height: 35%;
+    background-color: #FFFFFF;
+    z-index: 999;
+}
+
+.dialog-message-text {
+    white-space: pre-line;
+}
+
+#add-course-button {
+    float: right;
+    margin-right: 5%;
 }
