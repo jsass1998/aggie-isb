@@ -5,7 +5,7 @@ class Course(models.Model):
     title = models.CharField(max_length=100)
 
     def __str__(self):
-        return "Course: %s" % self.course_id
+        return self.course_id
 
     def get_sections(self, t):
         sections=[]
@@ -55,15 +55,15 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.title+" - "+self.term
-    
+
     def conflicts_with(self, other_activity):
-        for a in self.activity_instance_set:
-            for b in other_activity.activity_instance_set:
+        for a in self.activity_instance_set.all():
+            for b in other_activity.activity_instance_set.all():
                 if a.conflicts_with(b):
                     return True
         return False
 
-class Section(models.Model): 
+class Section(models.Model):
     #each Section is a special type of Activity
     activity = models.OneToOneField(
         Activity,
@@ -120,7 +120,7 @@ class Activity_Instance(models.Model):
         s=s+str(self.starttime)+"-"+str(self.endtime)
         s=s+")"
         return s
-    
+
     def conflicts_with(self, other_instance):
         b = self.day == other_instance.day
         b = b and self.starttime < other_instance.endtime
@@ -143,49 +143,14 @@ class Schedule(models.Model):
         s=str(self.id)+": "+str(self.user)
         s=s+" ("+str(self.activities.count())+" activities)"
         return s
-    
+
     def conflicts_with(self, activity):
-        for a in self.activities:
+        for a in self.activities.all():
             if a.conflicts_with(activity):
                 return True
         return False
 
     def get_sections(self):
-        return self.activities.all().filter(section__isnull = False)
-    
-    '''
-    def generate_schedules(schedule_user, selected_courses, schedule_term):
-        count = len(selected_courses)
-        section_lists = [course.get_sections(schedule_term) for course in selected_courses]
-        schedules = generate_schedules(schedule_user, schedule_term, section_lists, count-1)
-        return schedules
-    
-    def generate_schedules(schedule_user, schedule_term, section_lists, count):
-        if count == 0:
-            schedules = []
-            for section in section_lists[0]:
-                new_schedule = Schedule.objects.create(
-                    user = schedule_user,
-                    term = schedule_term
-                )
-                new_schedule.activities.set([section.activity])
-                new_schedule.save()
-                schedules.append(new_schedule)
-            return schedules
-        else:
-            schedules = generate_schedules(schedule_user, schedule_term, section_lists, count-1)
-            next_schedules = []
-            for schedule in schedules:
-                for section in section_lists[count]:
-                    if not schedule.conflicts_with(section):
-                        curr_sections = schedule.get_sections()
-                        next_schedule = Schedule.objects.create(
-                            user = schedule_user,
-                            term = schedule_term
-                        )
-                        next_schedule.activities.set(curr_sections + [section.activity])
-                        next_schedule.save()
-                        next_schedules.append(next_schedule)
-            return next_schedules
-    '''                   
-
+        sections_queryset = self.activities.all().filter(section__isnull = False)
+        sections_list = [section for section in sections_queryset]
+        return sections_list
