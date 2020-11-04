@@ -209,7 +209,7 @@ def generate_random_activity_objs(NUMBER_OF_ACTIVITIES, list_of_terms, courses):
                 _course_prof = Course_Prof.objects.all().filter(
                     course_id__exact = courses[element].course_id
                 ).first()
-                if _course_prof == None:
+                #if _course_prof == None: #DEBUG
                     #print("element = " + str(element)) #DEBUG
                     #print("course_prof is None") #DEBUG
 
