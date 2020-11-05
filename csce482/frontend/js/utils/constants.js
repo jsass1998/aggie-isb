@@ -1,9 +1,9 @@
 export const GOOGLE_CLIENT_ID = '627245330757-i02jh16q75ba38fldohh71d5euth1dp2.apps.googleusercontent.com';
 
-export const create_schedule_tooltip = 'Click and drag out the times you are unavailable for class on the ' +
-  'weekly calendar, then click the “Find Schedules” button and we’ll look for schedules that work for you. ' +
-  'This is where you can block out time for extracurriculars, work, studying, eating, or anything else you ' +
-  'want to make sure you have time for in your day!'
+export const create_schedule_tooltip = 'This is where you can block out time for extracurriculars, work, ' +
+  'studying, eating, or anything else you want to make sure you have time for in your day. Click and drag ' +
+  'on the schedule to mark the times you are unavailable for class, then click the “Add Courses” button ' +
+  'to select the courses you want to register for and we’ll look for schedules that work for you! '
 
 // Lorem ipsum - used for large placeholder text
 export const lorem_ipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec diam id libero ' +

@@ -78,8 +78,8 @@ const availableCourses = [
     },
   ];
 
-function handleCheckChanged() {
-  console.log('checked');
+function handleCheckChanged(checked) {
+  localStorage.setItem('hideToolTips', checked ? '1' : '0');
 }
 
 function CourseSelectionPopUp(props) {
@@ -119,7 +119,7 @@ function CourseSelectionPopUp(props) {
 
 function TimeGrid(props) {
   const [schedule, setSchedule] = useState(defaultSchedule);
-  const [showToolTips, setShowToolTips] = useState(props.showToolTips);
+  const [hideToolTips, setHideToolTips] = useState(props.hideToolTips);
   const [showCourseSelection, setShowCourseSelection] = useState(false);
 
   const generateSchedules = (schedules) => {
@@ -136,10 +136,12 @@ function TimeGrid(props) {
   return (
     <div>
       <PopUpDialog
-        active={showToolTips}
+        active={!hideToolTips}
         title='Create a Schedule'
         message={create_schedule_tooltip}
-        onClose={() => setShowToolTips(false)}
+        onClose={() => setHideToolTips(true)}
+        showCheckbox={true}
+        checkboxText={"Don't show again"}
         handleCheckChanged={handleCheckChanged}
       />
       <CourseSelectionPopUp
