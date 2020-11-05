@@ -86,12 +86,8 @@ function CourseSelectionPopUp(props) {
   const classes = useStyles();
   const [courses, setCourses] = useState([]);
 
-  const handleChange = (event) => {
-    availableCourses.forEach(course => {
-      if (course.title === event.target.innerText) {
-        setCourses([...courses, course.instance]);
-      }
-    });
+  const handleChange = (event, newValue) => {
+    setCourses(newValue);
   }
 
   return (
@@ -100,10 +96,11 @@ function CourseSelectionPopUp(props) {
       <DialogContent>
         <Autocomplete
           multiple
+          autoComplete
           filterSelectedOptions
-          options={availableCourses}
-          getOptionLabel={(option) => option.title}
-          style={{width: 300}}
+          options={props.courseList}
+          getOptionLabel={(option) => option.course_id + ' - ' + option.title}
+          style={{width: 500}}
           renderInput={(params) => <TextField {...params} label='Course Search' />}
           onChange={handleChange}
         />
@@ -123,14 +120,9 @@ function TimeGrid(props) {
   const [showCourseSelection, setShowCourseSelection] = useState(false);
 
   const generateSchedules = (schedules) => {
-    let newEvents = schedule;
-    schedules.forEach(course => {
-      let instances = convertToTimeBlock(course);
-      instances.forEach(instance => {
-        newEvents.push(instance);
-      });
-    });
-    setSchedule(newEvents);
+    console.log('courses to add', schedules);
+    // Here we would send a request to the backend to generate schedules
+    // and handle the response.
   }
 
   return (
@@ -146,6 +138,7 @@ function TimeGrid(props) {
       />
       <CourseSelectionPopUp
         active={showCourseSelection}
+        courseList={props.courseList}
         generateSchedules={generateSchedules}
         onClose={() => setShowCourseSelection(false)}
       />

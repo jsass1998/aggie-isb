@@ -82,3 +82,12 @@ div.aisb-card {
     float: right;
     margin-right: 5%;
 }
+
+.loading-wheel {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    transform: scale(2.5);
+}
