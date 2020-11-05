@@ -26,7 +26,7 @@ def generate_schedules(schedule_user, schedule_term, selected_courses, blocked_t
             endtime = endtime
         )[0]
         blocked_time_instance.save()
-    activity_lists = section_lists + [blocked_time_activity]
+    activity_lists = section_lists + [[blocked_time_activity]]
     schedules = refine_schedules(schedule_user, schedule_term, activity_lists, count-1)
     return schedules
 
