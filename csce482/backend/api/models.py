@@ -150,7 +150,7 @@ class Schedule(models.Model):
                 return True
         return False
 
-    def get_sections(self):
-        sections_queryset = self.activities.all().filter(section__isnull = False)
-        sections_list = [section for section in sections_queryset]
-        return sections_list
+    def get_activities_list(self):
+        activities_queryset = self.activities.all()
+        activities_list = [activity for activity in activities_queryset]
+        return activities_list
