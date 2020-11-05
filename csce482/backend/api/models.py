@@ -52,6 +52,11 @@ class Course_Prof(models.Model):
 class Activity(models.Model):
     title = models.CharField(max_length=100)
     term = models.CharField(max_length=20)
+    user = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        null = True
+    )
 
     def __str__(self):
         return self.title+" - "+self.term
@@ -150,7 +155,7 @@ class Schedule(models.Model):
                 return True
         return False
 
-    def get_sections(self):
-        sections_queryset = self.activities.all().filter(section__isnull = False)
-        sections_list = [section for section in sections_queryset]
-        return sections_list
+    def get_activities_list(self):
+        activities_queryset = self.activities.all()
+        activities_list = [activity for activity in activities_queryset]
+        return activities_list

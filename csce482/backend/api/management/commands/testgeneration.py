@@ -14,6 +14,8 @@ import string
 import names #pip install names
 import math
 from datetime import datetime
+from datetime import time
+from datetime import timedelta
 
 NUMBER_OF_PROFS = 10
 NUMBER_OF_ACTIVITIES = 20
@@ -76,20 +78,19 @@ list_of_days = [
 ]
 
 list_of_starttimes = [
-    "08:00:00",
-    "09:10:00",
-    "10:20:00",
-    "11:30:00",
-    "12:40:00",
-    "13:50:00",
-    "15:00:00",
-    "08:00:00",
-    "09:35:00",
-    "11:10:00",
-    "12:55:00",
-    "14:45:00",
-    "16:25:00",
-    "18:05:00"
+    datetime(2020, 1, 1, 8, 0, 0),
+    datetime(2020, 1, 1, 9, 10, 0),
+    datetime(2020, 1, 1, 10, 20, 0),
+    datetime(2020, 1, 1, 11, 30, 0),
+    datetime(2020, 1, 1, 12, 40, 0),
+    datetime(2020, 1, 1, 13, 50, 0),
+    datetime(2020, 1, 1, 15, 0, 0),
+    datetime(2020, 1, 1, 9, 35, 0),
+    datetime(2020, 1, 1, 11, 10, 0),
+    datetime(2020, 1, 1, 12, 55, 0),
+    datetime(2020, 1, 1, 14, 45, 0),
+    datetime(2020, 1, 1, 16, 25, 0),
+    datetime(2020, 1, 1, 18, 5, 0)
 ]
 
 list_of_offices = []
@@ -250,37 +251,37 @@ def generate_random_act_inst_objs(NUMBER_OF_ACTIVITIES, NUMBER_OF_ACTIVITIES_PER
             _starttime = list_of_starttimes[iterator]
             #print(_starttime) #DEBUG
             if iterator <= len(list_of_starttimes)/2:
-                raw_time_conversion = int(_starttime[0])*10*60+int(_starttime[1])*60+int(_starttime[3])*10+int(_starttime[4])
-                raw_time_conversion = raw_time_conversion + 50
+                #raw_time_conversion = int(_starttime[0])*10*60+int(_starttime[1])*60+int(_starttime[3])*10+int(_starttime[4])
+                #raw_time_conversion = raw_time_conversion + 50
                 
-                time0 = raw_time_conversion
-                time1 = raw_time_conversion-time0
-                time3 = raw_time_conversion-time0-time1
-                time4 = raw_time_conversion-time0-time1-time3 
+                #time0 = raw_time_conversion
+                #time1 = raw_time_conversion-time0
+                #time3 = raw_time_conversion-time0-time1
+                #time4 = raw_time_conversion-time0-time1-time3 
                 
-                time0 = math.floor(time0/600)
-                time1 = math.floor(time1/60)
-                time3 = math.floor(time3/10)
-                time4 = math.floor(time4)
+                #time0 = math.floor(time0/600)
+                #time1 = math.floor(time1/60)
+                #time3 = math.floor(time3/10)
+                #time4 = math.floor(time4)
                     
-                time_conversion = str(time0)+str(time1)+":"+str(time3)+str(time4)+":00"
-                _endtime = time_conversion
+                #time_conversion = str(time0)+str(time1)+":"+str(time3)+str(time4)+":00"
+                _endtime = _starttime + timedelta(minutes=50)
             else:
-                raw_time_conversion = int(_starttime[0])*10*60+int(_starttime[1])*60+int(_starttime[3])*10+int(_starttime[4])
-                raw_time_conversion = raw_time_conversion + 75
+                #raw_time_conversion = int(_starttime[0])*10*60+int(_starttime[1])*60+int(_starttime[3])*10+int(_starttime[4])
+                #raw_time_conversion = raw_time_conversion + 75
                     
-                time0 = raw_time_conversion
-                time1 = raw_time_conversion-time0
-                time3 = raw_time_conversion-time0-time1
-                time4 = raw_time_conversion-time0-time1-time3 
+                #time0 = raw_time_conversion
+                #time1 = raw_time_conversion-time0
+                #time3 = raw_time_conversion-time0-time1
+                #time4 = raw_time_conversion-time0-time1-time3 
                 
-                time0 = math.floor(time0/600)
-                time1 = math.floor(time1/60)
-                time3 = math.floor(time3/10)
-                time4 = math.floor(time4)
+                #time0 = math.floor(time0/600)
+                #time1 = math.floor(time1/60)
+                #time3 = math.floor(time3/10)
+                #time4 = math.floor(time4)
                     
-                time_conversion = str(time0)+str(time1)+":"+str(time3)+str(time4)+":00"
-                _endtime = time_conversion
+                #time_conversion = str(time0)+str(time1)+":"+str(time3)+str(time4)+":00"
+                _endtime = _starttime + timedelta(hours=1, minutes=15)
             
             new_activity_instance = Activity_Instance.objects.get_or_create(
                 activity = _activity,
