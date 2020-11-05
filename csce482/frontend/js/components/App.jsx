@@ -3,18 +3,20 @@ import TopBar from "./TopBar";
 import TimeGrid from "./schedule/TimeGrid";
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        return(
-            <div>
-                <TopBar/>
-                <TimeGrid/>
-            </div>
-        );
-    }
+  render() {
+    return(
+      <div>
+        <TopBar/>
+        <TimeGrid
+          showToolTips={true}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
