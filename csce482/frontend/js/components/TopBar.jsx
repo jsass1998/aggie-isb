@@ -6,6 +6,9 @@ import { GOOGLE_CLIENT_ID } from "../utils/constants";
 class TopBar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          userName: 'Sign in'
+        };
     }
 
     // TODO: Update Sign In button text with user name after authentication
@@ -16,10 +19,14 @@ class TopBar extends Component {
           access_token: token.accessToken,
         }
       );
-      console.log(res);
+
       if (res.data.key)
         localStorage.setItem('api_key', res.data.key);
-      return res.status;
+
+      console.log(token.profileObj.name);
+      this.setState({
+        userName: token.profileObj.name, // Kind of cheap, should try to fetch automatically if user has already signed in before
+      });
     }
 
     render() {
@@ -33,8 +40,8 @@ class TopBar extends Component {
                 <div id='sign-in'>
                     <GoogleLogin
                       clientId={GOOGLE_CLIENT_ID}
-                      buttonText="Sign in"
-                      onSuccess={this.signInUser}
+                      buttonText={this.state.userName}
+                      onSuccess={this.signInUser.bind(this)}
                       onFailure={googleErrorResponse}
                     />
                 </div>
