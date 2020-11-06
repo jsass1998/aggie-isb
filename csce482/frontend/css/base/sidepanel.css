@@ -6,9 +6,7 @@
     width: 45vw;
     z-index: 1;
     transition: margin-left 0.75s;
-    /* Temporary styles */
     background-color: white;
-    color: white;
 }
 
 #course-selection-panel {
@@ -20,6 +18,20 @@
 
 #schedule-list-panel {
     height: 100%;
+    display: flex;
+}
+
+#schedule-list {
+    width: 100%;
+}
+
+#empty-schedule-message {
+    position: relative;
+    top: 40%;
+    width: 30%;
+    margin: auto;
+    color: #80808080;
+    transform: scale(3);
 }
 
 #panel-expansion-button {
@@ -37,6 +49,7 @@
     margin-top: 45vh;
     margin-left: 5px;
     transform: rotate(180deg);
+    color: white;
 }
 
 .side-panel-column {

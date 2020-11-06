@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import TopBar from "./TopBar";
-import TimeGrid from "./schedule/TimeGrid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import ScheduleView from "./schedule/ScheduleView";
 
 /*

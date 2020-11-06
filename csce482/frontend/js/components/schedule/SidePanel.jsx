@@ -69,10 +69,28 @@ function ScheduleListPanel(props) {
     setExpanded(!expanded);
   };
 
+  const getScheduleListOrEmptyMessage = () => {
+    if (props.scheduleList.length)
+      return (
+        <Grid container>
+          {/** Display list of schedules here **/}
+        </Grid>
+      );
+    else
+      return (
+        <div id='empty-schedule-message'>
+          No schedules to show yet :(
+        </div>
+      );
+  };
+
   return (
     <div id='schedule-list-panel'>
       <div id='panel-expansion-button' onClick={showOrHideCourseSelectionPanel}>
         <NavigateNextIcon id='panel-expansion-button-icon'/>
+      </div>
+      <div id='schedule-list'>
+        { getScheduleListOrEmptyMessage() }
       </div>
     </div>
   );
