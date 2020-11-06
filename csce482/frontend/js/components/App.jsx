@@ -3,6 +3,7 @@ import axios from 'axios';
 import TopBar from "./TopBar";
 import TimeGrid from "./schedule/TimeGrid";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ScheduleView from "./schedule/ScheduleView";
 
 /*
   * <App/> is the root component for the schedule view page and will consist of the most
@@ -51,7 +52,7 @@ class App extends Component {
     return(
       <div>
         <TopBar/>
-        <TimeGrid
+        <ScheduleView
           hideToolTips={this.state.hideToolTips}
           courseList={this.state.courseList}
         />

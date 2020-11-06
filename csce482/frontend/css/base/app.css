@@ -9,7 +9,7 @@ body {
 }
 
 .time-grid {
-    margin: 50px auto 0px auto;
+    margin: 5vh 3vw 0 auto;
     width: 80vw;
     height: 80vh;
     --cell-height: 20px;
@@ -78,7 +78,7 @@ div.aisb-card {
     white-space: pre-line;
 }
 
-#add-course-button {
+.add-course-button {
     float: right;
     margin-right: 5%;
 }
