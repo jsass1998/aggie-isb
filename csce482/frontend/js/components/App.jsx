@@ -17,12 +17,7 @@ class App extends Component {
     const { hideToolTips } = this.fetchLocalStorage();
     this.state = {
       hideToolTips: hideToolTips,
-      courseList: [],
     }
-  }
-
-  componentDidMount() {
-    this.fetchCourseData().then(r => {});
   }
 
   fetchLocalStorage() {
@@ -31,30 +26,12 @@ class App extends Component {
     };
   }
 
-  async fetchCourseData() {
-    let res = await axios.get('api/courses/');
-    this.setState({
-      courseList: res.data,
-    });
-  }
-
   render() {
-    if (!this.state.courseList)
-      return (
-        <div>
-          <TopBar/>
-          <div className={'loading-wheel'}>
-            <CircularProgress />
-            <div>Loading...</div>
-          </div>
-        </div>
-      );
     return(
       <div>
         <TopBar/>
         <ScheduleView
           hideToolTips={this.state.hideToolTips}
-          courseList={this.state.courseList}
         />
       </div>
     );

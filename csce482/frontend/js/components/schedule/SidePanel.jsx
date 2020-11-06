@@ -100,7 +100,9 @@ class SidePanel extends Component {
             />
           </Grid>
           <Grid item xs={4}>
-            <ScheduleListPanel />
+            <ScheduleListPanel
+              scheduleList={this.props.scheduleList}
+            />
           </Grid>
         </Grid>
       </div>

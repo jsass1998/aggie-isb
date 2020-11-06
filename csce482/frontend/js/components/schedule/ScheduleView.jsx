@@ -3,15 +3,30 @@ import TimeGrid from "./TimeGrid";
 import PopUpDialog from "../PopUpDialog";
 import {create_schedule_tooltip} from "../../utils/constants";
 import SidePanel from "./SidePanel";
+import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ScheduleView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      courseList: [],
+      scheduleList: [],
       hideToolTips: props.hideToolTips,
       showCourseSelection: false,
       showSidePanel: true,
     };
+  }
+
+  componentDidMount() {
+    this.fetchCourseData().then(r => {});
+  }
+
+  async fetchCourseData() {
+    let res = await axios.get('api/courses/');
+    this.setState({
+      courseList: res.data,
+    });
   }
 
   handleCheckChanged(checked) {
@@ -24,6 +39,15 @@ class ScheduleView extends Component {
   }
 
   render() {
+    if (!this.state.courseList)
+      return (
+        <div>
+          <div className={'loading-wheel'}>
+            <CircularProgress />
+            <div>Loading...</div>
+          </div>
+        </div>
+      );
     return(
       <div>
         <PopUpDialog
@@ -36,7 +60,8 @@ class ScheduleView extends Component {
           handleCheckChanged={this.handleCheckChanged}
         />
         <SidePanel
-          courseList={this.props.courseList}
+          courseList={this.state.courseList}
+          scheduleList={this.state.scheduleList}
           generateSchedules={this.generateSchedules}
         />
         <TimeGrid />
