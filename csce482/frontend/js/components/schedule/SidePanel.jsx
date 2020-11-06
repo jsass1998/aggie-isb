@@ -1,12 +1,58 @@
-import React, { Component } from 'react';
-import { styled } from '@material-ui/core/styles';
+import React, {Component, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+import {Button} from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
-const ColumnPaper = styled(Paper)({
-  borderRadius: 3,
-  textAlign: 'center',
-});
+function CourseSelectionPanel(props) {
+  const [courses, setCourses] = useState([]);
+  const [semester, setSemester] = useState('');
+
+  const handleSemesterSelect = (event) => {
+    console.log(event);
+    setSemester(event.target.value);
+  }
+
+  const handleCourseSelect = (event, newValue) => {
+    setCourses(newValue);
+  }
+
+  return (
+    <div id='course-selection-panel'>
+      <FormControl>
+        <InputLabel id='semester-select-label'>Semester</InputLabel>
+        <Select
+          labelId='semester-select-label'
+          value={semester}
+          onChange={handleSemesterSelect}
+        >
+          <MenuItem value={'spring2021cstat'}>Spring 2021 - College Station</MenuItem>
+          <MenuItem value={'spring2021cc'}>Spring 2021 - Corpus Cristi</MenuItem>
+          <MenuItem value={'spring2021qatar'}>Spring 2021 - Qatar</MenuItem>
+        </Select>
+        <br/> <br/>
+        <Autocomplete
+          multiple
+          autoComplete
+          filterSelectedOptions
+          options={props.courseList}
+          getOptionLabel={(option) => option.course_id + ' - ' + option.title}
+          style={{width: 500}}
+          renderInput={(params) => <TextField {...params} label='Course Search' />}
+          onChange={handleCourseSelect}
+        />
+        <br/> <br/>
+        <Button onClick={() => props.generateSchedules(courses)}>
+          Find Schedules
+        </Button>
+      </FormControl>
+    </div>
+  );
+}
 
 class SidePanel extends Component {
   constructor(props) {
@@ -24,12 +70,10 @@ class SidePanel extends Component {
           style={{height: '100%'}}
         >
           <Grid item xs={8}>
-            <div
-              className='side-panel-column'
-              style={{backgroundColor: '#A00000', color: 'white'}}
-            >
-              Column 1
-            </div>
+            <CourseSelectionPanel
+              courseList={this.props.courseList}
+              generateSchedules={this.props.generateSchedules}
+            />
           </Grid>
           <Grid item xs={4}>
             <div

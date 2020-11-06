@@ -1,6 +1,4 @@
 #side-panel {
-    background-color: grey;
-    color: white;
     position: absolute;
     margin-top: -5vh;
     margin-left: 0;
@@ -9,8 +7,16 @@
     z-index: 1;
     transition: margin-left 0.75s;
     /* Temporary styles */
-    text-align: end;
     padding: 10px;
+    background-color: white;
+    color: white;
+}
+
+#course-selection-panel {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
 .side-panel-column {
