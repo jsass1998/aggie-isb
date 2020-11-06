@@ -1,0 +1,18 @@
+#side-panel {
+    background-color: grey;
+    color: white;
+    position: absolute;
+    margin-top: -5vh;
+    margin-left: 0;
+    height: 93.6vh;
+    width: 45vw;
+    z-index: 1;
+    transition: margin-left 0.75s;
+    /* Temporary styles */
+    text-align: end;
+    padding: 10px;
+}
+
+.side-panel-column {
+    height: 100%;
+}
