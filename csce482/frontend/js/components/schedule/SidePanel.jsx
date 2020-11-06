@@ -7,13 +7,13 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 function CourseSelectionPanel(props) {
   const [courses, setCourses] = useState([]);
   const [semester, setSemester] = useState('');
 
   const handleSemesterSelect = (event) => {
-    console.log(event);
     setSemester(event.target.value);
   }
 
@@ -45,11 +45,35 @@ function CourseSelectionPanel(props) {
           renderInput={(params) => <TextField {...params} label='Course Search' />}
           onChange={handleCourseSelect}
         />
-        <br/> <br/>
-        <Button onClick={() => props.generateSchedules(courses)}>
-          Find Schedules
-        </Button>
       </FormControl>
+      <br/> <br/>
+      <Button variant='contained' color='primary' onClick={() => props.generateSchedules(courses)}>
+        Find Schedules
+      </Button>
+    </div>
+  );
+}
+
+function ScheduleListPanel(props) {
+  const [expanded, setExpanded] = useState(true);
+
+  const showOrHideCourseSelectionPanel = () => {
+    if (expanded === false) {
+      document.getElementById('side-panel').style.marginLeft = '0vw';
+      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(180deg)';
+    }
+    else {
+      document.getElementById('side-panel').style.marginLeft = '-31vw';
+      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(0deg)';
+    }
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div id='schedule-list-panel'>
+      <div id='panel-expansion-button' onClick={showOrHideCourseSelectionPanel}>
+        <NavigateNextIcon id='panel-expansion-button-icon'/>
+      </div>
     </div>
   );
 }
@@ -64,7 +88,7 @@ class SidePanel extends Component {
       <div id='side-panel' className='aisb-card'>
         <Grid
           container
-          spacing={1}
+          spacing={0}
           justify='center'
           alignItems='stretch'
           style={{height: '100%'}}
@@ -76,12 +100,7 @@ class SidePanel extends Component {
             />
           </Grid>
           <Grid item xs={4}>
-            <div
-              className='side-panel-column'
-              style={{backgroundColor: '#500000', color: 'white'}}
-            >
-              Column 2
-            </div>
+            <ScheduleListPanel />
           </Grid>
         </Grid>
       </div>

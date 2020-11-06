@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import TimeGrid from "./TimeGrid";
 import PopUpDialog from "../PopUpDialog";
 import {create_schedule_tooltip} from "../../utils/constants";
-import Button from "@material-ui/core/Button";
 import SidePanel from "./SidePanel";
 
 class ScheduleView extends Component {
@@ -41,22 +40,6 @@ class ScheduleView extends Component {
           generateSchedules={this.generateSchedules}
         />
         <TimeGrid />
-        {/* Temporary button to toggle side panel */}
-        <Button
-          style={{paddingRight: '15px'}}
-          className='add-course-button'
-          onClick={() => {
-            if (this.state.showSidePanel === false)
-              document.getElementById('side-panel').style.marginLeft = '0vw';
-            else
-              document.getElementById('side-panel').style.marginLeft = '-31vw';
-            this.setState({
-              showSidePanel: !this.state.showSidePanel
-            });
-          }}
-        >
-          Toggle SidePanel
-        </Button>
       </div>
     );
   }
