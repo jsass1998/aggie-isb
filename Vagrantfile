@@ -30,6 +30,12 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "localdev-csce482"
   $memory = 2048
   $cpus = 1
+  
+  config.push.define "heroku" do |push|
+		push.app = "aggie-isb"
+		push.dir = "csce482/"
+		push.remote = "master"
+  end
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
