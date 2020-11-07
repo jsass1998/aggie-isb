@@ -15,6 +15,7 @@ function CourseSelectionPanel(props) {
 
   const handleSemesterSelect = (event) => {
     setSemester(event.target.value);
+    props.onSemesterUpdated(event.target.value);
   }
 
   const handleCourseSelect = (event, newValue) => {
@@ -31,9 +32,11 @@ function CourseSelectionPanel(props) {
           value={semester}
           onChange={handleSemesterSelect}
         >
-          <MenuItem value={'spring2021cstat'}>Spring 2021 - College Station</MenuItem>
-          <MenuItem value={'spring2021cc'}>Spring 2021 - Corpus Cristi</MenuItem>
-          <MenuItem value={'spring2021qatar'}>Spring 2021 - Qatar</MenuItem>
+          {/*TODO - dynamically generate term options w/ data from backend
+                 currently all 'FALL 2020' for testing purposes*/}
+          <MenuItem value={'FALL 2020'}>Spring 2021 - College Station</MenuItem>
+          <MenuItem value={'FALL 2020'}>Spring 2021 - Corpus Cristi</MenuItem>
+          <MenuItem value={'FALL 2020'}>Spring 2021 - Qatar</MenuItem>
         </Select>
         <br/> <br/>
         <Autocomplete
@@ -114,6 +117,7 @@ class SidePanel extends Component {
           <Grid item xs={8}>
             <CourseSelectionPanel
               courseList={this.props.courseList}
+              onSemesterUpdated={this.props.onSemesterUpdated}
               onCourseListUpdated={this.props.onCourseListUpdated}
               generateSchedules={this.props.generateSchedules}
             />

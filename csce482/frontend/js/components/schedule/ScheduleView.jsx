@@ -5,6 +5,7 @@ import {create_schedule_tooltip} from "../../utils/constants";
 import SidePanel from "./SidePanel";
 import {weekdayMap} from "../../utils/constants";
 import axios from "axios";
+import Cookies from 'js-cookie';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ScheduleView extends Component {
@@ -15,7 +16,11 @@ class ScheduleView extends Component {
     this.onGridUpdated =  this.onGridUpdated.bind(this);
 
     this.state = {
+      csrfToken: Cookies.get('csrftoken'),
+      currentUser: null,
       courseList: [],
+      semesterList: [], // Currently not used
+      selectedSemester: '',
       selectedCourses: [],
       scheduleList: [],
       userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
@@ -28,6 +33,16 @@ class ScheduleView extends Component {
 
   componentDidMount() {
     this.fetchCourseData().then(r => {});
+    this.fetchUser();
+  }
+
+  // TODO -  refactor to get user based off of google auth data (if browser is signed in)
+  fetchUser() {
+    axios.get('api/users/2/').then(res => {
+      this.setState({
+        currentUser: res.data,
+      }, () => console.log('currentUser', this.state.currentUser));
+    });
   }
 
   async fetchCourseData() {
@@ -63,16 +78,43 @@ class ScheduleView extends Component {
     });
   };
 
-  onCourseListUpdated(courses) {
+  onSemesterUpdated(selectedSemester) {
     this.setState({
-      selectedCourses: courses,
+      selectedSemester: selectedSemester,
+    });
+  }
+
+  onCourseListUpdated(courses) {
+    let newSelectedCourses = [];
+    courses.forEach(course => {
+      newSelectedCourses.push(course.course_id);
+    });
+    this.setState({
+      selectedCourses: newSelectedCourses,
     });
   }
 
   generateSchedules() {
-    console.log('courses to add', this.state.selectedCourses);
-    console.log('userActivity', this.state.userActivity);
+    // console.log('courses to add', this.state.selectedCourses);
+    // console.log('userActivity', this.state.userActivity);
     // Here we would send a request to the backend to generate schedules and handle the response.
+    axios.post('api/generate_schedules/',
+      {
+        csrfmiddlewaretoken: this.state.csrfToken,
+        user_id: this.state.currentUser.id,
+        term: this.state.selectedSemester,
+        courses: this.state.selectedCourses,
+        blocked_times: this.state.userActivity
+      },
+      {
+        headers: {
+          'X-CSRFToken': this.state.csrfToken,
+        }
+      }).then(res => {
+        console.log(res);
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   render() {
@@ -100,6 +142,7 @@ class ScheduleView extends Component {
         <SidePanel
           courseList={this.state.courseList}
           scheduleList={this.state.scheduleList}
+          onSemesterUpdated={this.onSemesterUpdated.bind(this)}
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}
           generateSchedules={this.generateSchedules.bind(this)}
         />

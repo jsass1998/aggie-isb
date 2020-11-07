@@ -1,6 +1,8 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
 from .models import Course
 from .models import Professor
@@ -74,10 +76,11 @@ class AppUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = AppUserSerializer
 
-def gen_schedule_call(request):
-    user = request.POST['user']
-    term = request.POST['term']
-    courses = request.POST['courses']
-    blocked_times = request.POST['blocked_times']
-    schedules = generate_schedules(user, term, courses, blocked_times)
-    return JsonResponse(schedules)
+class GenerateSchedule(APIView):
+    def post(self, request):
+        user = request.data['user_id']
+        term = request.data['term']
+        courses = request.data['courses']
+        blocked_times = tuple(request.data['blocked_times'])
+        schedules = generate_schedules(user, term, courses, blocked_times)
+        return JsonResponse(schedules)
