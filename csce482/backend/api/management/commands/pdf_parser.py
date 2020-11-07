@@ -138,7 +138,8 @@ def parse_page(
                 letter_grades = {
                     l: int(grade) for l, grade in zip(LETTERS, letter_grades)
                 }
-                grade_data.append((letter_grades, (dept, course_num, section_num)))
+                prof_data = section_row[19]
+                grade_data.append((letter_grades, (dept, course_num, section_num, prof_data)))
 
                 i += LEN_SECTION_ROW
             except ValueError:
