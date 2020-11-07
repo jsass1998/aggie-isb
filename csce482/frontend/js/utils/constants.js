@@ -1,8 +1,30 @@
 export const GOOGLE_CLIENT_ID = '627245330757-i02jh16q75ba38fldohh71d5euth1dp2.apps.googleusercontent.com';
 
+// map from Date().getDay() to a 3-letter string compatible with the database
+export const weekdayMap = {
+    0: "SUN",
+    1: "MON",
+    2: "TUE",
+    3: "WED",
+    4: "THU",
+    5: "FRI",
+    6: "SAT",
+};
+
+// map from db-compatible weekday string to a date used by the TimeGrid to plot new time blocks
+export const dayToDateMap = {
+    "SUN": "2019-03-03",
+    "MON": "2019-03-04",
+    "TUE": "2019-03-05",
+    "WED": "2019-03-06",
+    "THU": "2019-03-07",
+    "FRI": "2019-03-08",
+    "SAT": "2019-03-09",
+};
+
 export const create_schedule_tooltip = 'This is where you can block out time for extracurriculars, work, ' +
   'studying, eating, or anything else you want to make sure you have time for in your day. Click and drag ' +
-  'on the schedule to mark the times you are unavailable for class, then click the “Add Courses” button ' +
+  'on the schedule to mark the times you are unavailable for class, then expand the side panel on the left ' +
   'to select the courses you want to register for and we’ll look for schedules that work for you! '
 
 // Lorem ipsum - used for large placeholder text

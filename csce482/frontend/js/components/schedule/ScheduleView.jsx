@@ -3,15 +3,23 @@ import TimeGrid from "./TimeGrid";
 import PopUpDialog from "../PopUpDialog";
 import {create_schedule_tooltip} from "../../utils/constants";
 import SidePanel from "./SidePanel";
+import {weekdayMap} from "../../utils/constants";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ScheduleView extends Component {
   constructor(props) {
     super(props);
+
+    this.gridUpdateTimer = null;
+    this.onGridUpdated =  this.onGridUpdated.bind(this);
+
     this.state = {
       courseList: [],
+      selectedCourses: [],
       scheduleList: [],
+      userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
+      gridInstances: [], // TimeGrid schedule state
       hideToolTips: props.hideToolTips,
       showCourseSelection: false,
       showSidePanel: true,
@@ -33,21 +41,51 @@ class ScheduleView extends Component {
     localStorage.setItem('hideToolTips', checked ? '1' : '0');
   }
 
-  generateSchedules(schedules) {
-    console.log('courses to add', schedules);
+  // TODO: Watch out for when activities are programmatically added to grid
+  //  - not currently handled
+  onGridUpdated(params) {
+    let updatedUserActivity = [];
+
+    params.forEach(activityInstance => {
+      updatedUserActivity.push([
+        weekdayMap[activityInstance[0].getDay()],
+        activityInstance[0].toString().split(' ')[4],
+        activityInstance[1].toString().split(' ')[4],
+      ]);
+    });
+
+    // BE VERY CAREFUL ADJUSTING HOW THE `TimeGrid` STATE IS UPDATED
+    // IF YOU DO SOMETHING WRONG YOU WILL CREATE AN INFINITE LOOP AND
+    // LOCK THE WEBPAGE
+    this.setState({
+      gridInstances: params,
+      userActivity: updatedUserActivity,
+    });
+  };
+
+  onCourseListUpdated(courses) {
+    this.setState({
+      selectedCourses: courses,
+    });
+  }
+
+  generateSchedules() {
+    console.log('courses to add', this.state.selectedCourses);
+    console.log('userActivity', this.state.userActivity);
     // Here we would send a request to the backend to generate schedules and handle the response.
   }
 
   render() {
-    if (!this.state.courseList)
+    if (!this.state.courseList.length) {
       return (
         <div>
           <div className={'loading-wheel'}>
-            <CircularProgress />
+            <CircularProgress/>
             <div>Loading...</div>
           </div>
         </div>
       );
+    }
     return(
       <div>
         <PopUpDialog
@@ -62,9 +100,13 @@ class ScheduleView extends Component {
         <SidePanel
           courseList={this.state.courseList}
           scheduleList={this.state.scheduleList}
-          generateSchedules={this.generateSchedules}
+          onCourseListUpdated={this.onCourseListUpdated.bind(this)}
+          generateSchedules={this.generateSchedules.bind(this)}
         />
-        <TimeGrid />
+        <TimeGrid
+          schedule={this.state.gridInstances}
+          handleGridChange={this.onGridUpdated}
+        />
       </div>
     );
   }

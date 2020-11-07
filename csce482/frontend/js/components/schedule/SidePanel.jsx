@@ -19,6 +19,7 @@ function CourseSelectionPanel(props) {
 
   const handleCourseSelect = (event, newValue) => {
     setCourses(newValue);
+    props.onCourseListUpdated(newValue);
   }
 
   return (
@@ -46,7 +47,7 @@ function CourseSelectionPanel(props) {
         />
       </FormControl>
       <br/> <br/>
-      <Button variant='contained' color='primary' onClick={() => props.generateSchedules(courses)}>
+      <Button variant='contained' color='primary' onClick={props.generateSchedules}>
         Find Schedules
       </Button>
     </div>
@@ -113,6 +114,7 @@ class SidePanel extends Component {
           <Grid item xs={8}>
             <CourseSelectionPanel
               courseList={this.props.courseList}
+              onCourseListUpdated={this.props.onCourseListUpdated}
               generateSchedules={this.props.generateSchedules}
             />
           </Grid>

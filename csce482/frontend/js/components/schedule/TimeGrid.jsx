@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'resize-observer-polyfill/dist/ResizeObserver.global';
 import { TimeGridScheduler, classes } from '@remotelock/react-week-scheduler';
 import '@remotelock/react-week-scheduler/index.css';
@@ -30,7 +30,6 @@ const convertToTimeBlock = rangeStrings => {
 }
 
 function TimeGrid(props) {
-  const [schedule, setSchedule] = useState(defaultSchedule);
 
   return (
     <div className='time-grid'>
@@ -38,8 +37,8 @@ function TimeGrid(props) {
         classes={classes}
         style={{ width: "100%", height: "94.6%" }}
         originDate={new Date('2019-03-04')}
-        schedule={schedule}
-        onChange={params => {console.log(params); setSchedule(params)}}
+        schedule={props.schedule}
+        onChange={props.handleGridChange}
         visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
         verticalPrecision={5} // Minute increments in which time blocks can be created
         cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
