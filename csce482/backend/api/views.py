@@ -20,6 +20,8 @@ from .serializers import ScheduleSerializer
 from .serializers import ActivityInstanceSerializer
 from .serializers import AppUserSerializer
 
+from .generate_schedules import generate_schedules
+
 #class ListSchedule(generics.ListCreateAPIView):
 #    queryset = Schedule.objects.all()
 #    serializer_class = ScheduleSerializer
@@ -71,3 +73,11 @@ class ActivityInstanceViewSet(viewsets.ModelViewSet):
 class AppUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = AppUserSerializer
+
+def gen_schedule_call(request):
+    user = request.POST['user']
+    term = request.POST['term']
+    courses = request.POST['courses']
+    blocked_times = request.POST['blocked_times']
+    schedules = generate_schedules(user, term, courses, blocked_times)
+    return JsonResponse(schedules)
