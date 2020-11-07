@@ -1,7 +1,7 @@
 #side-panel {
     position: absolute;
     margin-top: -5vh;
-    margin-left: 0;
+    margin-left: -31vw;
     height: 93.6vh;
     width: 45vw;
     z-index: 1;
@@ -13,7 +13,16 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    margin-top: 20px;
+    padding-top: 50px;
+    padding-left: 45px;
+    padding-right: 30px;
+    overflow-x: hidden;
+}
+
+#course-selection-panel > * {
+    width: 85%;
+    max-width: -webkit-fill-available;
+    max-width: -moz-available;
 }
 
 #schedule-list-panel {
@@ -27,7 +36,7 @@
 
 #empty-schedule-message {
     position: relative;
-    top: 40%;
+    top: 35%;
     width: 75%;
     margin: auto;
     color: #80808080;
@@ -47,7 +56,7 @@
 
 #panel-expansion-button-icon {
     margin-top: 45vh;
-    transform: rotate(180deg);
+    transform: rotate(0deg);
     color: white;
 }
 

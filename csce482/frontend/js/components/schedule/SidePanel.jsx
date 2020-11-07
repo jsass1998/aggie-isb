@@ -41,7 +41,6 @@ function CourseSelectionPanel(props) {
           filterSelectedOptions
           options={props.courseList}
           getOptionLabel={(option) => option.course_id + ' - ' + option.title}
-          style={{width: 500}}
           renderInput={(params) => <TextField {...params} label='Course Search' />}
           onChange={handleCourseSelect}
         />
@@ -55,7 +54,7 @@ function CourseSelectionPanel(props) {
 }
 
 function ScheduleListPanel(props) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const showOrHideCourseSelectionPanel = () => {
     if (expanded === false) {
@@ -79,7 +78,7 @@ function ScheduleListPanel(props) {
     else
       return (
         <div id='empty-schedule-message'>
-          No schedules to show yet :(
+          Expand to start adding courses
         </div>
       );
   };
