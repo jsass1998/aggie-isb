@@ -151,7 +151,7 @@ class Schedule(models.Model):
     #An Activity can be part of many Schedules
     activities = models.ManyToManyField(Activity)
     term = models.CharField(max_length=16)
-    campus = models.CharField(max_length=16)
+    campus = models.CharField(max_length=16, default="College Station")
     description = models.TextField(default="")
     avg_starttime = models.TimeField(default="12:00:00")
     avg_endtime = models.TimeField(default="15:00:00")
