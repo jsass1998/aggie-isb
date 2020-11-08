@@ -8,6 +8,8 @@ import {weekdayMap} from "../../utils/constants";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class ScheduleView extends Component {
   constructor(props) {
@@ -115,6 +117,11 @@ class ScheduleView extends Component {
   }
 
   generateSchedules() {
+    if (!this.state.selectedCourses.length) {
+      toast.info("You haven't selected any courses!");
+      return;
+    }
+
     axios.post('api/generate_schedules/',
       {
         csrfmiddlewaretoken: this.state.csrfToken,
@@ -172,6 +179,18 @@ class ScheduleView extends Component {
             handleGridChange={this.onGridUpdated}
           />
         </ScheduleContext.Provider>
+        <ToastContainer
+          className='toast-pane'
+          position="bottom-left"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }
