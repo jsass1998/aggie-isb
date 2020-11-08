@@ -83,8 +83,22 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
 
 class ScheduleViewSet(viewsets.ModelViewSet):
-    queryset = Schedule.objects.all().order_by('id')
+    #queryset = Schedule.objects.all().order_by('id')
     serializer_class = ScheduleSerializer
+
+    def get_queryset(self):
+        queryset = Schedule.objects.all().order_by('id')
+        user_param = self.request.query_params.get('user', None)
+        term_param = self.request.query_params.get('term', None)
+        campus_param = self.request.query_params.get('campus', None)
+        if (user_param is not None) and (term_param is not None) and (campus_param is not None):
+            queryset = Schedule.objects.all().filter(
+                user_id__exact=user_param,
+                term__iexact=term_param,
+                campus__iexact=campus_param,
+            )
+        return queryset
+
 
 class ActivityInstanceViewSet(viewsets.ModelViewSet):
     queryset = Activity_Instance.objects.all().order_by('id')
