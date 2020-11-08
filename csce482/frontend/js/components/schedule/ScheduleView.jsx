@@ -34,7 +34,7 @@ class ScheduleView extends Component {
   }
 
   componentDidMount() {
-    this.fetchUser();
+    // this.fetchUser();
     this.fetchTermData();
   }
 
@@ -118,7 +118,7 @@ class ScheduleView extends Component {
     axios.post('api/generate_schedules/',
       {
         csrfmiddlewaretoken: this.state.csrfToken,
-        user_id: this.state.currentUser.id,
+        user_id: this.state.currentUser ? this.state.currentUser.id : null,
         term: this.state.selectedSemester,
         courses: this.state.selectedCourses,
         blocked_times: this.state.userActivity
@@ -135,7 +135,7 @@ class ScheduleView extends Component {
   }
 
   render() {
-    if (!this.state.currentUser || !this.state.semesterList.length) {
+    if (!this.state.semesterList.length) {
       return (
         <div>
           <div className={'loading-wheel'}>
