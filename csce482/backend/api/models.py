@@ -3,6 +3,7 @@ from django.db import models
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=10)
     title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.course_id
@@ -132,7 +133,6 @@ class Activity_Instance(models.Model):
         b = b and self.endtime > other_instance.starttime
         return b
 
-
 class Schedule(models.Model):
     #Many Schedules can be associated with a User
     user = models.ForeignKey(
@@ -159,3 +159,6 @@ class Schedule(models.Model):
         activities_queryset = self.activities.all()
         activities_list = [activity for activity in activities_queryset]
         return activities_list
+
+class Term(models.Model):
+    term = models.CharFields(max_length=20)

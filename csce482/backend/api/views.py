@@ -33,8 +33,20 @@ from .generate_schedules import generate_schedules
 #    serializer_class = ScheduleSerializer
 
 class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all().order_by('course_id')
+    #queryset = Course.objects.all().order_by('course_id')
     serializer_class = CourseSerializer
+
+    def get_queryset(self):
+        queryset = Course.objects.all().order_by('id')
+        term_param = self.request.query_params.get('term', None)
+        if (term_param is not None):
+            queryset = Course.objects.all().get(term=term_param)
+            #queryset = queryset.filter(
+                #section__isnull = False,
+                #term__icontains = term_param,
+                #section__course_prof__course__course_id__icontains = course_param
+            #)
+        return queryset
 
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor.objects.all().order_by('id')
@@ -78,9 +90,14 @@ class AppUserViewSet(viewsets.ModelViewSet):
 
 class GenerateSchedule(APIView):
     def post(self, request):
-        user = request.data['user_id']
+        user_id = request.data['user_id']
+        user = User.objects.all().get(id = user_id)
         term = request.data['term']
-        courses = request.data['courses']
+        course_ids = request.data['courses']
+        courses=[]
+        for course_id in course_ids:
+            course = Course.objects.all().get(course_id=course_id)
+            courses.append(course)
         blocked_times = tuple(request.data['blocked_times'])
         schedules = generate_schedules(user, term, courses, blocked_times)
         return JsonResponse(schedules)
