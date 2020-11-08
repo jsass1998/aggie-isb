@@ -10,11 +10,11 @@ from users.models import User
 def generate_schedules(schedule_user, schedule_term, selected_courses, blocked_times):
     count = len(selected_courses)
     section_lists = [course.get_sections(schedule_term) for course in selected_courses]
-    blocked_time_activity = Activity.objects.get_or_create(
+    blocked_time_activity, created = Activity.objects.get_or_create(
         title = 'Blocked Time',
         term = schedule_term,
         user = schedule_user
-    )[0]
+    )
     blocked_time_activity.activity_instance_set.all().delete()
     blocked_time_activity.save()
     for (day, starttime, endtime) in blocked_times:

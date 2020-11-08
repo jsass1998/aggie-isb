@@ -16,6 +16,7 @@ function CourseSelectionPanel(props) {
   const handleSemesterSelect = (event) => {
     setSemester(event.target.value);
     props.onSemesterUpdated(event.target.value);
+    props.fetchCourses(event.target.value);
   }
 
   const handleCourseSelect = (event, newValue) => {
@@ -34,12 +35,13 @@ function CourseSelectionPanel(props) {
         >
           {/*TODO - dynamically generate term options w/ data from backend
                  currently all 'FALL 2020' for testing purposes*/}
-          <MenuItem value={'FALL 2020'}>Spring 2021 - College Station</MenuItem>
-          <MenuItem value={'FALL 2020'}>Spring 2021 - Corpus Cristi</MenuItem>
-          <MenuItem value={'FALL 2020'}>Spring 2021 - Qatar</MenuItem>
+          <MenuItem value={'FALL 2020-College Station'}>Fall 2020 - College Station</MenuItem>
+          <MenuItem value={'FALL 2020-Corpus Cristi'}>Fall 2020 - Corpus Cristi</MenuItem>
+          <MenuItem value={'FALL 2020-Qatar'}>Fall 2020 - Qatar</MenuItem>
         </Select>
         <br/> <br/>
         <Autocomplete
+          disabled={!props.courseList.length}
           multiple
           autoComplete
           filterSelectedOptions
@@ -117,6 +119,7 @@ class SidePanel extends Component {
           <Grid item xs={8}>
             <CourseSelectionPanel
               courseList={this.props.courseList}
+              fetchCourses={this.props.fetchCourses}
               onSemesterUpdated={this.props.onSemesterUpdated}
               onCourseListUpdated={this.props.onCourseListUpdated}
               generateSchedules={this.props.generateSchedules}

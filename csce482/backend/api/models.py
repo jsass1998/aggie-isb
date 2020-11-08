@@ -52,7 +52,7 @@ class Course_Prof(models.Model):
 
 class Activity(models.Model):
     title = models.CharField(max_length=100)
-    term = models.CharField(max_length=20)
+    term = models.CharField(max_length=16)
     user = models.ForeignKey(
         'users.User',
         on_delete=models.CASCADE,
@@ -149,15 +149,15 @@ class Schedule(models.Model):
     #An Activity can be part of many Schedules
     activities = models.ManyToManyField(Activity)
     term = models.CharField(max_length=16)
-    description = models.TextField()
-    avg_starttime = models.TimeField()
-    avg_endtime = models.TimeField()
-    avg_day_length = models.TimeField()
-    free_on_monday = models.BooleanField()
-    free_on_tuesday = models.BooleanField()
-    free_on_wednesday = models.BooleanField()
-    free_on_thursday = models.BooleanField()
-    free_on_friday = models.BooleanField()
+    description = models.TextField(default="")
+    avg_starttime = models.TimeField(default="12:00:00")
+    avg_endtime = models.TimeField(default="15:00:00")
+    avg_day_length = models.TimeField(default="05:00:00")
+    free_on_monday = models.BooleanField(default=False)
+    free_on_tuesday = models.BooleanField(default=False)
+    free_on_wednesday = models.BooleanField(default=False)
+    free_on_thursday = models.BooleanField(default=False)
+    free_on_friday = models.BooleanField(default=False)
 
     def __str__(self):
         s=str(self.id)+": "+str(self.user)

@@ -12,6 +12,7 @@ class ScheduleView extends Component {
   constructor(props) {
     super(props);
 
+    this.eventRef = React.createRef();
     this.gridUpdateTimer = null;
     this.onGridUpdated =  this.onGridUpdated.bind(this);
 
@@ -32,7 +33,7 @@ class ScheduleView extends Component {
   }
 
   componentDidMount() {
-    this.fetchCourseData().then(r => {});
+    // this.fetchCourseData();
     this.fetchUser();
   }
 
@@ -41,14 +42,17 @@ class ScheduleView extends Component {
     axios.get('api/users/2/').then(res => {
       this.setState({
         currentUser: res.data,
-      }, () => console.log('currentUser', this.state.currentUser));
+      });
     });
   }
 
-  async fetchCourseData() {
-    let res = await axios.get('api/courses/');
-    this.setState({
-      courseList: res.data,
+  fetchCourseData(semesterString) {
+    let semester = semesterString.split('-');
+    axios.get(`api/courses/?term=${semester[0].replace(' ', '%20')}`).then(res => {
+      console.log('course list', res.data);
+      this.setState({
+        courseList: res.data,
+      });
     });
   }
 
@@ -59,6 +63,7 @@ class ScheduleView extends Component {
   // TODO: Watch out for when activities are programmatically added to grid
   //  - not currently handled
   onGridUpdated(params) {
+    // console.log('1');
     let updatedUserActivity = [];
 
     params.forEach(activityInstance => {
@@ -80,7 +85,7 @@ class ScheduleView extends Component {
 
   onSemesterUpdated(selectedSemester) {
     this.setState({
-      selectedSemester: selectedSemester,
+      selectedSemester: selectedSemester.split('-')[0],
     });
   }
 
@@ -118,7 +123,7 @@ class ScheduleView extends Component {
   }
 
   render() {
-    if (!this.state.courseList.length) {
+    if (!this.state.currentUser) {
       return (
         <div>
           <div className={'loading-wheel'}>
@@ -141,12 +146,14 @@ class ScheduleView extends Component {
         />
         <SidePanel
           courseList={this.state.courseList}
+          fetchCourses={this.fetchCourseData.bind(this)}
           scheduleList={this.state.scheduleList}
           onSemesterUpdated={this.onSemesterUpdated.bind(this)}
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}
           generateSchedules={this.generateSchedules.bind(this)}
         />
         <TimeGrid
+          ref={this.eventRef}
           schedule={this.state.gridInstances}
           handleGridChange={this.onGridUpdated}
         />
