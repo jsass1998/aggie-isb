@@ -23,7 +23,6 @@ class TopBar extends Component {
       if (res.data.key)
         localStorage.setItem('api_key', res.data.key);
 
-      console.log(token.profileObj.name);
       this.setState({
         userName: token.profileObj.name, // Kind of cheap, should try to fetch automatically if user has already signed in before
       });
@@ -31,7 +30,7 @@ class TopBar extends Component {
 
     render() {
         const googleErrorResponse = (response) => {
-          console.log(response);
+          console.error(response);
         }
         return(
             <div className='aisb-topbar aisb-card'>
