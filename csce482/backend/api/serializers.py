@@ -109,6 +109,8 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'activities',
+            'term',
+            #'description',
         )
         model = Schedule
 

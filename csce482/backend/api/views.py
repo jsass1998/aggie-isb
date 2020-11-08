@@ -40,12 +40,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         queryset = Course.objects.all().order_by('course_id')
         term_param = self.request.query_params.get('term', None)
         if (term_param is not None):
-            queryset = Course.objects.all().get(term=term_param)
-            #queryset = queryset.filter(
-                #section__isnull = False,
-                #term__icontains = term_param,
-                #section__course_prof__course__course_id__icontains = course_param
-            #)
+            sections_qset = Section.objects.all().filter(
+                term__exact = term_param
+            ).select_related('course_prof__course')
+            course_list = [section.course_prof.course.course_id for section in sections_qset]
+            queryset = Course.objects.filter(course_id__in=course_list).distinct()
         return queryset
 
 class ProfessorViewSet(viewsets.ModelViewSet):

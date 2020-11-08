@@ -3,7 +3,7 @@ from django.db import models
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=10)
     title = models.CharField(max_length=100)
-    description = models.CharField(max_length=1024, default='')
+    description = models.TextField()
 
     def __str__(self):
         return self.course_id
@@ -69,6 +69,11 @@ class Activity(models.Model):
                     return True
         return False
 
+    def get_instances_list(self):
+        instances_queryset = self.activity_instance_set.all()
+        instances_list = [instance for instance in instances_queryset]
+        return instances_list
+
 class Section(models.Model):
     #each Section is a special type of Activity
     activity = models.OneToOneField(
@@ -83,10 +88,11 @@ class Section(models.Model):
         on_delete=models.CASCADE
     )
 
-    term = models.CharField(max_length=20)
+    term = models.CharField(max_length=32)
     section_num = models.IntegerField()
     crn = models.IntegerField()
     credit_hours = models.IntegerField()
+    campus = models.CharField(max_length=64)
     honors = models.BooleanField(default=False)
     web = models.BooleanField(default=False)
     total_seats = models.IntegerField(default=0)
@@ -113,8 +119,8 @@ class Activity_Instance(models.Model):
         Activity,
         on_delete=models.CASCADE
     )
-    location = models.CharField(max_length=50)
-    day = models.CharField(max_length=10)
+    location = models.CharField(max_length=64)
+    day = models.CharField(max_length=8)
     starttime = models.TimeField()
     endtime = models.TimeField()
 
@@ -142,7 +148,16 @@ class Schedule(models.Model):
     #A schedule can have many Activities
     #An Activity can be part of many Schedules
     activities = models.ManyToManyField(Activity)
-    term = models.CharField(max_length=20)
+    term = models.CharField(max_length=16)
+    description = models.TextField()
+    avg_starttime = models.TimeField()
+    avg_endtime = models.TimeField()
+    avg_day_length = models.TimeField()
+    free_on_monday = models.BooleanField()
+    free_on_tuesday = models.BooleanField()
+    free_on_wednesday = models.BooleanField()
+    free_on_thursday = models.BooleanField()
+    free_on_friday = models.BooleanField()
 
     def __str__(self):
         s=str(self.id)+": "+str(self.user)
@@ -160,5 +175,34 @@ class Schedule(models.Model):
         activities_list = [activity for activity in activities_queryset]
         return activities_list
 
-class Term(models.Model):
-    term = models.CharField(max_length=20)
+    def add_activity(self, activity):
+        curr_activities = self.get_activities_list()
+        new_activities = curr_activities+[activity]
+        self.activities.set(new_activities)
+
+    # def compute_avg_starttime(self):
+    #     starttime_sum = 0
+    #     week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+    #     instances = []
+    #     for activity in self.activities.all():
+    #         instances = instances + activity.get_instances_list()
+        
+    #     for day in week:
+    #         t = activity.activity_instance_set.all().filter(
+                
+    #             day__exact=day
+    #         ).order_by('starttime').first().starttime
+    #         t_sec = day_start.hour*3600+day_start.minute*60
+    #         starttime_sum = starttime_sum + t_sec
+            
+    # def compute_avg_endtime(self):
+
+    # def compute_avg_day_length(self):
+
+    # def find_free_days(self):
+
+    # def generate_description(self):
+
+class Term_Location(models.Model):
+    term = models.CharField(max_length=16)
+    location = models.CharField(max_length=32)

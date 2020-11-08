@@ -8,7 +8,7 @@ from .models import Activity_Instance
 from users.models import User
 
 def generate_schedules(schedule_user, schedule_term, selected_courses, blocked_times):
-    count = len(selected_courses)+1
+    count = len(selected_courses)
     section_lists = [course.get_sections(schedule_term) for course in selected_courses]
     blocked_time_activity = Activity.objects.get_or_create(
         title = 'Blocked Time',
@@ -28,6 +28,12 @@ def generate_schedules(schedule_user, schedule_term, selected_courses, blocked_t
         blocked_time_instance.save()
     activity_lists = section_lists + [[blocked_time_activity]]
     schedules = refine_schedules(schedule_user, schedule_term, activity_lists, count-1)
+    for schedule in schedules:
+        # schedule.compute_avg_starttime()
+        # schedule.compute_avg_endtime()
+        # schedule.compute_avg_day_length()
+        # schedule.find_free_days()
+        schedule.add_activity(blocked_time_activity)
     return schedules
 
 def refine_schedules(schedule_user, schedule_term, activity_lists, count):
@@ -58,3 +64,4 @@ def refine_schedules(schedule_user, schedule_term, activity_lists, count):
                     next_schedules.append(next_schedule)
             schedule.delete()
         return next_schedules
+
