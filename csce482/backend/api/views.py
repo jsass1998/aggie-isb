@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -112,10 +114,4 @@ class GenerateSchedule(APIView):
         
         serializer = ScheduleSerializer(schedules, many=True)
 
-        # #Return dict of serialized 
-        # schedules_dict = {
-        #     "schedules": serializer.data
-        # }
-
-        return HttpResponse(serializer.data)
-        #return JsonResponse(schedules_dict)
+        return HttpResponse(json.dumps(serializer.data))
