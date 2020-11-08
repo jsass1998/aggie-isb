@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+import time
 
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=10)
@@ -201,11 +201,23 @@ class Schedule(models.Model):
             ).order_by('starttime').first().starttime
             stime_sec = stime.hour*3600+stime.minute*60
             stime_sum = stime_sum + stime_sec
-        stime_sec_avg = round(stime_sum / 5)
-        stime_avg = datetime.time
+        stime_avg_sec = round(stime_sum / 5)
+        stime_avg = time.strftime('%H:%M:%S', time.gmtime(stime_avg_sec))
         return stime_avg
             
-    # def compute_avg_endtime(self):
+    def compute_avg_endtime(self):
+        schedule_instances = self.get_instances()
+        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        etime_sum = 0
+        for day in week:
+            etime = schedule_instances.filter(
+                day__exact = day,
+            ).order_by('-endtime').first().endtime
+            etime_sec = etime.hour*3600+etime.minute*60
+            etime_sum = etime_sum + etime_sec
+        etime_avg_sec = round(etime_sum / 5)
+        etime_avg = time.strftime('%H:%M:%S', time.gmtime(etime_avg_sec))
+        return etime_avg
 
     # def compute_avg_day_length(self):
 
