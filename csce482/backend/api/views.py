@@ -89,6 +89,7 @@ class AppUserViewSet(viewsets.ModelViewSet):
 
 class GenerateSchedule(APIView):
     def post(self, request):
+        # Extract function parameters from request
         user_id = request.data['user_id']
         user = User.objects.all().get(id = user_id)
         term = request.data['term']
@@ -98,8 +99,21 @@ class GenerateSchedule(APIView):
             course = Course.objects.all().get(course_id=course_id)
             courses.append(course)
         blocked_times = tuple(request.data['blocked_times'])
-        schedules = generate_schedules(user, term, courses, blocked_times)
+        
+        # Generate list of schedules
+        schedule_list = generate_schedules(user, term, courses, blocked_times)
+        
+        # Convert list to queryset and then serialize
+        schedule_ids = [schedule.id for schedule in schedule_list]
+        schedules = Schedule.Objects.All().filter(
+            id__in = schedule_ids
+        )
+        serializer = ScheduleSerializer(schedules)
+
+        #Return dict of serialized 
         schedules_dict = {
-            "schedules": schedules
+            "schedules": serializer
         }
-        return JsonResponse(schedules_dict)
+
+        return HttpResponse(serializer)
+        #return JsonResponse(schedules_dict)

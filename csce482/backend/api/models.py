@@ -180,20 +180,33 @@ class Schedule(models.Model):
         new_activities = curr_activities+[activity]
         self.activities.set(new_activities)
 
-    # def compute_avg_starttime(self):
-    #     starttime_sum = 0
-    #     week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-    #     instances = []
-    #     for activity in self.activities.all():
-    #         instances = instances + activity.get_instances_list()
+    def get_instances(self):
+        instance_list = []
+        for activity in self.activities.all():
+            instance_list = instance_list + activity.get_instances_list()
+        instance_ids = [instance.id for instance in instance_list]
+        instances = Activity_Instance.objects.all().filter(
+            id__in=instance_ids
+        )
+        return instances
+
+    #def compute_avg_starttime(self):
+        # starttime_sum = 0
+        # week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
         
-    #     for day in week:
-    #         t = activity.activity_instance_set.all().filter(
+        # instances = []
+        # for activity in self.activities.all():
+        #     instances = instances + activity.get_instances_list()
+        # instance_ids = [instance.id for instance in instances]
+        # for 
+        
+        # for day in week:
+        #     t = activity.activity_instance_set.all().filter(
                 
-    #             day__exact=day
-    #         ).order_by('starttime').first().starttime
-    #         t_sec = day_start.hour*3600+day_start.minute*60
-    #         starttime_sum = starttime_sum + t_sec
+        #         day__exact=day
+        #     ).order_by('starttime').first().starttime
+        #     t_sec = day_start.hour*3600+day_start.minute*60
+        #     starttime_sum = starttime_sum + t_sec
             
     # def compute_avg_endtime(self):
 
