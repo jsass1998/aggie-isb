@@ -113,9 +113,9 @@ class GenerateSchedule(APIView):
         serializer = ScheduleSerializer(schedules, many=True)
 
         # #Return dict of serialized 
-        # schedules_dict = {
-        #     "schedules": serializer.data
-        # }
+        schedules_dict = {
+            "schedules": serializer.data
+        }
 
-        return HttpResponse(serializer.data)
-        #return JsonResponse(schedules_dict)
+        #return HttpResponse(serializer.data)
+        return JsonResponse(schedules_dict)
