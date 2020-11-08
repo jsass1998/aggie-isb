@@ -71,6 +71,7 @@ class SectionSerializer(serializers.ModelSerializer):
             'section_num',
             'crn',
             'credit_hours',
+            'campus',
             'honors',
             'web',
             'total_seats',
@@ -111,6 +112,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'user',
             'activities',
             'term',
+            'campus',
             #'description',
         )
         model = Schedule
