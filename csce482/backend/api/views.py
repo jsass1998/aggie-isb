@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -58,7 +60,7 @@ class CourseProfViewSet(viewsets.ModelViewSet):
 
 class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
-    
+
     def get_queryset(self):
         queryset = Activity.objects.all().order_by('id')
         course_param = self.request.query_params.get('course', None)
@@ -100,22 +102,17 @@ class GenerateSchedule(APIView):
         )
         courses=[course for course in course_qset]
         blocked_times = request.data['blocked_times']
-        
+
         # Generate list of schedules
         schedule_list = generate_schedules(user, term, courses, blocked_times)
-        
+
         # Convert list to queryset and then serialize
         schedule_ids = [schedule.id for schedule in schedule_list]
         schedules = Schedule.objects.all().filter(
             id__in = schedule_ids
         )
-        
+
         serializer = ScheduleSerializer(schedules, many=True)
 
-        # #Return dict of serialized 
-        schedules_dict = {
-            "schedules": serializer.data
-        }
+        return HttpResponse(json.dumps(serializer.data))
 
-        #return HttpResponse(serializer.data)
-        return JsonResponse(schedules_dict)

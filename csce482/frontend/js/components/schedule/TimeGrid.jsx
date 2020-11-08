@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import 'resize-observer-polyfill/dist/ResizeObserver.global';
-import {TimeGridScheduler, classes} from '@remotelock/react-week-scheduler';
+import {classes, TimeGridScheduler} from '@remotelock/react-week-scheduler';
 import '@remotelock/react-week-scheduler/index.css';
+import {ScheduleContext} from "./ScheduleContext";
 
 /*
 * Sun   - 2019-03-03
@@ -29,36 +30,31 @@ const convertToTimeBlock = rangeStrings => {
   return rangeStrings.map(range => range.map(dateString => new Date(dateString)),);
 }
 
-function CustomEventContent(getEventInfo, props) {
+const EventContent = function CustomEventContent(props) {
+  const context = useContext(ScheduleContext);
   return (
     <div className='event-content'>
-      {getEventInfo(props.dateRange)}
+      {context(props.dateRange)}
     </div>
   )
 }
 
-class TimeGrid extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className='time-grid'>
-        <TimeGridScheduler
-          classes={classes}
-          style={{ width: "100%", height: "94.6%" }}
-          originDate={new Date('2019-03-04')}
-          schedule={this.props.schedule}
-          onChange={this.props.handleGridChange}
-          eventContentComponent={(props) => CustomEventContent(this.props.getEventInfo, props)}
-          visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
-          verticalPrecision={5} // Minute increments in which time blocks can be created
-          cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
-        />
-      </div>
+function TimeGrid(props) {
+  return (
+    <div className='time-grid'>
+      <TimeGridScheduler
+        classes={classes}
+        style={{ width: "100%", height: "94.6%" }}
+        originDate={new Date('2019-03-04')}
+        schedule={props.schedule}
+        onChange={props.handleGridChange}
+        eventContentComponent={EventContent}
+        visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
+        verticalPrecision={5} // Minute increments in which time blocks can be created
+        cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
+      />
+    </div>
   );
-  }
 }
 
 export default TimeGrid;
