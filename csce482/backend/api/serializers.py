@@ -6,6 +6,7 @@ from .models import Activity
 from .models import Section
 from .models import Schedule
 from .models import Activity_Instance
+from .models import Term_Location
 from users.models import User
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -113,6 +114,14 @@ class ScheduleSerializer(serializers.ModelSerializer):
             #'description',
         )
         model = Schedule
+
+class TermLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'term',
+            'location',
+        )
+        model = Term_Location
 
 class AppUserSerializer(serializers.ModelSerializer):
     schedule_set = ScheduleSerializer(many=True)
