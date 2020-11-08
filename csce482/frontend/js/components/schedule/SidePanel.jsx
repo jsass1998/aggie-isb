@@ -10,19 +10,25 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 function CourseSelectionPanel(props) {
-  const [courses, setCourses] = useState([]);
   const [semester, setSemester] = useState('');
 
   const handleSemesterSelect = (event) => {
-    setSemester(event.target.value);
-    props.onSemesterUpdated(event.target.value);
-    props.fetchCourses(event.target.value);
+    if (event.target.value !== semester) {
+      setSemester(event.target.value);
+      props.onSemesterUpdated(event.target.value);
+      props.fetchCourses(event.target.value);
+    }
   }
 
   const handleCourseSelect = (event, newValue) => {
-    setCourses(newValue);
     props.onCourseListUpdated(newValue);
   }
+
+  const semesters = props.semesterList.map(semester =>
+    <MenuItem  key={`${semester.term}-${semester.location}`} value={`${semester.term}-${semester.location}`}>
+      {`${semester.term} - ${semester.location}`}
+    </MenuItem>
+  );
 
   return (
     <div id='course-selection-panel'>
@@ -33,11 +39,7 @@ function CourseSelectionPanel(props) {
           value={semester}
           onChange={handleSemesterSelect}
         >
-          {/*TODO - dynamically generate term options w/ data from backend
-                 currently all 'FALL 2020' for testing purposes*/}
-          <MenuItem value={'FALL 2020-College Station'}>Fall 2020 - College Station</MenuItem>
-          <MenuItem value={'FALL 2020-Corpus Cristi'}>Fall 2020 - Corpus Cristi</MenuItem>
-          <MenuItem value={'FALL 2020-Qatar'}>Fall 2020 - Qatar</MenuItem>
+          {semesters}
         </Select>
         <br/> <br/>
         <Autocomplete
@@ -119,6 +121,7 @@ class SidePanel extends Component {
           <Grid item xs={8}>
             <CourseSelectionPanel
               courseList={this.props.courseList}
+              semesterList={this.props.semesterList}
               fetchCourses={this.props.fetchCourses}
               onSemesterUpdated={this.props.onSemesterUpdated}
               onCourseListUpdated={this.props.onCourseListUpdated}
