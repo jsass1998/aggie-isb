@@ -37,7 +37,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
 
     def get_queryset(self):
-        queryset = Course.objects.all().order_by('id')
+        queryset = Course.objects.all().order_by('course_id')
         term_param = self.request.query_params.get('term', None)
         if (term_param is not None):
             queryset = Course.objects.all().get(term=term_param)
