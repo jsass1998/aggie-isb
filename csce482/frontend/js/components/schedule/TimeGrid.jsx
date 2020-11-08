@@ -1,9 +1,7 @@
-import React, {Component, Fragment, useState} from 'react';
+import React, {Component} from 'react';
 import 'resize-observer-polyfill/dist/ResizeObserver.global';
-import {TimeGridScheduler, classes, DefaultEventRootComponent} from '@remotelock/react-week-scheduler';
+import {TimeGridScheduler, classes} from '@remotelock/react-week-scheduler';
 import '@remotelock/react-week-scheduler/index.css';
-import TextField from "@material-ui/core/TextField";
-import {Button} from "@material-ui/core";
 
 /*
 * Sun   - 2019-03-03
@@ -31,28 +29,10 @@ const convertToTimeBlock = rangeStrings => {
   return rangeStrings.map(range => range.map(dateString => new Date(dateString)),);
 }
 
-const EventRoot = React.forwardRef(function CustomEventRoot(
-  {...props}, ref) {
-  console.log('CustomEventContent', props);
-  // console.log('ref', ref);
-  // console.log('3');
-  return (
-    <div {...props} ref={ref}>FUCK</div>)
-    {/*<DefaultEventRootComponent*/}
-    {/*  {...props}*/}
-    {/*  ref={ref}*/}
-    {/*/>*/}
-  // )
-});
-
-function CustEvent(props) {
-  const [message, setMessage] = useState('Init');
-  console.log('CustEvent props', props);
-  console.log('3');
-
+function CustEvent(getEventInfo, props) {
   return (
     <div className='event-content'>
-      ree :(
+      {getEventInfo(props.dateRange)}
     </div>
   )
 }
@@ -71,9 +51,7 @@ class TimeGrid extends Component {
           originDate={new Date('2019-03-04')}
           schedule={this.props.schedule}
           onChange={this.props.handleGridChange}
-          // eventContentComponent={CustEvent}
-          // eventContentComponent={EventContent}
-          // eventRootComponent={EventRoot}
+          eventContentComponent={(props) => CustEvent(this.props.getEventInfo, props)}
           visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
           verticalPrecision={5} // Minute increments in which time blocks can be created
           cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid

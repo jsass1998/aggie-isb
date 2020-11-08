@@ -26,6 +26,7 @@ class ScheduleView extends Component {
       scheduleList: [],
       userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
       gridInstances: [], // TimeGrid schedule state
+      gridInstanceDataDict: {}, // A horrible way to interact with grid EventContent
       hideToolTips: props.hideToolTips,
       showCourseSelection: false,
       showSidePanel: true,
@@ -33,7 +34,6 @@ class ScheduleView extends Component {
   }
 
   componentDidMount() {
-    // this.fetchCourseData();
     this.fetchUser();
   }
 
@@ -60,11 +60,16 @@ class ScheduleView extends Component {
     localStorage.setItem('hideToolTips', checked ? '1' : '0');
   }
 
+  getEventInfo(dateRange) {
+    let eventKey = `${weekdayMap[dateRange[0].getDay()]}-${dateRange[0].toString().split(' ')[4]}-${dateRange[1].toString().split(' ')[4]}`;
+    return this.state.gridInstanceDataDict[eventKey];
+  }
+
   // TODO: Watch out for when activities are programmatically added to grid
   //  - not currently handled
   onGridUpdated(params) {
-    // console.log('1');
     let updatedUserActivity = [];
+    let updatedDataDict = {};
 
     params.forEach(activityInstance => {
       updatedUserActivity.push([
@@ -72,6 +77,7 @@ class ScheduleView extends Component {
         activityInstance[0].toString().split(' ')[4],
         activityInstance[1].toString().split(' ')[4],
       ]);
+      updatedDataDict[`${weekdayMap[activityInstance[0].getDay()]}-${activityInstance[0].toString().split(' ')[4]}-${activityInstance[1].toString().split(' ')[4]}`] = weekdayMap[activityInstance[0].getDay()];
     });
 
     // BE VERY CAREFUL ADJUSTING HOW THE `TimeGrid` STATE IS UPDATED
@@ -79,6 +85,7 @@ class ScheduleView extends Component {
     // LOCK THE WEBPAGE
     this.setState({
       gridInstances: params,
+      gridInstanceDataDict: updatedDataDict,
       userActivity: updatedUserActivity,
     });
   };
@@ -100,9 +107,6 @@ class ScheduleView extends Component {
   }
 
   generateSchedules() {
-    // console.log('courses to add', this.state.selectedCourses);
-    // console.log('userActivity', this.state.userActivity);
-    // Here we would send a request to the backend to generate schedules and handle the response.
     axios.post('api/generate_schedules/',
       {
         csrfmiddlewaretoken: this.state.csrfToken,
@@ -154,6 +158,7 @@ class ScheduleView extends Component {
         />
         <TimeGrid
           ref={this.eventRef}
+          getEventInfo={this.getEventInfo.bind(this)}
           schedule={this.state.gridInstances}
           handleGridChange={this.onGridUpdated}
         />
