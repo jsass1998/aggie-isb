@@ -91,3 +91,17 @@ div.aisb-card {
     height: 100vh;
     transform: scale(2.5);
 }
+
+.toast-pane {
+    z-index: 2;
+}
+
+/* Override toast styling */
+.toast-dark {
+    background: var(--maroon-light); !important;
+    color: white;
+}
+
+.toast-progress-bar-dark {
+  background: white;
+}
