@@ -4,7 +4,7 @@ import time
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=10)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(default="")
 
     def __str__(self):
         return self.course_id
@@ -18,9 +18,9 @@ class Course(models.Model):
 
 class Professor(models.Model):
     name = models.CharField(max_length=50)
-    dept = models.CharField(max_length=50)
-    office = models.CharField(max_length=20)
-    rating_class = models.CharField(max_length=20)
+    dept = models.CharField(max_length=50, default="")
+    office = models.CharField(max_length=20, default="")
+    rating_class = models.CharField(max_length=20, default="average")
     overall_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
     num_ratings = models.IntegerField(null=True)
     rmp_link = models.CharField(max_length=100, null=True)
@@ -93,7 +93,7 @@ class Section(models.Model):
     section_num = models.IntegerField()
     crn = models.IntegerField()
     credit_hours = models.IntegerField()
-    campus = models.CharField(max_length=64)
+    campus = models.CharField(max_length=64, default="College Station")
     honors = models.BooleanField(default=False)
     web = models.BooleanField(default=False)
     total_seats = models.IntegerField(default=0)
