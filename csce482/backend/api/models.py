@@ -144,7 +144,8 @@ class Schedule(models.Model):
     #Many Schedules can be associated with a User
     user = models.ForeignKey(
         'users.User',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True
     )
     #A schedule can have many Activities
     #An Activity can be part of many Schedules

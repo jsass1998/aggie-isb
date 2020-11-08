@@ -100,7 +100,10 @@ class GenerateSchedule(APIView):
     def post(self, request):
         # Extract function parameters from request
         user_id = request.data['user_id']
-        user = User.objects.all().get(id = user_id)
+        if user_id is not None:
+            user = User.objects.all().get(id = user_id)
+        else:
+            user = None
         term = request.data['term']
         course_ids = request.data['courses']
         course_qset = Course.objects.all().filter(
