@@ -44,9 +44,11 @@ class CourseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Course.objects.all().order_by('course_id')
         term_param = self.request.query_params.get('term', None)
-        if (term_param is not None):
+        campus_param = self.request.query_params.get('campus', None)
+        if (term_param is not None) and (campus_param is not None):
             sections_qset = Section.objects.all().filter(
-                term__exact = term_param
+                term__iexact = term_param,
+                campus__iexact = campus_param
             ).select_related('course_prof__course')
             course_list = [section.course_prof.course.course_id for section in sections_qset]
             queryset = Course.objects.filter(course_id__in=course_list).distinct()
@@ -96,7 +98,7 @@ class AppUserViewSet(viewsets.ModelViewSet):
         email_param = self.request.query_params.get('email', None)
         if (email_param is not None):
             queryset = User.objects.all().filter(
-                email__exact=email_param
+                email__iexact=email_param
             )
         return queryset
 
