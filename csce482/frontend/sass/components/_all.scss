@@ -1,3 +1,23 @@
 // Components
+.event-tooltip {
+  padding: 0;
+  button {
+    padding: 0.3125rem 0.5625rem;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
 
+    .icon {
+      filter: invert(100%);
+    }
+  }
+}
 // @import "";

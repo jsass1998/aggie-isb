@@ -24,6 +24,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@remotelock/react-week-scheduler": "^3.5.8",
     "@sentry/browser": "~5.14.2",
+    "@tippyjs/react": "^4.2.0",
     "@types/react": "~16.9.0",
     "autoprefixer": "~9.7.4",
     "axios": "^0.21.0",

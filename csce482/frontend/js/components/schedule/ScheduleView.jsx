@@ -20,13 +20,13 @@ class ScheduleView extends Component {
       csrfToken: Cookies.get('csrftoken'),
       currentUser: null,
       courseList: [],
-      semesterList: [], // Currently not used
+      semesterList: [], // List term dicts containing time & location (i.e. 'FALL 2020' and 'College Station'
       selectedSemester: '',
       selectedCourses: [],
       scheduleList: [],
       userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
       gridInstances: [], // TimeGrid schedule state
-      gridInstanceDataDict: {}, // A horrible way to interact with grid EventContent
+      gridInstanceDataDict: {}, // A gross way to interact with grid EventContent
       hideToolTips: props.hideToolTips,
       showCourseSelection: false,
       showSidePanel: true,
@@ -35,6 +35,7 @@ class ScheduleView extends Component {
 
   componentDidMount() {
     this.fetchUser();
+    this.fetchTermData();
   }
 
   // TODO -  refactor to get user based off of google auth data (if browser is signed in)
@@ -46,10 +47,17 @@ class ScheduleView extends Component {
     });
   }
 
+  fetchTermData() {
+    axios.get('/api/term_locations/').then(res => {
+      this.setState({
+        semesterList: res.data,
+      });
+    });
+  }
+
   fetchCourseData(semesterString) {
     let semester = semesterString.split('-');
     axios.get(`api/courses/?term=${semester[0].replace(' ', '%20')}`).then(res => {
-      console.log('course list', res.data);
       this.setState({
         courseList: res.data,
       });
@@ -120,14 +128,14 @@ class ScheduleView extends Component {
           'X-CSRFToken': this.state.csrfToken,
         }
       }).then(res => {
-        console.log(res);
+        console.log(res.data);
     }).catch(err => {
       console.error(err);
     });
   }
 
   render() {
-    if (!this.state.currentUser) {
+    if (!this.state.currentUser || !this.state.semesterList.length) {
       return (
         <div>
           <div className={'loading-wheel'}>
@@ -150,6 +158,7 @@ class ScheduleView extends Component {
         />
         <SidePanel
           courseList={this.state.courseList}
+          semesterList={this.state.semesterList}
           fetchCourses={this.fetchCourseData.bind(this)}
           scheduleList={this.state.scheduleList}
           onSemesterUpdated={this.onSemesterUpdated.bind(this)}
