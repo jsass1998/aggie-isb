@@ -15,7 +15,6 @@ class ScheduleView extends Component {
   constructor(props) {
     super(props);
 
-    this.gridUpdateTimer = null;
     this.onGridUpdated =  this.onGridUpdated.bind(this);
 
     this.state = {
@@ -36,17 +35,24 @@ class ScheduleView extends Component {
   }
 
   componentDidMount() {
-    // this.fetchUser();
+    this.fetchUser(this.props.userEmail);
     this.fetchTermData();
   }
 
+  // Re-render when user signs in BUGGED IMPLEMENTATION, revisit later? Maybe try componentDidUpdate()
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   console.log('shouldComponentUpdate', this.props, nextProps);
+  //   return this.props.userEmail != nextProps.userEmail;
+  // }
+
   // TODO -  refactor to get user based off of google auth data (if browser is signed in)
-  fetchUser() {
-    axios.get('api/users/2/').then(res => {
-      this.setState({
-        currentUser: res.data,
+  fetchUser(userEmail) {
+    if (userEmail)
+      axios.get(`api/users/?email=${userEmail.replace('@', '%40').replace('.', '%2e')}`).then(res => {
+        this.setState({
+          currentUser: res.data[0],
+        });
       });
-    });
   }
 
   fetchTermData() {
@@ -64,6 +70,10 @@ class ScheduleView extends Component {
         courseList: res.data,
       });
     });
+  }
+
+  isWaitingForUser() {
+    return this.userEmail && !this.state.currentUser;
   }
 
   handleCheckChanged(checked) {
@@ -118,18 +128,20 @@ class ScheduleView extends Component {
 
   generateSchedules() {
     if (!this.state.selectedCourses.length) {
+      // TODO: Fix gross styles
       toast.info("You haven't selected any courses!");
       return;
     }
 
-    axios.post('api/generate_schedules/',
-      {
-        csrfmiddlewaretoken: this.state.csrfToken,
-        user_id: this.state.currentUser ? this.state.currentUser.id : null,
-        term: this.state.selectedSemester,
-        courses: this.state.selectedCourses,
-        blocked_times: this.state.userActivity
-      },
+    let reqData = {
+      csrfmiddlewaretoken: this.state.csrfToken,
+      user_id: this.state.currentUser ? this.state.currentUser.id : null,
+      term: this.state.selectedSemester,
+      courses: this.state.selectedCourses,
+      blocked_times: this.state.userActivity
+    };
+
+    axios.post('api/generate_schedules/', reqData,
       {
         headers: {
           'X-CSRFToken': this.state.csrfToken,
@@ -142,7 +154,7 @@ class ScheduleView extends Component {
   }
 
   render() {
-    if (!this.state.semesterList.length) {
+    if (!this.state.semesterList.length || this.isWaitingForUser()) {
       return (
         <div>
           <div className={'loading-wheel'}>

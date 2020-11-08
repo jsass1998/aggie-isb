@@ -96,12 +96,12 @@ div.aisb-card {
     z-index: 2;
 }
 
-/* Override toast styling */
-.toast-dark {
-    background: var(--maroon-light); !important;
-    color: white;
-}
+/*!* Override toast styling *!*/
+/*.toast-dark {*/
+/*    background: var(--maroon-light); !important;*/
+/*    color: white;*/
+/*}*/
 
-.toast-progress-bar-dark {
-  background: white;
-}
+/*.toast-progress-bar-dark {*/
+/*  background: white;*/
+/*}*/
