@@ -99,4 +99,7 @@ class GenerateSchedule(APIView):
             courses.append(course)
         blocked_times = tuple(request.data['blocked_times'])
         schedules = generate_schedules(user, term, courses, blocked_times)
-        return JsonResponse(schedules)
+        schedules_dict = {
+            "schedules": schedules
+        }
+        return JsonResponse(schedules_dict)
