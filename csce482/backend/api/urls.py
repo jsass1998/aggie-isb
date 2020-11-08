@@ -11,7 +11,7 @@ router.register(r'sections', views.SectionViewSet)
 router.register(r'schedules', views.ScheduleViewSet)
 router.register(r'activity_instances', views.ActivityInstanceViewSet)
 router.register(r'term_locations', views.TermLocationViewSet)
-router.register(r'users', views.AppUserViewSet)
+router.register(r'users', views.AppUserViewSet, basename='user-list')
 
 urlpatterns = [
     path('', include(router.urls)),

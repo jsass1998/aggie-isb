@@ -89,8 +89,16 @@ class ActivityInstanceViewSet(viewsets.ModelViewSet):
     serializer_class = ActivityInstanceSerializer
 
 class AppUserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('id')
+    #queryset = User.objects.all().order_by('id')
     serializer_class = AppUserSerializer
+    
+    def get_queryset(self):
+        email_param = self.request.query_params.get('email', None)
+        if (email_param is not None):
+            queryset = User.objects.all().filter(
+                email__exact=email_param
+            )
+        return queryset
 
 class TermLocationViewSet(viewsets.ModelViewSet):
     queryset = Term_Location.objects.all().order_by('id')
