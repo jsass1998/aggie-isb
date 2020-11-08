@@ -109,17 +109,18 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
     web = course_data.get('instructionalMethod', "") == "Web Based"
 
     # Creates and saves section object
-    section_model = models.Section(
-        id=section_id, subject=subject, course_num=course_number,
-        section_num=section_number, term_code=term_code, crn=crn, min_credits=min_credits,
-        max_credits=max_credits, honors=honors, web=web, max_enrollment=max_enrollment,
-        current_enrollment=current_enrollment, instructor=instructor)
+    #section_model = models.Section(
+    #    id=section_id, subject=subject, course_num=course_number,
+    #    section_num=section_number, term_code=term_code, crn=crn, min_credits=min_credits,
+    #    max_credits=max_credits, honors=honors, web=web, max_enrollment=max_enrollment,
+    #    current_enrollment=current_enrollment, instructor=instructor)
 
     # Parse each meeting in this section. i is the counter used to identify each Meeting
-    meetings = (parse_meeting(meetings_data, section_model, i)
-                for i, meetings_data in enumerate(course_data['meetingsFaculty']))
+    #meetings = (parse_meeting(meetings_data, section_model, i)
+    #            for i, meetings_data in enumerate(course_data['meetingsFaculty']))
 
-    return (section_model, meetings)    
+    #return (section_model, meetings)  
+    return None
 
 def parse_meeting(meetings_data, section: models.Section, meeting_count: int) -> models.Activity:
     """ Parses the meeting data and saves it as a Meeting model.
@@ -175,7 +176,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
         print (updated_name)
         
         try:
-            prof = models.Professor.objects.get_or_create(name=new_name, dept=dept)
+            prof = models.Professor.objects.get_or_create(name=new_name, dept=dept)[0]
             updated_prof = models.Professor.objects.get_or_create(
                 name = updated_name,
                 dept = dept,
@@ -185,11 +186,11 @@ def parse_instructor(course_data, dept) -> models.Professor:
             prof.save()
             updated_prof.save()
             
-            check = models.Professor.objects.get_or_create(name = updated_name)[0]
-            
-            if check:
-                print("true: " + check.name)
-            
+            #check = models.Professor.objects.get_or_create(name = updated_name)[0]
+            #if check:
+            #    print("true: " + check.name)
+            #else:
+            #    print("false: " + prof.name)
             return updated_prof
         except Exception as e:
             print(str(e))
