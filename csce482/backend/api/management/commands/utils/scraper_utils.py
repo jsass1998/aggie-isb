@@ -10,7 +10,8 @@ def get_all_terms(year: int = -1) -> List[str]:
     """
 
     current_year = datetime.now().year
-    years = range(2013, current_year + 1)
+    #years = range(2013, current_year + 1)
+    years = range(current_year, current_year + 1)
 
     # If the year was given, only scrape for that year
     if year != -1:

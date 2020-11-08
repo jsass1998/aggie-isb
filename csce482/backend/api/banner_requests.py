@@ -126,6 +126,7 @@ class BannerRequests():
 
         data = json['data']
 
+        #print(str(data) + "\r\n")
         return data
 
     def get_departments(self, term: str, amount: int = 300) -> List[Dict]:
@@ -148,7 +149,7 @@ class BannerRequests():
 
         return depts
 
-    async def search(self, depts_terms: List[Tuple[str, str]],
+    async def search(self, depts_terms: List[Tuple[str, str, str, str]],
                      sem: asyncio.Semaphore,
                      parse_all_courses: Callable[[list], list],
                      amount: int = 750
@@ -158,7 +159,7 @@ class BannerRequests():
             for a department.
         """
 
-        loop = asyncio.get_running_loop()
+        loop = asyncio._get_running_loop()
 
         courses_set = set()
         instructors_set = set()
@@ -173,7 +174,7 @@ class BannerRequests():
                         async with sem:
                             print(f"Starting {dept} {term}")
                             session_id = await self.create_session(session, term)
-
+                            #print("dept: " + str(dept) + " term: " + str(term) + " amount: " + str(amount))
                             course_list = await self.get_courses(session, session_id,
                                                                  dept, term, amount)
 
@@ -184,22 +185,24 @@ class BannerRequests():
                         # outside of the semaphore
                         ret = parse_all_courses(course_list, term, courses_set,
                                                 instructors_set)
-
+                        #print("ret" + str(ret))
                         return ret
 
                     except (ClientConnectorError, ContentTypeError):
                         # Empty lines help it stand out from the rest of the outputs
                         print(f"\n\nNETWORK ERROR: Retrying {dept} {term}: Take {i} \n\n")
 
-        tasks = [perform_search(dept, term) for dept, term  in depts_terms]
-
+        #tasks = [perform_search(dept, term) for dept, term  in depts_terms]
+        tasks = [perform_search(dept, term) for (term, dept, gRBage, code)  in depts_terms]
+        #print(tasks)
         results = []
 
         # Runs all of the tasks concurrently, stopping in this for loop after each one is
         # completed
         for result in await asyncio.gather(*tasks, loop=loop):
             results.append(result)
-
+        
+        #print(results)
         return results
 
     async def reset_search(self, session: ClientSession):

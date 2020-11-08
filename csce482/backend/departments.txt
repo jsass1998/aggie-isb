@@ -1,0 +1,720 @@
+202011 ACCT ACCT - Accounting 202011
+202011 AEGD AEGD - Adv Ed Gen Dentistry 202011
+202011 AERO AERO - Aerospace Engineering 202011
+202011 AERS AERS - Aerospace Studies 202011
+202011 AFST AFST - Africana Studies 202011
+202011 AGCJ AGCJ - Ag Comm &amp; Journalism 202011
+202011 AGEC AGEC - Agricultural Economics 202011
+202011 AGLS AGLS - Ag &amp; Life Sciences 202011
+202011 AGSC AGSC - Agricultural Science 202011
+202011 AGSM AGSM - Agricultrl Systems Mgmt 202011
+202011 ALEC ALEC - Ag Leadrshp, Ed &amp; Comm 202011
+202011 ALED ALED - Ag Leadership &amp; Dev 202011
+202011 ANSC ANSC - Animal Science 202011
+202011 ANTH ANTH - Anthropology 202011
+202011 ARAB ARAB - Arabic 202011
+202011 ARCH ARCH - Architecture 202011
+202011 AREN AREN - Architectural Engr 202011
+202011 ARTS ARTS - Art 202011
+202011 ASCC ASCC - Academic Success Center 202011
+202011 ASIA ASIA - Asian Studies 202011
+202011 ASTR ASTR - Astronomy 202011
+202011 ATMO ATMO - Atmospheric Sciences 202011
+202011 ATTR ATTR - Athletic Training 202011
+202011 BAEN BAEN - Biological &amp; Ag Engr 202011
+202011 BEFB BEFB-Bilingual Ed Field Based 202011
+202011 BESC BESC - Bioenvironmental Sci 202011
+202011 BICH BICH - Biochemistry 202011
+202011 BIED BIED - Bilingual Education 202011
+202011 BIMS BIMS - Biomedical Science 202011
+202011 BIOL BIOL - Biology 202011
+202011 BIOT BIOT - Biotechnology 202011
+202011 BMEN BMEN - Biomedical Engineering 202011
+202011 BUAD BUAD - Business Administration 202011
+202011 BUSH BUSH - Geo. Bush School of Gov 202011
+202011 BUSN BUSN - Mays Business School 202011
+202011 CARC CARC - College of Architecture 202011
+202011 CEHD CEHD - Coll of Ed &amp; Human Dev 202011
+202011 CHEM CHEM - Chemistry 202011
+202011 CHEN CHEN - Chemical Engineering 202011
+202011 CHIN CHIN - Chinese 202011
+202011 CLAS CLAS - Classics 202011
+202011 CLEN CLEN - College of Engineering 202011
+202011 CLGE CLGE - College of Geosciences 202011
+202011 COMM COMM - Communication 202011
+202011 COSC COSC - Construction Science 202011
+202011 CPSY CPSY - Counseling Psychology 202011
+202011 CSCE CSCE - Computer Sci &amp; Engr 202011
+202011 CVEN CVEN - Civil Engineering 202011
+202011 CYBR CYBR - Cybersecurity 202011
+202011 DASC DASC - Dairy Science 202011
+202011 DCED DCED - Dance Education 202011
+202011 DDHS DDHS - Dental Hygiene 202011
+202011 DPHS DPHS - Dental Public Health 202011
+202011 ECEN ECEN - Electrical &amp; Comp Engr 202011
+202011 ECMT ECMT - Econometrics 202011
+202011 ECON ECON - Economics 202011
+202011 EDAD EDAD - Educational Administrtn 202011
+202011 EDCI EDCI - Educ Curriculum &amp; Dev 202011
+202011 EDHP EDHP - Ed Healthcare Prof 202011
+202011 EDTC EDTC - Educational Technology 202011
+202011 EEBL EEBL - Ecology &amp; Evol Biology 202011
+202011 EHRD EHRD - Ed Human Res Develop 202011
+202011 ENDO ENDO - Endodontics 202011
+202011 ENDS ENDS - Environmental Design 202011
+202011 ENGL ENGL - English 202011
+202011 ENGR ENGR - Engineering 202011
+202011 ENTC ENTC - Engineering Technology 202011
+202011 ENTO ENTO - Entomology 202011
+202011 EPFB EPFB - Educ Psyc Field Based 202011
+202011 EPSY EPSY - Educational Psychology 202011
+202011 ESET ESET - Electronic Sys Eng Tech 202011
+202011 ESSM ESSM  Ecosystem Science &amp; Mgmt 202011
+202011 EURO EURO - European Studies 202011
+202011 EVEN EVEN - Environmental Engr 202011
+202011 FILM FILM - Film Studies 202011
+202011 FINC FINC - Finance 202011
+202011 FIVS FIVS - Forensic &amp; Inv Science 202011
+202011 FREN FREN - French 202011
+202011 FRSC FRSC - Forest Science 202011
+202011 GENE GENE - Genetics 202011
+202011 GEOG GEOG - Geography 202011
+202011 GEOL GEOL - Geology 202011
+202011 GEOP GEOP - Geophysics 202011
+202011 GEOS GEOS - Geosciences 202011
+202011 GERM GERM - German 202011
+202011 HEFB HEFB - Health Ed Field Based 202011
+202011 HISP HISP - Hispanic Studies 202011
+202011 HIST HIST - History 202011
+202011 HLTH HLTH - Health 202011
+202011 HORT HORT - Horticultural Sciences 202011
+202011 HPCH HPCH - Health Promo Comm Hlth 202011
+202011 IBST IBST - Institute Biosci &amp; Tech 202011
+202011 IBUS IBUS - International Business 202011
+202011 ICPE ICPE-Interdisc Curr Prg Energy 202011
+202011 IDIS IDIS - Industrial Distribution 202011
+202011 INST INST-Interdisciplinary Studies 202011
+202011 INTA INTA - International Affairs 202011
+202011 INTS INTS - International Studies 202011
+202011 ISEN ISEN - Indust &amp; Systems Engr 202011
+202011 ISTM ISTM - Mgmt Info Systems 202011
+202011 ITAL ITAL - Italian 202011
+202011 ITDE ITDE - Interdisciplinary Engr 202011
+202011 JAPN JAPN - Japanese 202011
+202011 JOUR JOUR - Journalism 202011
+202011 KINE KINE - Kinesiology 202011
+202011 KNFB KNFB - Kinesiology Field Based 202011
+202011 LAND LAND - Landscape Architecture 202011
+202011 LAW LAW - Law 202011
+202011 LBAR LBAR - College of Liberal Arts 202011
+202011 LDEV LDEV - Land Development 202011
+202011 LING LING -Linguistics 202011
+202011 LMAS LMAS - Latino/Mex Amer Studies 202011
+202011 MASC MASC - Integrated Math &amp; Sci 202011
+202011 MATH MATH - Mathematics 202011
+202011 MEEN MEEN - Mechanical Engineering 202011
+202011 MEFB MEFB - Mid Grds Ed Field Based 202011
+202011 MEMA MEMA - Mechanics and Materials 202011
+202011 MEPS MEPS-Molecular &amp; Env Plant Sci 202011
+202011 MGMT MGMT - Management 202011
+202011 MKTG MKTG - Marketing 202011
+202011 MLSC MLSC - Military Science 202011
+202011 MMET MMET - Mfg &amp; Mech Engr Tech 202011
+202011 MODL MODL - Modern Languages 202011
+202011 MPHY MPHY - Medical Physiology 202011
+202011 MSCI MSCI - Medical Sciences 202011
+202011 MSEN MSEN -Materials Science &amp; Engr 202011
+202011 MUSC MUSC - Music 202011
+202011 MXET MXET - Multidiscip Engr Tech 202011
+202011 NFSC NFSC - Nutrition &amp; Food Sci 202011
+202011 NRSC NRSC - Neuroscience 202011
+202011 NUEN NUEN - Nuclear Engineering 202011
+202011 NURS NURS - Nursing 202011
+202011 NVSC NVSC - Naval Science 202011
+202011 OBIO OBIO - Oral Biology 202011
+202011 OCEN OCEN - Ocean Engineering 202011
+202011 OCNG OCNG - Oceanography 202011
+202011 OMFP OMFP - Oral &amp; Maxillofac Path 202011
+202011 OMFR OMFR - Oral &amp; Maxillofac Radio 202011
+202011 OMFS OMFS - Oral &amp; Maxillofac Surg 202011
+202011 ORTH ORTH - Orthodontics 202011
+202011 PEDD PEDD - Pediatric Dentistry 202011
+202011 PERF PERF - Performance Studies 202011
+202011 PERI PERI - Peridontics 202011
+202011 PETE PETE - Petroleum Engineering 202011
+202011 PHAR PHAR - Pharmacy 202011
+202011 PHEB PHEB - Public Hlth Epide Biost 202011
+202011 PHEO PHEO - Public Hlth Enviro Occu 202011
+202011 PHIL PHIL - Philosophy 202011
+202011 PHLT PHLT - Public Health 202011
+202011 PHPM PHPM - Public Hlth Pol &amp; Mgmt 202011
+202011 PHYS PHYS - Physics 202011
+202011 PLAN PLAN - Urban Planning 202011
+202011 PLPA PLPA - Plant Pathology 202011
+202011 POLS POLS - Political Science 202011
+202011 POSC POSC - Poultry Science 202011
+202011 PROS PROS - Prosthodontics 202011
+202011 PSAA PSAA - Public Service &amp; Admin 202011
+202011 PSYC PSYC - Psychology 202011
+202011 RDNG RDNG - Reading 202011
+202011 RELS RELS - Religious Studies 202011
+202011 RENR RENR-Renewable Natural Resrces 202011
+202011 RPTS RPTS - Rec, Park &amp; Tourism Sci 202011
+202011 RUSS RUSS - Russian 202011
+202011 SABR SABR - Study Abroad 202011
+202011 SCEN SCEN - College of Science 202011
+202011 SCMT SCMT - Supply Chain Mgmt 202011
+202011 SCSC SCSC - Soil and Crop Sciences 202011
+202011 SEFB SEFB - Special Ed Field Based 202011
+202011 SENG SENG - Safety Engineering 202011
+202011 SOCI SOCI - Sociology 202011
+202011 SOMS SOMS-Schl of Military Sciences 202011
+202011 SOPH SOPH - School of Public Health 202011
+202011 SPAN SPAN - Spanish 202011
+202011 SPED SPED - Special Education 202011
+202011 SPMT SPMT - Sport Management 202011
+202011 SPSY SPSY - School Psychology 202011
+202011 STAT STAT - Statistics 202011
+202011 TCMG TCMG - Technology Management 202011
+202011 TCMT TCMT - Technical Management 202011
+202011 TEED TEED - Teacher Education 202011
+202011 TEFB TEFB - Teacher Ed Field Based 202011
+202011 THAR THAR - Theatre Arts 202011
+202011 UGST UGST - Undergraduate Studies 202011
+202011 URPN URPN - Urban &amp; Reg Planning 202011
+202011 URSC URSC - Urban Science 202011
+202011 VIBS VIBS - Vet Integrative Biosci 202011
+202011 VIST VIST - Visual Studies 202011
+202011 VIZA VIZA - Visualization 202011
+202011 VLCS VLCS-Vet Large Animal Clin Sc 202011
+202011 VMID VMID - Vet Medicine-Interdisc 202011
+202011 VPAR VPAR - Veterinary Parasitology 202011
+202011 VPAT VPAT - Veterinary Pathology 202011
+202011 VSCS VSCS-Vet Small Animal Clin Sc 202011
+202011 VTMI VTMI - Veterinary Microbiology 202011
+202011 VTPB VTPB - Veterinary Pathobiology 202011
+202011 VTPP VTPP - Vet Physiology &amp; Pharm 202011
+202011 WFSC WFSC-Wildlife &amp; Fisheries Sci 202011
+202011 WGST WGST - Women&#39;s &amp;Gender Studies 202011
+202011 WMHS WMHS-Water Mgmt &amp; Hydrol Sci 202011
+202012 ACCT ACCT - Accounting 202012
+202012 ANTH ANTH - Anthropology 202012
+202012 ASCC ASCC - Academic Success Center 202012
+202012 BIOL BIOL - Biology 202012
+202012 CHEM CHEM - Chemistry 202012
+202012 CLGV CLGV - TAMU Galveston Campus 202012
+202012 COMM COMM - Communication 202012
+202012 DIVE DIVE - Diving Tech and Methods 202012
+202012 ECON ECON - Economics 202012
+202012 ENGL ENGL - English 202012
+202012 EVEN EVEN - Environmental Engr 202012
+202012 FINC FINC - Finance 202012
+202012 GALV GALV - TAMUG Study Abroad 202012
+202012 GEOG GEOG - Geography 202012
+202012 GEOL GEOL - Geology 202012
+202012 HISP HISP - Hispanic Studies 202012
+202012 HIST HIST - History 202012
+202012 KINE KINE - Kinesiology 202012
+202012 MARA MARA - Maritime Administration 202012
+202012 MARB MARB - Marine Biology 202012
+202012 MARE MARE - Marine Engr Technology 202012
+202012 MARR MARR - Marine Engr Technology 202012
+202012 MARS MARS - Marine Science 202012
+202012 MART MART - Marine Transportation 202012
+202012 MAST MAST - Maritime Studies 202012
+202012 MATH MATH - Mathematics 202012
+202012 MGMT MGMT - Management 202012
+202012 MKTG MKTG - Marketing 202012
+202012 MUSC MUSC - Music 202012
+202012 NAUT NAUT - Nautical Science 202012
+202012 NVSC NVSC - Naval Science 202012
+202012 OCNG OCNG - Oceanography 202012
+202012 PHIL PHIL - Philosophy 202012
+202012 PHYS PHYS - Physics 202012
+202012 PLAN PLAN - Urban Planning 202012
+202012 POLS POLS - Political Science 202012
+202012 PSYC PSYC - Psychology 202012
+202012 SCMT SCMT - Supply Chain Mgmt 202012
+202012 SOCI SOCI - Sociology 202012
+202012 SPMT SPMT - Sport Management 202012
+202012 STAT STAT - Statistics 202012
+202012 THAR THAR - Theatre Arts 202012
+202012 UGST UGST - Undergraduate Studies 202012
+202012 ZOPT ZOPT - TAMUG - Corps Activity 202012
+202013 ASCC ASCC - Academic Success Center 202013
+202013 CHEM CHEM - Chemistry 202013
+202013 CHEN CHEN - Chemical Engineering 202013
+202013 COMM COMM - Communication 202013
+202013 CVEN CVEN - Civil Engineering 202013
+202013 ECEN ECEN - Electrical &amp; Comp Engr 202013
+202013 ENGL ENGL - English 202013
+202013 ENGR ENGR - Engineering 202013
+202013 GEOL GEOL - Geology 202013
+202013 HIST HIST - History 202013
+202013 INST INST-Interdisciplinary Studies 202013
+202013 ISEN ISEN - Indust &amp; Systems Engr 202013
+202013 MATH MATH - Mathematics 202013
+202013 MEEN MEEN - Mechanical Engineering 202013
+202013 MUSC MUSC - Music 202013
+202013 PETE PETE - Petroleum Engineering 202013
+202013 PHYS PHYS - Physics 202013
+202013 POLS POLS - Political Science 202013
+202021 ACCT ACCT - Accounting 202021
+202021 AEGD AEGD - Adv Ed Gen Dentistry 202021
+202021 AERO AERO - Aerospace Engineering 202021
+202021 AGCJ AGCJ - Ag Comm &amp; Journalism 202021
+202021 AGEC AGEC - Agricultural Economics 202021
+202021 AGLS AGLS - Ag &amp; Life Sciences 202021
+202021 AGSM AGSM - Agricultrl Systems Mgmt 202021
+202021 ALEC ALEC - Ag Leadrshp, Ed &amp; Comm 202021
+202021 ALED ALED - Ag Leadership &amp; Dev 202021
+202021 ANSC ANSC - Animal Science 202021
+202021 ANTH ANTH - Anthropology 202021
+202021 ARAB ARAB - Arabic 202021
+202021 ARCH ARCH - Architecture 202021
+202021 AREN AREN - Architectural Engr 202021
+202021 ARTS ARTS - Art 202021
+202021 ASCC ASCC - Academic Success Center 202021
+202021 ASTR ASTR - Astronomy 202021
+202021 ATMO ATMO - Atmospheric Sciences 202021
+202021 ATTR ATTR - Athletic Training 202021
+202021 BAEN BAEN - Biological &amp; Ag Engr 202021
+202021 BESC BESC - Bioenvironmental Sci 202021
+202021 BICH BICH - Biochemistry 202021
+202021 BIED BIED - Bilingual Education 202021
+202021 BIMS BIMS - Biomedical Science 202021
+202021 BIOL BIOL - Biology 202021
+202021 BIOT BIOT - Biotechnology 202021
+202021 BMEN BMEN - Biomedical Engineering 202021
+202021 BUAD BUAD - Business Administration 202021
+202021 BUSH BUSH - Geo. Bush School of Gov 202021
+202021 BUSN BUSN - Mays Business School 202021
+202021 CARC CARC - College of Architecture 202021
+202021 CEHD CEHD - Coll of Ed &amp; Human Dev 202021
+202021 CHEM CHEM - Chemistry 202021
+202021 CHEN CHEN - Chemical Engineering 202021
+202021 CHIN CHIN - Chinese 202021
+202021 COMM COMM - Communication 202021
+202021 COSC COSC - Construction Science 202021
+202021 CPSY CPSY - Counseling Psychology 202021
+202021 CSCE CSCE - Computer Sci &amp; Engr 202021
+202021 CVEN CVEN - Civil Engineering 202021
+202021 DCED DCED - Dance Education 202021
+202021 DDHS DDHS - Dental Hygiene 202021
+202021 DPHS DPHS - Dental Public Health 202021
+202021 ECEN ECEN - Electrical &amp; Comp Engr 202021
+202021 ECON ECON - Economics 202021
+202021 EDAD EDAD - Educational Administrtn 202021
+202021 EDCI EDCI - Educ Curriculum &amp; Dev 202021
+202021 EDTC EDTC - Educational Technology 202021
+202021 EHRD EHRD - Ed Human Res Develop 202021
+202021 ENDO ENDO - Endodontics 202021
+202021 ENDS ENDS - Environmental Design 202021
+202021 ENGL ENGL - English 202021
+202021 ENGR ENGR - Engineering 202021
+202021 ENTC ENTC - Engineering Technology 202021
+202021 ENTO ENTO - Entomology 202021
+202021 EPSY EPSY - Educational Psychology 202021
+202021 ESET ESET - Electronic Sys Eng Tech 202021
+202021 ESSM ESSM  Ecosystem Science &amp; Mgmt 202021
+202021 EURO EURO - European Studies 202021
+202021 EVEN EVEN - Environmental Engr 202021
+202021 FILM FILM - Film Studies 202021
+202021 FINC FINC - Finance 202021
+202021 FIVS FIVS - Forensic &amp; Inv Science 202021
+202021 FREN FREN - French 202021
+202021 GENE GENE - Genetics 202021
+202021 GEOG GEOG - Geography 202021
+202021 GEOL GEOL - Geology 202021
+202021 GEOP GEOP - Geophysics 202021
+202021 GEOS GEOS - Geosciences 202021
+202021 GERM GERM - German 202021
+202021 HISP HISP - Hispanic Studies 202021
+202021 HIST HIST - History 202021
+202021 HLTH HLTH - Health 202021
+202021 HORT HORT - Horticultural Sciences 202021
+202021 HPCH HPCH - Health Promo Comm Hlth 202021
+202021 IBST IBST - Institute Biosci &amp; Tech 202021
+202021 IBUS IBUS - International Business 202021
+202021 ICPE ICPE-Interdisc Curr Prg Energy 202021
+202021 IDIS IDIS - Industrial Distribution 202021
+202021 INST INST-Interdisciplinary Studies 202021
+202021 INTA INTA - International Affairs 202021
+202021 INTS INTS - International Studies 202021
+202021 ISEN ISEN - Indust &amp; Systems Engr 202021
+202021 ISTM ISTM - Mgmt Info Systems 202021
+202021 ITAL ITAL - Italian 202021
+202021 ITDE ITDE - Interdisciplinary Engr 202021
+202021 JAPN JAPN - Japanese 202021
+202021 JOUR JOUR - Journalism 202021
+202021 KINE KINE - Kinesiology 202021
+202021 LAND LAND - Landscape Architecture 202021
+202021 LAW LAW - Law 202021
+202021 LBAR LBAR - College of Liberal Arts 202021
+202021 LDEV LDEV - Land Development 202021
+202021 MATH MATH - Mathematics 202021
+202021 MEEN MEEN - Mechanical Engineering 202021
+202021 MEPS MEPS-Molecular &amp; Env Plant Sci 202021
+202021 MGMT MGMT - Management 202021
+202021 MKTG MKTG - Marketing 202021
+202021 MMET MMET - Mfg &amp; Mech Engr Tech 202021
+202021 MPHY MPHY - Medical Physiology 202021
+202021 MSCI MSCI - Medical Sciences 202021
+202021 MSEN MSEN -Materials Science &amp; Engr 202021
+202021 MUSC MUSC - Music 202021
+202021 NFSC NFSC - Nutrition &amp; Food Sci 202021
+202021 NRSC NRSC - Neuroscience 202021
+202021 NUEN NUEN - Nuclear Engineering 202021
+202021 NURS NURS - Nursing 202021
+202021 NVSC NVSC - Naval Science 202021
+202021 OBIO OBIO - Oral Biology 202021
+202021 OCEN OCEN - Ocean Engineering 202021
+202021 OCNG OCNG - Oceanography 202021
+202021 OMFP OMFP - Oral &amp; Maxillofac Path 202021
+202021 OMFR OMFR - Oral &amp; Maxillofac Radio 202021
+202021 OMFS OMFS - Oral &amp; Maxillofac Surg 202021
+202021 ORTH ORTH - Orthodontics 202021
+202021 PEDD PEDD - Pediatric Dentistry 202021
+202021 PERF PERF - Performance Studies 202021
+202021 PERI PERI - Peridontics 202021
+202021 PETE PETE - Petroleum Engineering 202021
+202021 PHAR PHAR - Pharmacy 202021
+202021 PHEB PHEB - Public Hlth Epide Biost 202021
+202021 PHEO PHEO - Public Hlth Enviro Occu 202021
+202021 PHIL PHIL - Philosophy 202021
+202021 PHLT PHLT - Public Health 202021
+202021 PHPM PHPM - Public Hlth Pol &amp; Mgmt 202021
+202021 PHYS PHYS - Physics 202021
+202021 PLAN PLAN - Urban Planning 202021
+202021 PLPA PLPA - Plant Pathology 202021
+202021 POLS POLS - Political Science 202021
+202021 POSC POSC - Poultry Science 202021
+202021 PROS PROS - Prosthodontics 202021
+202021 PSAA PSAA - Public Service &amp; Admin 202021
+202021 PSYC PSYC - Psychology 202021
+202021 RDNG RDNG - Reading 202021
+202021 RENR RENR-Renewable Natural Resrces 202021
+202021 RPTS RPTS - Rec, Park &amp; Tourism Sci 202021
+202021 SABR SABR - Study Abroad 202021
+202021 SCMT SCMT - Supply Chain Mgmt 202021
+202021 SCSC SCSC - Soil and Crop Sciences 202021
+202021 SENG SENG - Safety Engineering 202021
+202021 SOCI SOCI - Sociology 202021
+202021 SPAN SPAN - Spanish 202021
+202021 SPED SPED - Special Education 202021
+202021 SPMT SPMT - Sport Management 202021
+202021 SPSY SPSY - School Psychology 202021
+202021 STAT STAT - Statistics 202021
+202021 TCMG TCMG - Technology Management 202021
+202021 TEED TEED - Teacher Education 202021
+202021 THAR THAR - Theatre Arts 202021
+202021 UGST UGST - Undergraduate Studies 202021
+202021 URPN URPN - Urban &amp; Reg Planning 202021
+202021 URSC URSC - Urban Science 202021
+202021 VIBS VIBS - Vet Integrative Biosci 202021
+202021 VIST VIST - Visual Studies 202021
+202021 VIZA VIZA - Visualization 202021
+202021 VLCS VLCS-Vet Large Animal Clin Sc 202021
+202021 VMID VMID - Vet Medicine-Interdisc 202021
+202021 VPAT VPAT - Veterinary Pathology 202021
+202021 VSCS VSCS-Vet Small Animal Clin Sc 202021
+202021 VTMI VTMI - Veterinary Microbiology 202021
+202021 VTPB VTPB - Veterinary Pathobiology 202021
+202021 VTPP VTPP - Vet Physiology &amp; Pharm 202021
+202021 WFSC WFSC-Wildlife &amp; Fisheries Sci 202021
+202021 WGST WGST - Women&#39;s &amp;Gender Studies 202021
+202021 WMHS WMHS-Water Mgmt &amp; Hydrol Sci 202021
+202022 ACCT ACCT - Accounting 202022
+202022 ANTH ANTH - Anthropology 202022
+202022 ASCC ASCC - Academic Success Center 202022
+202022 COMM COMM - Communication 202022
+202022 ECON ECON - Economics 202022
+202022 ENGL ENGL - English 202022
+202022 HISP HISP - Hispanic Studies 202022
+202022 HIST HIST - History 202022
+202022 MARA MARA - Maritime Administration 202022
+202022 MARB MARB - Marine Biology 202022
+202022 MARE MARE - Marine Engr Technology 202022
+202022 MARS MARS - Marine Science 202022
+202022 MART MART - Marine Transportation 202022
+202022 MAST MAST - Maritime Studies 202022
+202022 MATH MATH - Mathematics 202022
+202022 MUSC MUSC - Music 202022
+202022 NVSC NVSC - Naval Science 202022
+202022 OCNG OCNG - Oceanography 202022
+202022 PHYS PHYS - Physics 202022
+202022 POLS POLS - Political Science 202022
+202022 SCMT SCMT - Supply Chain Mgmt 202022
+202023 ASCC ASCC - Academic Success Center 202023
+202023 CHEM CHEM - Chemistry 202023
+202023 CHEN CHEN - Chemical Engineering 202023
+202023 ECEN ECEN - Electrical &amp; Comp Engr 202023
+202023 ENGL ENGL - English 202023
+202023 ENGR ENGR - Engineering 202023
+202023 HIST HIST - History 202023
+202023 MATH MATH - Mathematics 202023
+202023 MEEN MEEN - Mechanical Engineering 202023
+202023 MSEN MSEN -Materials Science &amp; Engr 202023
+202023 PETE PETE - Petroleum Engineering 202023
+202023 PHYS PHYS - Physics 202023
+202023 POLS POLS - Political Science 202023
+202031 ACCT ACCT - Accounting 202031
+202031 AEGD AEGD - Adv Ed Gen Dentistry 202031
+202031 AERO AERO - Aerospace Engineering 202031
+202031 AERS AERS - Aerospace Studies 202031
+202031 AFST AFST - Africana Studies 202031
+202031 AGCJ AGCJ - Ag Comm &amp; Journalism 202031
+202031 AGEC AGEC - Agricultural Economics 202031
+202031 AGLS AGLS - Ag &amp; Life Sciences 202031
+202031 AGSC AGSC - Agricultural Science 202031
+202031 AGSM AGSM - Agricultrl Systems Mgmt 202031
+202031 ALEC ALEC - Ag Leadrshp, Ed &amp; Comm 202031
+202031 ALED ALED - Ag Leadership &amp; Dev 202031
+202031 ANSC ANSC - Animal Science 202031
+202031 ANTH ANTH - Anthropology 202031
+202031 ARAB ARAB - Arabic 202031
+202031 ARCH ARCH - Architecture 202031
+202031 AREN AREN - Architectural Engr 202031
+202031 ARTS ARTS - Art 202031
+202031 ASCC ASCC - Academic Success Center 202031
+202031 ASTR ASTR - Astronomy 202031
+202031 ATMO ATMO - Atmospheric Sciences 202031
+202031 ATTR ATTR - Athletic Training 202031
+202031 BAEN BAEN - Biological &amp; Ag Engr 202031
+202031 BEFB BEFB-Bilingual Ed Field Based 202031
+202031 BESC BESC - Bioenvironmental Sci 202031
+202031 BICH BICH - Biochemistry 202031
+202031 BIED BIED - Bilingual Education 202031
+202031 BIMS BIMS - Biomedical Science 202031
+202031 BIOL BIOL - Biology 202031
+202031 BIOT BIOT - Biotechnology 202031
+202031 BMEN BMEN - Biomedical Engineering 202031
+202031 BUAD BUAD - Business Administration 202031
+202031 BUSH BUSH - Geo. Bush School of Gov 202031
+202031 BUSN BUSN - Mays Business School 202031
+202031 CARC CARC - College of Architecture 202031
+202031 CEHD CEHD - Coll of Ed &amp; Human Dev 202031
+202031 CHEM CHEM - Chemistry 202031
+202031 CHEN CHEN - Chemical Engineering 202031
+202031 CHIN CHIN - Chinese 202031
+202031 CLAS CLAS - Classics 202031
+202031 CLBA CLBA - Mays Business School 202031
+202031 CLEN CLEN - College of Engineering 202031
+202031 CLGE CLGE - College of Geosciences 202031
+202031 CLSC CLSC - College of Science 202031
+202031 COMM COMM - Communication 202031
+202031 COSC COSC - Construction Science 202031
+202031 CPSY CPSY - Counseling Psychology 202031
+202031 CSCE CSCE - Computer Sci &amp; Engr 202031
+202031 CVEN CVEN - Civil Engineering 202031
+202031 DASC DASC - Dairy Science 202031
+202031 DCED DCED - Dance Education 202031
+202031 DDHS DDHS - Dental Hygiene 202031
+202031 DPHS DPHS - Dental Public Health 202031
+202031 ECEN ECEN - Electrical &amp; Comp Engr 202031
+202031 ECMT ECMT - Econometrics 202031
+202031 ECON ECON - Economics 202031
+202031 EDAD EDAD - Educational Administrtn 202031
+202031 EDCI EDCI - Educ Curriculum &amp; Dev 202031
+202031 EDHP EDHP - Ed Healthcare Prof 202031
+202031 EDTC EDTC - Educational Technology 202031
+202031 EEBL EEBL - Ecology &amp; Evol Biology 202031
+202031 EHRD EHRD - Ed Human Res Develop 202031
+202031 ENDO ENDO - Endodontics 202031
+202031 ENDS ENDS - Environmental Design 202031
+202031 ENGL ENGL - English 202031
+202031 ENGR ENGR - Engineering 202031
+202031 ENTC ENTC - Engineering Technology 202031
+202031 ENTO ENTO - Entomology 202031
+202031 EPFB EPFB - Educ Psyc Field Based 202031
+202031 EPSY EPSY - Educational Psychology 202031
+202031 ESET ESET - Electronic Sys Eng Tech 202031
+202031 ESSM ESSM  Ecosystem Science &amp; Mgmt 202031
+202031 EURO EURO - European Studies 202031
+202031 EVEN EVEN - Environmental Engr 202031
+202031 FILM FILM - Film Studies 202031
+202031 FINC FINC - Finance 202031
+202031 FIVS FIVS - Forensic &amp; Inv Science 202031
+202031 FREN FREN - French 202031
+202031 FYEX FYEX - First Year Experience 202031
+202031 GENE GENE - Genetics 202031
+202031 GEOG GEOG - Geography 202031
+202031 GEOL GEOL - Geology 202031
+202031 GEOP GEOP - Geophysics 202031
+202031 GEOS GEOS - Geosciences 202031
+202031 GERM GERM - German 202031
+202031 HCPI HCPI - Healthcare Prof Core In 202031
+202031 HEFB HEFB - Health Ed Field Based 202031
+202031 HISP HISP - Hispanic Studies 202031
+202031 HIST HIST - History 202031
+202031 HLTH HLTH - Health 202031
+202031 HORT HORT - Horticultural Sciences 202031
+202031 HPCH HPCH - Health Promo Comm Hlth 202031
+202031 IBST IBST - Institute Biosci &amp; Tech 202031
+202031 IBUS IBUS - International Business 202031
+202031 ICPE ICPE-Interdisc Curr Prg Energy 202031
+202031 IDIS IDIS - Industrial Distribution 202031
+202031 INST INST-Interdisciplinary Studies 202031
+202031 INTA INTA - International Affairs 202031
+202031 INTS INTS - International Studies 202031
+202031 ISEN ISEN - Indust &amp; Systems Engr 202031
+202031 ISTM ISTM - Mgmt Info Systems 202031
+202031 ITAL ITAL - Italian 202031
+202031 ITDE ITDE - Interdisciplinary Engr 202031
+202031 JAPN JAPN - Japanese 202031
+202031 JOUR JOUR - Journalism 202031
+202031 KINE KINE - Kinesiology 202031
+202031 KNFB KNFB - Kinesiology Field Based 202031
+202031 LAND LAND - Landscape Architecture 202031
+202031 LAW LAW - Law 202031
+202031 LBAR LBAR - College of Liberal Arts 202031
+202031 LDEV LDEV - Land Development 202031
+202031 LING LING -Linguistics 202031
+202031 LMAS LMAS - Latino/Mex Amer Studies 202031
+202031 MASC MASC - Integrated Math &amp; Sci 202031
+202031 MATH MATH - Mathematics 202031
+202031 MEEN MEEN - Mechanical Engineering 202031
+202031 MEFB MEFB - Mid Grds Ed Field Based 202031
+202031 MEMA MEMA - Mechanics and Materials 202031
+202031 MEPS MEPS-Molecular &amp; Env Plant Sci 202031
+202031 MGMT MGMT - Management 202031
+202031 MKTG MKTG - Marketing 202031
+202031 MLSC MLSC - Military Science 202031
+202031 MMET MMET - Mfg &amp; Mech Engr Tech 202031
+202031 MPHY MPHY - Medical Physiology 202031
+202031 MPIM MPIM - Microbial Pathogen Imm 202031
+202031 MSCI MSCI - Medical Sciences 202031
+202031 MSEN MSEN -Materials Science &amp; Engr 202031
+202031 MUSC MUSC - Music 202031
+202031 MUST MUST - Museum Studies 202031
+202031 MXET MXET - Multidiscip Engr Tech 202031
+202031 NEXT NEXT - Neuro Exper Therapeutic 202031
+202031 NFSC NFSC - Nutrition &amp; Food Sci 202031
+202031 NRSC NRSC - Neuroscience 202031
+202031 NUEN NUEN - Nuclear Engineering 202031
+202031 NURS NURS - Nursing 202031
+202031 NVSC NVSC - Naval Science 202031
+202031 OBIO OBIO - Oral Biology 202031
+202031 OCEN OCEN - Ocean Engineering 202031
+202031 OCNG OCNG - Oceanography 202031
+202031 OMFP OMFP - Oral &amp; Maxillofac Path 202031
+202031 OMFR OMFR - Oral &amp; Maxillofac Radio 202031
+202031 OMFS OMFS - Oral &amp; Maxillofac Surg 202031
+202031 ORTH ORTH - Orthodontics 202031
+202031 PEDD PEDD - Pediatric Dentistry 202031
+202031 PERF PERF - Performance Studies 202031
+202031 PERI PERI - Peridontics 202031
+202031 PETE PETE - Petroleum Engineering 202031
+202031 PHAR PHAR - Pharmacy 202031
+202031 PHEB PHEB - Public Hlth Epide Biost 202031
+202031 PHEO PHEO - Public Hlth Enviro Occu 202031
+202031 PHIL PHIL - Philosophy 202031
+202031 PHLT PHLT - Public Health 202031
+202031 PHPM PHPM - Public Hlth Pol &amp; Mgmt 202031
+202031 PHSC PHSC - Pharmaceutical Sciences 202031
+202031 PHYS PHYS - Physics 202031
+202031 PLAN PLAN - Urban Planning 202031
+202031 PLPA PLPA - Plant Pathology 202031
+202031 POLS POLS - Political Science 202031
+202031 POSC POSC - Poultry Science 202031
+202031 PROS PROS - Prosthodontics 202031
+202031 PSAA PSAA - Public Service &amp; Admin 202031
+202031 PSYC PSYC - Psychology 202031
+202031 RDNG RDNG - Reading 202031
+202031 RELS RELS - Religious Studies 202031
+202031 RENR RENR-Renewable Natural Resrces 202031
+202031 RPTS RPTS - Rec, Park &amp; Tourism Sci 202031
+202031 RUSS RUSS - Russian 202031
+202031 SABR SABR - Study Abroad 202031
+202031 SCEN SCEN - College of Science 202031
+202031 SCMT SCMT - Supply Chain Mgmt 202031
+202031 SCSC SCSC - Soil and Crop Sciences 202031
+202031 SEFB SEFB - Special Ed Field Based 202031
+202031 SENG SENG - Safety Engineering 202031
+202031 SOCI SOCI - Sociology 202031
+202031 SOMS SOMS-Schl of Military Sciences 202031
+202031 SOPH SOPH - School of Public Health 202031
+202031 SPAN SPAN - Spanish 202031
+202031 SPED SPED - Special Education 202031
+202031 SPMT SPMT - Sport Management 202031
+202031 SPSY SPSY - School Psychology 202031
+202031 STAT STAT - Statistics 202031
+202031 TAMU TAMU - Enrollment Type/Holding 202031
+202031 TCMG TCMG - Technology Management 202031
+202031 TCMT TCMT - Technical Management 202031
+202031 TEED TEED - Teacher Education 202031
+202031 TEFB TEFB - Teacher Ed Field Based 202031
+202031 THAR THAR - Theatre Arts 202031
+202031 UGST UGST - Undergraduate Studies 202031
+202031 URPN URPN - Urban &amp; Reg Planning 202031
+202031 URSC URSC - Urban Science 202031
+202031 VIBS VIBS - Vet Integrative Biosci 202031
+202031 VIST VIST - Visual Studies 202031
+202031 VIZA VIZA - Visualization 202031
+202031 VLCS VLCS-Vet Large Animal Clin Sc 202031
+202031 VMID VMID - Vet Medicine-Interdisc 202031
+202031 VPAT VPAT - Veterinary Pathology 202031
+202031 VSCS VSCS-Vet Small Animal Clin Sc 202031
+202031 VTMI VTMI - Veterinary Microbiology 202031
+202031 VTPB VTPB - Veterinary Pathobiology 202031
+202031 VTPP VTPP - Vet Physiology &amp; Pharm 202031
+202031 WFSC WFSC-Wildlife &amp; Fisheries Sci 202031
+202031 WGST WGST - Women&#39;s &amp;Gender Studies 202031
+202031 WMHS WMHS-Water Mgmt &amp; Hydrol Sci 202031
+202032 ACCT ACCT - Accounting 202032
+202032 ANTH ANTH - Anthropology 202032
+202032 ARTS ARTS - Art 202032
+202032 ASCC ASCC - Academic Success Center 202032
+202032 BIOL BIOL - Biology 202032
+202032 CHEM CHEM - Chemistry 202032
+202032 CLGV CLGV - TAMU Galveston Campus 202032
+202032 COMM COMM - Communication 202032
+202032 DIVE DIVE - Diving Tech and Methods 202032
+202032 ECON ECON - Economics 202032
+202032 ENGL ENGL - English 202032
+202032 FINC FINC - Finance 202032
+202032 GALV GALV - TAMUG Study Abroad 202032
+202032 GEOG GEOG - Geography 202032
+202032 HISP HISP - Hispanic Studies 202032
+202032 HIST HIST - History 202032
+202032 KINE KINE - Kinesiology 202032
+202032 MARA MARA - Maritime Administration 202032
+202032 MARB MARB - Marine Biology 202032
+202032 MARE MARE - Marine Engr Technology 202032
+202032 MARR MARR - Marine Engr Technology 202032
+202032 MARS MARS - Marine Science 202032
+202032 MART MART - Marine Transportation 202032
+202032 MAST MAST - Maritime Studies 202032
+202032 MATH MATH - Mathematics 202032
+202032 MGMT MGMT - Management 202032
+202032 MKTG MKTG - Marketing 202032
+202032 MUSC MUSC - Music 202032
+202032 NVSC NVSC - Naval Science 202032
+202032 OCNG OCNG - Oceanography 202032
+202032 PHIL PHIL - Philosophy 202032
+202032 PHYS PHYS - Physics 202032
+202032 PLAN PLAN - Urban Planning 202032
+202032 POLS POLS - Political Science 202032
+202032 PSYC PSYC - Psychology 202032
+202032 SCMT SCMT - Supply Chain Mgmt 202032
+202032 SOCI SOCI - Sociology 202032
+202032 SPMT SPMT - Sport Management 202032
+202032 THAR THAR - Theatre Arts 202032
+202032 ZOPT ZOPT - TAMUG - Corps Activity 202032
+202033 ANTH ANTH - Anthropology 202033
+202033 ASCC ASCC - Academic Success Center 202033
+202033 CHEM CHEM - Chemistry 202033
+202033 CHEN CHEN - Chemical Engineering 202033
+202033 CLEN CLEN - College of Engineering 202033
+202033 ECEN ECEN - Electrical &amp; Comp Engr 202033
+202033 ENGL ENGL - English 202033
+202033 ENGR ENGR - Engineering 202033
+202033 GEOL GEOL - Geology 202033
+202033 HIST HIST - History 202033
+202033 INST INST-Interdisciplinary Studies 202033
+202033 MATH MATH - Mathematics 202033
+202033 MEEN MEEN - Mechanical Engineering 202033
+202033 PETE PETE - Petroleum Engineering 202033
+202033 PHYS PHYS - Physics 202033
+202033 POLS POLS - Political Science 202033
+202033 UGST UGST - Undergraduate Studies 202033
