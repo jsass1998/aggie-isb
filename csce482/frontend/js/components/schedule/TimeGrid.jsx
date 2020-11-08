@@ -29,7 +29,7 @@ const convertToTimeBlock = rangeStrings => {
   return rangeStrings.map(range => range.map(dateString => new Date(dateString)),);
 }
 
-function CustEvent(getEventInfo, props) {
+function CustomEventContent(getEventInfo, props) {
   return (
     <div className='event-content'>
       {getEventInfo(props.dateRange)}
@@ -51,7 +51,7 @@ class TimeGrid extends Component {
           originDate={new Date('2019-03-04')}
           schedule={this.props.schedule}
           onChange={this.props.handleGridChange}
-          eventContentComponent={(props) => CustEvent(this.props.getEventInfo, props)}
+          eventContentComponent={(props) => CustomEventContent(this.props.getEventInfo, props)}
           visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
           verticalPrecision={5} // Minute increments in which time blocks can be created
           cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
