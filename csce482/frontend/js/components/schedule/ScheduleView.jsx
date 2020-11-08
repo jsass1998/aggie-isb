@@ -26,7 +26,7 @@ class ScheduleView extends Component {
       scheduleList: [],
       userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
       gridInstances: [], // TimeGrid schedule state
-      gridInstanceDataDict: {}, // A horrible way to interact with grid EventContent
+      gridInstanceDataDict: {}, // A gross way to interact with grid EventContent
       hideToolTips: props.hideToolTips,
       showCourseSelection: false,
       showSidePanel: true,

@@ -1,8 +1,11 @@
 import React, {useContext} from 'react';
 import 'resize-observer-polyfill/dist/ResizeObserver.global';
-import {classes, TimeGridScheduler} from '@remotelock/react-week-scheduler';
+import {classes, DefaultEventRootComponent, TimeGridScheduler} from '@remotelock/react-week-scheduler';
 import '@remotelock/react-week-scheduler/index.css';
 import {ScheduleContext} from "./ScheduleContext";
+import DeleteIcon from '@material-ui/icons/Delete';
+import Tippy from "@tippyjs/react";
+import 'tippy.js/dist/tippy.css'; // optional
 
 /*
 * Sun   - 2019-03-03
@@ -30,6 +33,30 @@ const convertToTimeBlock = rangeStrings => {
   return rangeStrings.map(range => range.map(dateString => new Date(dateString)),);
 }
 
+const EventRoot = function(props) {
+  return (
+    <Tippy
+      arrow
+      interactive
+      isEnabled={!props.disabled}
+      hideOnClick={false}
+      className='event-tooltip'
+      content={
+        <button disabled={props.disabled} onClick={props.handleDelete}>
+          <DeleteIcon color={'#FFFFFF'} style={{paddingRight: '5px'}}/>
+          Delete
+        </button>
+      }
+    >
+      <DefaultEventRootComponent
+        handleDelete={props.handleDelete}
+        disabled={props.disabled}
+        {...props}
+      />
+    </Tippy>
+  );
+}
+
 const EventContent = function CustomEventContent(props) {
   const context = useContext(ScheduleContext);
   return (
@@ -49,6 +76,7 @@ function TimeGrid(props) {
         schedule={props.schedule}
         onChange={props.handleGridChange}
         eventContentComponent={EventContent}
+        eventRootComponent={EventRoot}
         visualGridVerticalPrecision={30} // show grid lines in 'x' minute intervals
         verticalPrecision={5} // Minute increments in which time blocks can be created
         cellClickPrecision={60} // Size of time block in minutes when user simply clicks once on grid
