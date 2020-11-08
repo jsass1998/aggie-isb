@@ -33,29 +33,30 @@ const convertToTimeBlock = rangeStrings => {
   return rangeStrings.map(range => range.map(dateString => new Date(dateString)),);
 }
 
-const EventRoot = function(props) {
+const EventRoot = React.forwardRef(function({disabled, handleDelete, ...props}, ref) {
   return (
     <Tippy
       arrow
       interactive
-      isEnabled={!props.disabled}
+      isEnabled={!disabled}
       hideOnClick={false}
       className='event-tooltip'
       content={
-        <button disabled={props.disabled} onClick={props.handleDelete}>
-          <DeleteIcon color={'#FFFFFF'} style={{paddingRight: '5px'}}/>
+        <button disabled={disabled} onClick={handleDelete}>
+          <DeleteIcon color='secondary' style={{paddingRight: '5px'}}/>
           Delete
         </button>
       }
     >
       <DefaultEventRootComponent
-        handleDelete={props.handleDelete}
-        disabled={props.disabled}
+        handleDelete={handleDelete}
+        disabled={disabled}
         {...props}
+        ref={ref}
       />
     </Tippy>
   );
-}
+});
 
 const EventContent = function CustomEventContent(props) {
   const context = useContext(ScheduleContext);
