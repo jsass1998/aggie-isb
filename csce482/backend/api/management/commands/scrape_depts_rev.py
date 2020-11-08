@@ -5,12 +5,14 @@ from typing import List
 
 from django.core.management import base
 from scraper.banner_requests import BannerRequests
-from scraper.models import Department
+#from scraper.models import Department
 from scraper.management.commands.utils.scraper_utils import get_all_terms
 
-def parse_departments(json, term) -> List[Department]:
+def parse_departments(json, term) -> List[Tuple[str,str,str,str]]:
     """ Takes in a json list of departments and returns a list of Department objects """
-
+    
+    
+    
     return [Department(id=f"{dept['code']}{term}", code=dept["code"],
                        description=dept["description"], term=term)
             for dept in json]

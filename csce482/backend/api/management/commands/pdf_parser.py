@@ -101,7 +101,7 @@ def sanitize_page(page_obj: PyPDF2.pdf.PageObject) -> List[str]:
 
 def parse_page(
     page_obj: PyPDF2.pdf.PageObject
-) -> List[Tuple[Dict, Tuple[str, str, str]]]:
+) -> List[Tuple[Dict, Tuple[str, str, str, str]]]:
     """Parses a page from a PDF, extracting a list of grade data for each section.
 
     Args:

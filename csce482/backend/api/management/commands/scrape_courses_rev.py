@@ -8,9 +8,10 @@ from typing import List, Tuple
 from django.core.management import base
 from django.db import transaction
 from scraper.banner_requests import BannerRequests
-from scraper.models import Course, Instructor, Section, Meeting, Department, Grades
-from scraper.models.course import generate_course_id
-from scraper.models.section import generate_meeting_id
+#from scraper.models import Course, Instructor, Section, Meeting, Department, Grades
+from api import models
+#from scraper.models.course import generate_course_id #"".join((dept, course_num, '-', term))
+#from scraper.models.section import generate_meeting_id #"".join((section_id, meetings_count))
 from scraper.management.commands.utils.scraper_utils import (
     get_all_terms, get_recent_terms,
 )
@@ -66,11 +67,11 @@ def parse_section(course_data, instructor: Instructor) -> Tuple[Section, List[Me
     web = course_data.get('instructionalMethod', "") == "Web Based"
 
     # Creates and saves section object
-    section_model = Section(
-        id=section_id, subject=subject, course_num=course_number,
-        section_num=section_number, term_code=term_code, crn=crn, min_credits=min_credits,
-        max_credits=max_credits, honors=honors, web=web, max_enrollment=max_enrollment,
-        current_enrollment=current_enrollment, instructor=instructor)
+    #$%section_model = Section(
+    #$%    id=section_id, subject=subject, course_num=course_number,
+    #$%    section_num=section_number, term_code=term_code, crn=crn, min_credits=min_credits,
+    #$%    max_credits=max_credits, honors=honors, web=web, max_enrollment=max_enrollment,
+    #$%    current_enrollment=current_enrollment, instructor=instructor)
 
     # Parse each meeting in this section. i is the counter used to identify each Meeting
     meetings = (parse_meeting(meetings_data, section_model, i)
@@ -96,9 +97,9 @@ def parse_meeting(meetings_data, section: Section, meeting_count: int) -> Meetin
 
     class_type = meetings_data['meetingTime']['meetingType']
 
-    meeting_model = Meeting(id=meeting_id, building=building, meeting_days=class_days,
-                            start_time=start_time, end_time=end_time,
-                            meeting_type=class_type, section=section)
+    #$%meeting_model = Meeting(id=meeting_id, building=building, meeting_days=class_days,
+    #$%                        start_time=start_time, end_time=end_time,
+    #$%                        meeting_type=class_type, section=section)
     return meeting_model
 
 def parse_instructor(course_data) -> Instructor:
@@ -119,7 +120,7 @@ def parse_instructor(course_data) -> Instructor:
 
         email = faculty_data['emailAddress']
 
-        return Instructor(id=name, email_address=email)
+        #$%return Instructor(id=name, email_address=email)
 
     return None
 
@@ -146,21 +147,21 @@ def parse_course(course_data: List,
     credit_hours = course_data['creditHourLow']
 
     # Parse the instructor, then send the returned Instructor model to parse_section
-    instructor_model = parse_instructor(course_data)
+    #$%instructor_model = parse_instructor(course_data)
     section_data = parse_section(course_data, instructor_model)
 
-    if instructor_model is not None and instructor_model not in instructors_set:
-        instructors_set.add(instructor_model)
-    else:
-        # Set it to None so that it doesn't get added to the list of instructors to save
-        instructor_model = None
+    #$%if instructor_model is not None and instructor_model not in instructors_set:
+    #$%    instructors_set.add(instructor_model)
+    #$%else:
+    #$%    # Set it to None so that it doesn't get added to the list of instructors to save
+    #$%    instructor_model = None
 
     # Save course only if it hasn't already been created
-    if course_id not in courses_set:
-        course_model = Course(id=course_id, dept=dept, course_num=course_number,
-                              title=title, credit_hours=credit_hours, term=term_code)
-        courses_set.add(course_id)
-        return (course_model, instructor_model, section_data)
+    #$%if course_id not in courses_set:
+    #$%    course_model = Course(id=course_id, dept=dept, course_num=course_number,
+    #$%                          title=title, credit_hours=credit_hours, term=term_code)
+    #$%    courses_set.add(course_id)
+    #$%    return (course_model, instructor_model, section_data)
 
     return (None, instructor_model, section_data)
 
@@ -326,7 +327,7 @@ class Command(base.BaseCommand):
 
             depts_terms = get_department_names(terms)
 
-        instructors, sections, meetings, courses = get_course_data(depts_terms)
-        save_models(instructors, sections, meetings, courses, term, terms, options)
+        #$%instructors, sections, meetings, courses = get_course_data(depts_terms)
+        #$%save_models(instructors, sections, meetings, courses, term, terms, options)
 
         print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
