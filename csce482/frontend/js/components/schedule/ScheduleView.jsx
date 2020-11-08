@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {ScheduleContext} from "./ScheduleContext";
 import TimeGrid from "./TimeGrid";
 import PopUpDialog from "../PopUpDialog";
 import {create_schedule_tooltip} from "../../utils/constants";
@@ -12,7 +13,6 @@ class ScheduleView extends Component {
   constructor(props) {
     super(props);
 
-    this.eventRef = React.createRef();
     this.gridUpdateTimer = null;
     this.onGridUpdated =  this.onGridUpdated.bind(this);
 
@@ -156,12 +156,13 @@ class ScheduleView extends Component {
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}
           generateSchedules={this.generateSchedules.bind(this)}
         />
-        <TimeGrid
-          ref={this.eventRef}
-          getEventInfo={this.getEventInfo.bind(this)}
-          schedule={this.state.gridInstances}
-          handleGridChange={this.onGridUpdated}
-        />
+        <ScheduleContext.Provider value={this.getEventInfo.bind(this)}>
+          <TimeGrid
+            getEventInfo={this.getEventInfo.bind(this)}
+            schedule={this.state.gridInstances}
+            handleGridChange={this.onGridUpdated}
+          />
+        </ScheduleContext.Provider>
       </div>
     );
   }
