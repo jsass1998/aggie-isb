@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
@@ -94,26 +95,27 @@ class GenerateSchedule(APIView):
         user = User.objects.all().get(id = user_id)
         term = request.data['term']
         course_ids = request.data['courses']
-        courses=[]
-        for course_id in course_ids:
-            course = Course.objects.all().get(course_id=course_id)
-            courses.append(course)
-        blocked_times = tuple(request.data['blocked_times'])
+        course_qset = Course.objects.all().filter(
+            course_id__in=course_ids
+        )
+        courses=[course for course in course_qset]
+        blocked_times = request.data['blocked_times']
         
         # Generate list of schedules
         schedule_list = generate_schedules(user, term, courses, blocked_times)
         
         # Convert list to queryset and then serialize
         schedule_ids = [schedule.id for schedule in schedule_list]
-        schedules = Schedule.Objects.All().filter(
+        schedules = Schedule.objects.all().filter(
             id__in = schedule_ids
         )
-        serializer = ScheduleSerializer(schedules)
+        
+        serializer = ScheduleSerializer(schedules, many=True)
 
-        #Return dict of serialized 
-        schedules_dict = {
-            "schedules": serializer
-        }
+        # #Return dict of serialized 
+        # schedules_dict = {
+        #     "schedules": serializer.data
+        # }
 
-        return HttpResponse(serializer)
+        return HttpResponse(serializer.data)
         #return JsonResponse(schedules_dict)
