@@ -164,10 +164,11 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
 
     for day in class_days: ##THIS NEEDS WORK
     
-        class_days = parse_meeting_days(course_data)    
-        start_time = convert_meeting_time(course_data['meetingTime']['beginTime'])
-        end_time = convert_meeting_time(course_data['meetingTime']['endTime'])
-        building = course_data['meetingTime']['building']
+        class_days = parse_meeting_days(meetings_data)    
+        start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
+        end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
+        building = meetings_data['meetingTime']['building']
+        
         if building is not None: # Must be escaped for O&M building
             building = unescape(building)
         
