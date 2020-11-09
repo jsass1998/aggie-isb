@@ -23,5 +23,3 @@ class Command(base.BaseCommand):
             management.call_command('scrape_dept_rev')
             management.call_command('scrape_courses_rev')
             management.call_command('UpdateProfessorRMPInfo')
-            
-            
