@@ -6,8 +6,9 @@ import { GOOGLE_CLIENT_ID } from "../utils/constants";
 class TopBar extends Component {
     constructor(props) {
         super(props);
+        let user = localStorage.getItem('user');
         this.state = {
-          userName: 'Sign in'
+          userName: user? user: 'Sign in',
         };
     }
 
@@ -20,12 +21,17 @@ class TopBar extends Component {
         }
       );
 
-      if (res.data.key)
+      // Maybe unnecessary?
+      if (res.data.key) {
         localStorage.setItem('api_key', res.data.key);
+      }
+      localStorage.setItem('user', token.profileObj.name);
+      localStorage.setItem('email', token.profileObj.email);
 
       this.setState({
         userName: token.profileObj.name, // Kind of cheap, should try to fetch automatically if user has already signed in before
       });
+      this.props.updateUserData({email: token.profileObj.email});
     }
 
     render() {

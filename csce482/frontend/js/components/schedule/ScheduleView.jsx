@@ -15,7 +15,6 @@ class ScheduleView extends Component {
   constructor(props) {
     super(props);
 
-    this.gridUpdateTimer = null;
     this.onGridUpdated =  this.onGridUpdated.bind(this);
 
     this.state = {
@@ -36,17 +35,24 @@ class ScheduleView extends Component {
   }
 
   componentDidMount() {
-    // this.fetchUser();
+    this.fetchUser(this.props.userEmail);
     this.fetchTermData();
   }
 
-  // TODO -  refactor to get user based off of google auth data (if browser is signed in)
-  fetchUser() {
-    axios.get('api/users/2/').then(res => {
-      this.setState({
-        currentUser: res.data,
+  // Re-render when user signs in BUGGED IMPLEMENTATION, revisit later? Maybe try componentDidUpdate()
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   console.log('shouldComponentUpdate', this.props, nextProps);
+  //   return this.props.userEmail != nextProps.userEmail;
+  // }
+
+  // TODO -  need to call after user signs in, not just when component loads
+  fetchUser(userEmail) {
+    if (userEmail)
+      axios.get(`api/users/?email=${userEmail.replace('@', '%40').replace('.', '%2e')}`).then(res => {
+        this.setState({
+          currentUser: res.data[0],
+        });
       });
-    });
   }
 
   fetchTermData() {
@@ -59,11 +65,28 @@ class ScheduleView extends Component {
 
   fetchCourseData(semesterString) {
     let semester = semesterString.split('-');
-    axios.get(`api/courses/?term=${semester[0].replace(' ', '%20')}`).then(res => {
+    const url = `api/courses/?term=${semester[0].replace(' ', '%20')}&campus=${semester[1].replace(' ', '%20')}`;
+    axios.get(url).then(res => {
       this.setState({
         courseList: res.data,
       });
     });
+  }
+
+  fetchUserSchedules(semesterString) {
+    if (this.state.currentUser) {
+      let semester = semesterString.split('-');
+      const url = `api/schedules/?user=${this.state.currentUser.id}&term=${semester[0].replace(' ', '%20')}&campus=${semester[1].replace(' ', '%20')}`;
+      axios.get(url).then(res => {
+        this.setState({
+          scheduleList: res.data,
+        })
+      });
+    }
+  }
+
+  isWaitingForUser() {
+    return this.userEmail && !this.state.currentUser;
   }
 
   handleCheckChanged(checked) {
@@ -118,31 +141,35 @@ class ScheduleView extends Component {
 
   generateSchedules() {
     if (!this.state.selectedCourses.length) {
+      // TODO: Fix gross styles
       toast.info("You haven't selected any courses!");
       return;
     }
 
-    axios.post('api/generate_schedules/',
-      {
-        csrfmiddlewaretoken: this.state.csrfToken,
-        user_id: this.state.currentUser ? this.state.currentUser.id : null,
-        term: this.state.selectedSemester,
-        courses: this.state.selectedCourses,
-        blocked_times: this.state.userActivity
-      },
+    let reqData = {
+      csrfmiddlewaretoken: this.state.csrfToken,
+      user_id: this.state.currentUser ? this.state.currentUser.id : null,
+      term: this.state.selectedSemester,
+      courses: this.state.selectedCourses,
+      blocked_times: this.state.userActivity
+    };
+
+    axios.post('api/generate_schedules/', reqData,
       {
         headers: {
           'X-CSRFToken': this.state.csrfToken,
         }
       }).then(res => {
-        console.log(res.data);
+        this.setState({
+          scheduleList: res.data,
+        })
     }).catch(err => {
       console.error(err);
     });
   }
 
   render() {
-    if (!this.state.semesterList.length) {
+    if (!this.state.semesterList.length || this.isWaitingForUser()) {
       return (
         <div>
           <div className={'loading-wheel'}>
@@ -167,6 +194,7 @@ class ScheduleView extends Component {
           courseList={this.state.courseList}
           semesterList={this.state.semesterList}
           fetchCourses={this.fetchCourseData.bind(this)}
+          fetchUserSchedules={this.fetchUserSchedules.bind(this)}
           scheduleList={this.state.scheduleList}
           onSemesterUpdated={this.onSemesterUpdated.bind(this)}
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}

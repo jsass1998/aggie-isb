@@ -8,20 +8,32 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import CardContent from "@material-ui/core/CardContent";
+import Card from "@material-ui/core/Card";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 function CourseSelectionPanel(props) {
   const [semester, setSemester] = useState('');
+  const [selectedCourses, setSelectedCourses] = useState([]);
 
   const handleSemesterSelect = (event) => {
     if (event.target.value !== semester) {
       setSemester(event.target.value);
       props.onSemesterUpdated(event.target.value);
       props.fetchCourses(event.target.value);
+      props.fetchuserSchedules(event.target.value);
     }
   }
 
   const handleCourseSelect = (event, newValue) => {
     props.onCourseListUpdated(newValue);
+    setSelectedCourses(newValue);
+  }
+
+  const handleSubmit = () => {
+    props.generateSchedules();
+    if (selectedCourses.length > 0)
+      props.showOrHideCourseSelectionPanel();
   }
 
   const semesters = props.semesterList.map(semester =>
@@ -54,7 +66,7 @@ function CourseSelectionPanel(props) {
         />
       </FormControl>
       <br/> <br/>
-      <Button variant='contained' color='primary' onClick={props.generateSchedules}>
+      <Button variant='contained' color='primary' onClick={handleSubmit}>
         Find Schedules
       </Button>
     </div>
@@ -62,25 +74,46 @@ function CourseSelectionPanel(props) {
 }
 
 function ScheduleListPanel(props) {
-  const [expanded, setExpanded] = useState(false);
+  const useStyles = makeStyles({
+    root: {
+      margin: 10,
+      height: 150,
+    },
+  });
 
-  const showOrHideCourseSelectionPanel = () => {
-    if (expanded === false) {
-      document.getElementById('side-panel').style.marginLeft = '0vw';
-      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(180deg)';
-    }
-    else {
-      document.getElementById('side-panel').style.marginLeft = '-31vw';
-      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(0deg)';
-    }
-    setExpanded(!expanded);
-  };
+  const Schedule = (props) => {
+    const classes = useStyles();
+    console.log(props.schedule);
+    return(
+      <Card className={classes.root} onClick={props.onClick}>
+        <CardContent className='schedule'>
+          <div>
+            {props.schedule.id}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const schedules = props.scheduleList.map(schedule =>
+    <Schedule
+      key={schedule.id}
+      schedule={schedule}
+      onClick={() => console.log('schedule clicked')}
+    />
+  );
 
   const getScheduleListOrEmptyMessage = () => {
     if (props.scheduleList.length)
       return (
-        <Grid container>
-          {/** Display list of schedules here **/}
+        <Grid
+          container
+          direction='column'
+          justify='center'
+          alignItems='stretch'
+          style={{'flexWrap': 'nowrap', height: 'unset'}}
+        >
+          {schedules}
         </Grid>
       );
     else
@@ -93,7 +126,7 @@ function ScheduleListPanel(props) {
 
   return (
     <div id='schedule-list-panel'>
-      <div id='panel-expansion-button' onClick={showOrHideCourseSelectionPanel}>
+      <div id='panel-expansion-button' onClick={props.showOrHideCourseSelectionPanel}>
         <NavigateNextIcon id='panel-expansion-button-icon'/>
       </div>
       <div id='schedule-list'>
@@ -106,7 +139,25 @@ function ScheduleListPanel(props) {
 class SidePanel extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      expanded: false,
+    };
   }
+
+  showOrHideCourseSelectionPanel() {
+    if (this.state.expanded === false) {
+      document.getElementById('side-panel').style.marginLeft = '0vw';
+      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(180deg)';
+    }
+    else {
+      document.getElementById('side-panel').style.marginLeft = '-31vw';
+      document.getElementById('panel-expansion-button-icon').style.transform = 'rotate(0deg)';
+    }
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  };
 
   render() {
     return (
@@ -123,14 +174,17 @@ class SidePanel extends Component {
               courseList={this.props.courseList}
               semesterList={this.props.semesterList}
               fetchCourses={this.props.fetchCourses}
+              fetchuserSchedules={this.props.fetchUserSchedules}
               onSemesterUpdated={this.props.onSemesterUpdated}
               onCourseListUpdated={this.props.onCourseListUpdated}
               generateSchedules={this.props.generateSchedules}
+              showOrHideCourseSelectionPanel={this.showOrHideCourseSelectionPanel.bind(this)}
             />
           </Grid>
           <Grid item xs={4}>
             <ScheduleListPanel
               scheduleList={this.props.scheduleList}
+              showOrHideCourseSelectionPanel={this.showOrHideCourseSelectionPanel.bind(this)}
             />
           </Grid>
         </Grid>

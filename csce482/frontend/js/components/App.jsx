@@ -11,23 +11,34 @@ import ScheduleView from "./schedule/ScheduleView";
 class App extends Component {
   constructor(props) {
     super(props);
-    const { hideToolTips } = this.fetchLocalStorage();
+    const { hideToolTips, userEmail } = this.fetchLocalStorage();
     this.state = {
       hideToolTips: hideToolTips,
+      userEmail: userEmail,
     }
   }
 
   fetchLocalStorage() {
     return {
       hideToolTips: Boolean(parseInt(localStorage.getItem('hideToolTips'))),
+      userEmail: localStorage.getItem('email'),
     };
+  }
+
+  updateUserData(newData) {
+    this.setState({
+      userEmail: newData.email,
+    });
   }
 
   render() {
     return(
       <div>
-        <TopBar/>
+        <TopBar
+          updateUserData={this.updateUserData.bind(this)}
+        />
         <ScheduleView
+          userEmail={this.state.userEmail}
           hideToolTips={this.state.hideToolTips}
         />
       </div>
