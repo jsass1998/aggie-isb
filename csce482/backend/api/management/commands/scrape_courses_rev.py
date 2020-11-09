@@ -113,6 +113,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         _activity = models.Activity.objects.get_or_create(
             title = subject + str(course_number) + "-" + str(section_number),
             term = term_code
+        _activity.save()
     except Exception as e:
         print(str(e))
         
@@ -133,6 +134,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
             course = _course,
             professor = _prof
         )[0]
+        _course_prof.save()
     except Exception as e:
         print(str(e))
         
@@ -148,10 +150,11 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
             total_seats = max_enrollment,
             seats_taken = current_enrollment
         )[0]
+        _section.save()
     except Exception as e:
         print(str(e))
             
-    meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
+    #meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
     class_days = parse_meeting_days(meetings_data)    
     start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
     end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
@@ -160,48 +163,21 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         building = unescape(building)
         
     class_type = meetings_data['meetingTime']['meetingType']
+     
+    for each day in class_days: ##THIS NEEDS WORK
+        try:
+            _activity_instance = models.Activity_Instance.objects.get_or_create(
+                activity = _activity,
+                location = building,
+                day = day,
+                starttime = start_time
+                endtime = end_time
+            )[0]
+            _activity_instance.save()
+        except Exception as e:
+            print(str(e))
             
-    try:
-        _activity_instance = models.Activity_Instance.objects.get_or_create(
-            activity = _activity
-            location = 
-        )[0]
-    # Creates and saves section object
-    #section_model = models.Section(
-    #    id=section_id, subject=subject, course_num=course_number,
-    #    section_num=section_number, term_code=term_code, crn=crn, min_credits=min_credits,
-    #    max_credits=max_credits, honors=honors, web=web, max_enrollment=max_enrollment,
-    #    current_enrollment=current_enrollment, instructor=instructor)
-
-    # Parse each meeting in this section. i is the counter used to identify each Meeting
-    #meetings = (parse_meeting(meetings_data, section_model, i)
-    #            for i, meetings_data in enumerate(course_data['meetingsFaculty']))
-
-    #return (section_model, meetings)  
-    return None
-
-###def parse_meeting(meetings_data, section: models.Section, meeting_count: int) -> models.Activity:
-###    """ Parses the meeting data and saves it as a Meeting model.
-###        Called by parse_section on each of the section's meeting times.
-###    """
-###
-###    meeting_id = generate_meeting_id(str(section.id), str(meeting_count))
-###
-###    class_days = parse_meeting_days(meetings_data)
-###
-###    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
-###    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
-###
-###    building = meetings_data['meetingTime']['building']
-###    if building is not None: # Must be escaped for O&M building
-###        building = unescape(building)
-###
-###    class_type = meetings_data['meetingTime']['meetingType']
-###
-###    #$%meeting_model = Meeting(id=meeting_id, building=building, meeting_days=class_days,
-###    #$%                        start_time=start_time, end_time=end_time,
-###    #$%                        meeting_type=class_type, section=section)
-###    return meeting_model
+    return _section
     
 def parse_instructor(course_data, dept) -> models.Professor:
     """ Parses the instructor data and saves it as a Instructor model.
@@ -262,7 +238,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
         except Exception as e:
             print(str(e))
 
-    return None    
+    return None  #I DO NOT KNOW WHAT TO RETURN HERE. FUTURE JOSH PROBLEM :)  
     
 def parse_course(course_data: List,
                  courses_set: set,
