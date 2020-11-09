@@ -45,7 +45,7 @@ class ScheduleView extends Component {
   //   return this.props.userEmail != nextProps.userEmail;
   // }
 
-  // TODO -  refactor to get user based off of google auth data (if browser is signed in)
+  // TODO -  need to call after user signs in, not just when component loads
   fetchUser(userEmail) {
     if (userEmail)
       axios.get(`api/users/?email=${userEmail.replace('@', '%40').replace('.', '%2e')}`).then(res => {
