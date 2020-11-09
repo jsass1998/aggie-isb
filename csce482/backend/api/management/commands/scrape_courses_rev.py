@@ -108,6 +108,64 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
 
     web = course_data.get('instructionalMethod', "") == "Web Based"
 
+     
+    try:
+        _activity = models.Activity.objects.get_or_create(
+            title = subject + str(course_number) + "-" + str(section_number),
+            term = term_code
+    except Exception as e:
+        print(str(e))
+        
+    for faculty_data in course_data['faculty']:
+        # We only care about the primary instructor, so skip all of the other ones
+        if not faculty_data['primaryIndicator']:
+            continue
+
+        name = faculty_data.get("displayName")
+
+        if name is None:
+            return None
+
+    try:
+        _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
+        _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
+        _course_prof = models.Course_Prof.objects.get_or_create(
+            course = _course,
+            professor = _prof
+        )[0]
+    except Exception as e:
+        print(str(e))
+        
+    try:
+        _section = models.Section.objects.get_or_create(
+            activity = _activity,
+            course_prof = _course_prof,
+            term = term_code,
+            crn = crn,
+            credit_hours = max_credits,
+            honors = honors,
+            web = web,
+            total_seats = max_enrollment,
+            seats_taken = current_enrollment
+        )[0]
+    except Exception as e:
+        print(str(e))
+            
+    meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
+    class_days = parse_meeting_days(meetings_data)    
+    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
+    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
+    building = meetings_data['meetingTime']['building']
+    if building is not None: # Must be escaped for O&M building
+        building = unescape(building)
+        
+    class_type = meetings_data['meetingTime']['meetingType']
+            
+    try:
+        _activity_instance = models.Activity_Instance.objects.get_or_create(
+            activity = _activity
+            location = 
+        )[0]
     # Creates and saves section object
     #section_model = models.Section(
     #    id=section_id, subject=subject, course_num=course_number,
@@ -122,28 +180,28 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
     #return (section_model, meetings)  
     return None
 
-def parse_meeting(meetings_data, section: models.Section, meeting_count: int) -> models.Activity:
-    """ Parses the meeting data and saves it as a Meeting model.
-        Called by parse_section on each of the section's meeting times.
-    """
-
-    meeting_id = generate_meeting_id(str(section.id), str(meeting_count))
-
-    class_days = parse_meeting_days(meetings_data)
-
-    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
-    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
-
-    building = meetings_data['meetingTime']['building']
-    if building is not None: # Must be escaped for O&M building
-        building = unescape(building)
-
-    class_type = meetings_data['meetingTime']['meetingType']
-
-    #$%meeting_model = Meeting(id=meeting_id, building=building, meeting_days=class_days,
-    #$%                        start_time=start_time, end_time=end_time,
-    #$%                        meeting_type=class_type, section=section)
-    return meeting_model
+###def parse_meeting(meetings_data, section: models.Section, meeting_count: int) -> models.Activity:
+###    """ Parses the meeting data and saves it as a Meeting model.
+###        Called by parse_section on each of the section's meeting times.
+###    """
+###
+###    meeting_id = generate_meeting_id(str(section.id), str(meeting_count))
+###
+###    class_days = parse_meeting_days(meetings_data)
+###
+###    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
+###    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
+###
+###    building = meetings_data['meetingTime']['building']
+###    if building is not None: # Must be escaped for O&M building
+###        building = unescape(building)
+###
+###    class_type = meetings_data['meetingTime']['meetingType']
+###
+###    #$%meeting_model = Meeting(id=meeting_id, building=building, meeting_days=class_days,
+###    #$%                        start_time=start_time, end_time=end_time,
+###    #$%                        meeting_type=class_type, section=section)
+###    return meeting_model
     
 def parse_instructor(course_data, dept) -> models.Professor:
     """ Parses the instructor data and saves it as a Instructor model.
@@ -176,7 +234,16 @@ def parse_instructor(course_data, dept) -> models.Professor:
         print (updated_name)
         
         try:
-            prof = models.Professor.objects.get_or_create(name=new_name, dept=dept)[0]
+            prof = models.Professor.objects.get(name=new_name, dept=dept)[0]
+        except Exception as e:
+            updated_prof = models.Professor.objects.get_or_create(
+                name = updated_name,
+                dept = dept,
+                office = ""
+            )[0]
+            updated_prof.save()
+            return updated_prof
+        try:
             updated_prof = models.Professor.objects.get_or_create(
                 name = updated_name,
                 dept = dept,
