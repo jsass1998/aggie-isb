@@ -154,16 +154,20 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         _section.save()
     except Exception as e:
         print(str(e))
+        
+    #meetings = (parse_meeting(meetings_data, section_model, i)
+    #        for i, meetings_data in enumerate(course_data['meetingsFaculty']))    
             
     #meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
-    class_days = parse_meeting_days(meetings_data)    
-    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
-    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
-    building = meetings_data['meetingTime']['building']
+    
+    ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
+    
+    class_days = parse_meeting_days(course_data)    
+    start_time = convert_meeting_time(course_data['meetingTime']['beginTime'])
+    end_time = convert_meeting_time(course_data['meetingTime']['endTime'])
+    building = course_data['meetingTime']['building']
     if building is not None: # Must be escaped for O&M building
         building = unescape(building)
-        
-    class_type = meetings_data['meetingTime']['meetingType']
      
     for day in class_days: ##THIS NEEDS WORK
         try:

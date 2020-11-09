@@ -123,9 +123,9 @@ class Command(base.BaseCommand):
                                 valid_course = scraper_models.Course.objects.get(course_id = _course_id)
                             except Exception as e:
                                 #courses_missed.append(str(_course_id) + "-" + year_semester)
-                                print(str(e))
+                                print(str(e) + " Generating: " + _course_id)
                                 new_course = scraper_models.Course.objects.get_or_create(
-                                    course_id = _id,
+                                    course_id = _course_id,
                                     title = "Outdated Course: No Info"
                                 )[0]
                                 continue                            
@@ -139,7 +139,7 @@ class Command(base.BaseCommand):
                                 )[0]
                                 new_prof.save()
                             except Exception as e:
-                                print(str(e))
+                                print(str(e) + " new_prof")
                                 continue                                
                                 
                             try:     
@@ -150,7 +150,7 @@ class Command(base.BaseCommand):
                                 )[0]
                                 new_course_prof.save()
                             except Exception as e:
-                                print(str(e))
+                                print(str(e) + " new_course_prof")
                                 continue     
                                 
                             try:    
@@ -160,16 +160,26 @@ class Command(base.BaseCommand):
                                 )[0]
                                 new_activity.save()
                             except Exception as e:
-                                print(str(e))
+                                print(str(e) + " new_activity")
                                 continue 
                                 
                             try:    
                                 ###section object
+                                #if isinstance(section_num, str):
+                                #    _section_num = int(section_num[1:2])
+                                #    print("its true: " + section_num)
+                                #_section_num = section_num
+                                try:
+                                    _section_num = int(section_num)
+                                except:
+                                    _section_num = int(section_num[1:2])
+                                    #print("its true: " + section_num)
+                                
                                 new_section = scraper_models.Section.objects.get_or_create(
                                     activity = new_activity,
                                     course_prof = new_course_prof,
                                     term = year_semester,
-                                    section_num = section_num,
+                                    section_num = _section_num,
                                     crn = 0,
                                     credit_hours = 0,
                                     total_seats = 0
