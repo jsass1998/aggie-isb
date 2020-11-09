@@ -4,17 +4,16 @@ from django.core.management import base
 class Command(base.BaseCommand):
 
     def add_arguments(self, parser):
-        parser.add_argument('--RMP', '-r', type=str,
-                            help="just updating RateMyProfessor info")
-        parser.add_argument('--CoursesRecent', '-c', type=int,
-                            help="A year to scrape all courses for, such as 2019")
+    
+        parser.add_argument('--RMP', action='store_true')
+        parser.add_argument('--CoursesRecent', action='store_true')
 
     def handle(self, *args, **options):
         if options['RMP']:
             management.call_command('UpdateProfessorRMPInfo')
         
         elif options['CoursesRecent']:
-            management.call_command('scrape_dept_rev')
+            management.call_command('scrape_depts_rev')
             management.call_command('scrape_courses_rev')
             management.call_command('UpdateProfessorRMPInfo')
             
