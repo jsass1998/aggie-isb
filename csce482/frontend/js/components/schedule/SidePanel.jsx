@@ -17,6 +17,7 @@ function CourseSelectionPanel(props) {
       setSemester(event.target.value);
       props.onSemesterUpdated(event.target.value);
       props.fetchCourses(event.target.value);
+      props.fetchuserSchedules(event.target.value);
     }
   }
 
@@ -123,6 +124,7 @@ class SidePanel extends Component {
               courseList={this.props.courseList}
               semesterList={this.props.semesterList}
               fetchCourses={this.props.fetchCourses}
+              fetchuserSchedules={this.props.fetchUserSchedules}
               onSemesterUpdated={this.props.onSemesterUpdated}
               onCourseListUpdated={this.props.onCourseListUpdated}
               generateSchedules={this.props.generateSchedules}

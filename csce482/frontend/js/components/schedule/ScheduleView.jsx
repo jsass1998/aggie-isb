@@ -65,11 +65,24 @@ class ScheduleView extends Component {
 
   fetchCourseData(semesterString) {
     let semester = semesterString.split('-');
-    axios.get(`api/courses/?term=${semester[0].replace(' ', '%20')}`).then(res => {
+    const url = `api/courses/?term=${semester[0].replace(' ', '%20')}&campus=${semester[1].replace(' ', '%20')}`;
+    axios.get(url).then(res => {
       this.setState({
         courseList: res.data,
       });
     });
+  }
+
+  fetchUserSchedules(semesterString) {
+    if (this.state.currentUser) {
+      let semester = semesterString.split('-');
+      const url = `api/schedules/?user=${this.state.currentUser.id}&term=${semester[0].replace(' ', '%20')}&campus=${semester[1].replace(' ', '%20')}`;
+      axios.get(url).then(res => {
+        this.setState({
+          scheduleList: res.data,
+        })
+      });
+    }
   }
 
   isWaitingForUser() {
@@ -147,7 +160,9 @@ class ScheduleView extends Component {
           'X-CSRFToken': this.state.csrfToken,
         }
       }).then(res => {
-        console.log(res.data);
+        this.setState({
+          scheduleList: res.data,
+        })
     }).catch(err => {
       console.error(err);
     });
@@ -179,6 +194,7 @@ class ScheduleView extends Component {
           courseList={this.state.courseList}
           semesterList={this.state.semesterList}
           fetchCourses={this.fetchCourseData.bind(this)}
+          fetchUserSchedules={this.fetchUserSchedules.bind(this)}
           scheduleList={this.state.scheduleList}
           onSemesterUpdated={this.onSemesterUpdated.bind(this)}
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}
