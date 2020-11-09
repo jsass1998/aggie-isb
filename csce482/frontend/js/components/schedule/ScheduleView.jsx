@@ -4,7 +4,7 @@ import TimeGrid from "./TimeGrid";
 import PopUpDialog from "../PopUpDialog";
 import {create_schedule_tooltip} from "../../utils/constants";
 import SidePanel from "./SidePanel";
-import {weekdayMap} from "../../utils/constants";
+import {weekdayMap, dayToDateMap} from "../../utils/constants";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -20,6 +20,8 @@ class ScheduleView extends Component {
     this.state = {
       csrfToken: Cookies.get('csrftoken'),
       currentUser: null,
+      crnList: [],
+      creditHourCount: null,
       courseList: [],
       semesterList: [], // List term dicts containing time & location (i.e. 'FALL 2020' and 'College Station'
       selectedSemester: '',
@@ -98,29 +100,80 @@ class ScheduleView extends Component {
     return this.state.gridInstanceDataDict[eventKey];
   }
 
+  loadSchedule(activities) {
+    let newGridInstances = [];
+    let newGridInstanceDataDict = {};
+
+    // Things to update state
+    let crnList = [];
+    let creditHourCount = 0;
+
+    activities.forEach(activity => {
+      if (activity.section)
+        crnList.push(activity.section.crn);
+      creditHourCount += activity.section ? activity.section.credit_hours : 0;
+
+      // Convert each activity instance into a gridInstance and generate it's key-value pair for the gridInstanceDataDict
+      for (let i = 0; i < activity.activity_instance_set.length; i++) {
+        let aInstance = activity.activity_instance_set[i];
+        let startDate = new Date()
+          startDate.setTime(Date.parse(`${dayToDateMap[aInstance.day]}T${aInstance.starttime}`));
+        let endDate = new Date()
+          endDate.setTime(Date.parse(`${dayToDateMap[aInstance.day]}T${aInstance.endtime}`));
+        let instance = [startDate, endDate];
+        let dictKey = `${aInstance.day}-${aInstance.starttime}-${aInstance.endtime}`;
+        let data = {
+          title: activity.title,
+          timeRange: '',
+          location: aInstance.location,
+        }
+        newGridInstances.push(instance);
+        newGridInstanceDataDict[dictKey] = data;
+      }
+    });
+
+    this.setState({
+      crnList: crnList,
+      creditHourCount: creditHourCount,
+      gridInstanceDataDict: newGridInstanceDataDict,
+    }, () => this.onGridUpdated(newGridInstances, true));
+  }
+
   // TODO: Watch out for when activities are programmatically added to grid
   //  - not currently handled
-  onGridUpdated(params) {
+  /**
+   * Takes a list of lists where the inner list contains two Date objects
+   * representing the start and end time of a particular activity.
+   *
+   * This function is used both to handle updating the grid state upon
+   * user interacts as well as to programmatically load generated schedules
+   * **/
+  onGridUpdated(params, isLoadOperation=false) {
     let updatedUserActivity = [];
-    let updatedDataDict = {};
+    let updatedDataDict = this.state.gridInstanceDataDict;
 
-    params.forEach(activityInstance => {
-      updatedUserActivity.push([
-        weekdayMap[activityInstance[0].getDay()],
-        activityInstance[0].toString().split(' ')[4],
-        activityInstance[1].toString().split(' ')[4],
-      ]);
-      updatedDataDict[`${weekdayMap[activityInstance[0].getDay()]}-${activityInstance[0].toString().split(' ')[4]}-${activityInstance[1].toString().split(' ')[4]}`] = weekdayMap[activityInstance[0].getDay()];
-    });
+    // Only write to dict & update if user is manually adding to grid
+    if (!isLoadOperation)
+      params.forEach(activityInstance => {
+        updatedUserActivity.push([
+          weekdayMap[activityInstance[0].getDay()],
+          activityInstance[0].toString().split(' ')[4],
+          activityInstance[1].toString().split(' ')[4],
+        ]);
 
-    // BE VERY CAREFUL ADJUSTING HOW THE `TimeGrid` STATE IS UPDATED
-    // IF YOU DO SOMETHING WRONG YOU WILL CREATE AN INFINITE LOOP AND
-    // LOCK THE WEBPAGE
-    this.setState({
-      gridInstances: params,
-      gridInstanceDataDict: updatedDataDict,
-      userActivity: updatedUserActivity,
-    });
+        updatedDataDict[`${weekdayMap[activityInstance[0].getDay()]}-${activityInstance[0].toString().split(' ')[4]}-${activityInstance[1].toString().split(' ')[4]}`] = weekdayMap[activityInstance[0].getDay()];
+      });
+
+    if (!isLoadOperation)
+      this.setState({
+        gridInstances: params,
+        gridInstanceDataDict: updatedDataDict,
+        userActivity: updatedUserActivity,
+      });
+    else
+      this.setState({
+        gridInstances: params,
+      });
   };
 
   onSemesterUpdated(selectedSemester) {
@@ -199,6 +252,7 @@ class ScheduleView extends Component {
           onSemesterUpdated={this.onSemesterUpdated.bind(this)}
           onCourseListUpdated={this.onCourseListUpdated.bind(this)}
           generateSchedules={this.generateSchedules.bind(this)}
+          loadSchedule={this.loadSchedule.bind(this)}
         />
         <ScheduleContext.Provider value={this.getEventInfo.bind(this)}>
           <TimeGrid

@@ -83,9 +83,8 @@ function ScheduleListPanel(props) {
 
   const Schedule = (props) => {
     const classes = useStyles();
-    console.log(props.schedule);
     return(
-      <Card className={classes.root} onClick={props.onClick}>
+      <Card className={classes.root} onClick={() => props.loadSchedule(props.schedule.activities)}>
         <CardContent className='schedule'>
           <div>
             {props.schedule.id}
@@ -99,7 +98,7 @@ function ScheduleListPanel(props) {
     <Schedule
       key={schedule.id}
       schedule={schedule}
-      onClick={() => console.log('schedule clicked')}
+      loadSchedule={props.loadSchedule}
     />
   );
 
@@ -184,6 +183,7 @@ class SidePanel extends Component {
           <Grid item xs={4}>
             <ScheduleListPanel
               scheduleList={this.props.scheduleList}
+              loadSchedule={this.props.loadSchedule}
               showOrHideCourseSelectionPanel={this.showOrHideCourseSelectionPanel.bind(this)}
             />
           </Grid>

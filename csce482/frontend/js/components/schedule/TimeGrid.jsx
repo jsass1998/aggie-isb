@@ -59,10 +59,14 @@ const EventRoot = React.forwardRef(function({disabled, handleDelete, ...props}, 
 });
 
 const EventContent = function CustomEventContent(props) {
-  const context = useContext(ScheduleContext);
+  const getInstanceData = useContext(ScheduleContext);
+  const instanceData = getInstanceData(props.dateRange);
+
+  const instanceTitle = instanceData ? instanceData.title : 'NULL';
+
   return (
     <div className='event-content'>
-      {context(props.dateRange)}
+      {instanceTitle}
     </div>
   )
 }
