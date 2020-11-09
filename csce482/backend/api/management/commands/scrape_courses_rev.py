@@ -113,6 +113,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         _activity = models.Activity.objects.get_or_create(
             title = subject + str(course_number) + "-" + str(section_number),
             term = term_code
+            )[0]
         _activity.save()
     except Exception as e:
         print(str(e))
@@ -164,13 +165,13 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         
     class_type = meetings_data['meetingTime']['meetingType']
      
-    for each day in class_days: ##THIS NEEDS WORK
+    for day in class_days: ##THIS NEEDS WORK
         try:
             _activity_instance = models.Activity_Instance.objects.get_or_create(
                 activity = _activity,
                 location = building,
                 day = day,
-                starttime = start_time
+                starttime = start_time,
                 endtime = end_time
             )[0]
             _activity_instance.save()
