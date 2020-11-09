@@ -152,7 +152,7 @@ class Schedule(models.Model):
     activities = models.ManyToManyField(Activity)
     term = models.CharField(max_length=16)
     campus = models.CharField(max_length=16, default="College Station")
-    description = models.TextField(default="")
+    user_saved = models.BooleanField(default=False)
     avg_starttime = models.TimeField(default="12:00:00")
     avg_endtime = models.TimeField(default="15:00:00")
     avg_day_length = models.TimeField(default="05:00:00")
@@ -161,6 +161,7 @@ class Schedule(models.Model):
     free_on_wednesday = models.BooleanField(default=False)
     free_on_thursday = models.BooleanField(default=False)
     free_on_friday = models.BooleanField(default=False)
+    num_free_days = models.IntegerField(default=0)
 
     def __str__(self):
         s=str(self.id)+": "+str(self.user)
@@ -198,13 +199,18 @@ class Schedule(models.Model):
         week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
         stime_sum = 0
         for day in week:
-            stime = schedule_instances.filter(
+            daily_instances = schedule_instances.filter(
                 day__exact = day,
-            ).order_by('starttime').first().starttime
-            stime_sec = stime.hour*3600+stime.minute*60
-            stime_sum = stime_sum + stime_sec
+            )
+            if daily_instances.count() is not 0:
+                stime=daily_instances.order_by(
+                    'starttime'
+                ).first().starttime
+                stime_sec = stime.hour*3600+stime.minute*60
+                stime_sum = stime_sum + stime_sec
         stime_avg_sec = round(stime_sum / 5)
         stime_avg = time.strftime('%H:%M:%S', time.gmtime(stime_avg_sec))
+        self.avg_starttime = stime_avg
         return stime_avg
             
     def compute_avg_endtime(self):
@@ -212,21 +218,74 @@ class Schedule(models.Model):
         week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
         etime_sum = 0
         for day in week:
-            etime = schedule_instances.filter(
+            daily_instances = schedule_instances.filter(
                 day__exact = day,
-            ).order_by('-endtime').first().endtime
-            etime_sec = etime.hour*3600+etime.minute*60
-            etime_sum = etime_sum + etime_sec
+            )
+            if daily_instances.count() is not 0:
+                etime = daily_instances.order_by(
+                    '-endtime'
+                ).first().endtime
+                etime_sec = etime.hour*3600+etime.minute*60
+                etime_sum = etime_sum + etime_sec
         etime_avg_sec = round(etime_sum / 5)
         etime_avg = time.strftime('%H:%M:%S', time.gmtime(etime_avg_sec))
+        self.avg_endtime = etime_avg
         return etime_avg
 
-    # def compute_avg_day_length(self):
+    def compute_avg_day_length(self):
+        schedule_instances = self.get_instances()
+        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        day_length_sum = 0
+        for day in week:
+            daily_instances = schedule_instances.filter(
+                day__exact = day,
+            )
+            if daily_instances.count() is not 0:
+                stime = daily_instances.order_by(
+                    'starttime'
+                ).first().starttime
+                etime = daily_instances.order_by(
+                    '-endtime'
+                ).first().endtime
+                stime_sec = stime.hour*3600+stime.minute*60
+                etime_sec = etime.hour*3600+etime.minute*60
+                day_length_sec = etime_sec-stime_sec
+                day_length_sum = day_length_sum+day_length_sec
+        day_length_avg_sec = round(day_length_sum / 5)
+        day_length_avg = time.strftime('%H:%M:%S', time.gmtime(day_length_avg_sec))
+        self.avg_day_length = day_length_avg
+        return day_length_avg
 
-    # def find_free_days(self):
+    def find_free_days(self):
+        schedule_instances = self.get_instances()
+        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        free_on = {
+            "MON": self.free_on_monday,
+            "TUE": self.free_on_tuesday,
+            "WED": self.free_on_wednesday,
+            "THU": self.free_on_thursday,
+            "FRI": self.free_on_friday
+        }
+        free_day_count = 0
+        for day in week:
+            daily_instances = schedule_instances.filter(
+                day__exact = day,
+            )
+            if daily_instances.count() is 0:
+                free_on[day] = True
+                free_day_count = free_day_count+1
+        self.num_free_days = free_day_count
+        return free_day_count
 
-    # def generate_description(self):
+    def generate_descriptors(self):
+        self.compute_avg_starttime()
+        self.compute_avg_endtime()
+        self.compute_avg_day_length()
+        self.find_free_days()
 
 class Term_Location(models.Model):
     term = models.CharField(max_length=16)
     location = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.term + " - " + self.location

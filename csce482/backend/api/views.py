@@ -99,7 +99,6 @@ class ScheduleViewSet(viewsets.ModelViewSet):
             )
         return queryset
 
-
 class ActivityInstanceViewSet(viewsets.ModelViewSet):
     queryset = Activity_Instance.objects.all().order_by('id')
     serializer_class = ActivityInstanceSerializer

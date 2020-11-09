@@ -32,10 +32,7 @@ def generate_schedules(schedule_user, schedule_term, selected_courses, blocked_t
     schedules = refine_schedules(schedule_user, schedule_term, activity_lists, count-1)
     
     for schedule in schedules:
-        # schedule.compute_avg_starttime()
-        # schedule.compute_avg_endtime()
-        # schedule.compute_avg_day_length()
-        # schedule.find_free_days()
+        schedule.generate_descriptors()
         schedule.add_activity(blocked_time_activity)
     return schedules
 

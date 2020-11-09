@@ -113,7 +113,15 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'activities',
             'term',
             'campus',
-            #'description',
+            'avg_starttime',
+            'avg_endtime',
+            'avg_day_length',
+            'num_free_days',
+            'free_on_monday',
+            'free_on_tuesday',
+            'free_on_wednesday',
+            'free_on_thursday',
+            'free_on_friday',
         )
         model = Schedule
 
