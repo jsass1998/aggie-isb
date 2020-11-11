@@ -115,6 +115,20 @@ class Command(base.BaseCommand):
                             ##    section.grades = grades
                             
                             grades, (dept, course_num, section_num, prof_data), gpa = dist
+                            total = gpa[0] + gpa[1] + gpa[2] + gpa[3] + gpa[4] + gpa[5]
+                            percentA = 100.0 * float(gpa[0])/float(total)
+                            percentB = 100.0 * float(gpa[1])/float(total)
+                            percentC = 100.0 * float(gpa[2])/float(total)
+                            percentD = 100.0 * float(gpa[3])/float(total)
+                            percentF = 100.0 * float(gpa[4])/float(total)
+                            percentQ = 100.0 * float(gpa[5])/float(total)
+                            
+                            print(percentA)
+                            print(percentB)
+                            print(percentC)
+                            print(percentD)
+                            print(percentF)
+                            print(percentQ)
                             
                             try:
                                 ###course object
@@ -135,7 +149,7 @@ class Command(base.BaseCommand):
                                 new_prof = scraper_models.Professor.objects.get_or_create(
                                     name = prof_data,
                                     dept = dept,
-                                    office = ""
+                                    office = "",
                                 )[0]
                                 new_prof.save()
                             except Exception as e:
@@ -146,7 +160,13 @@ class Command(base.BaseCommand):
                                 ###new course prof objec
                                 new_course_prof = scraper_models.Course_Prof.objects.get_or_create(
                                    course = valid_course,
-                                   professor = new_prof 
+                                   professor = new_prof, 
+                                   percent_A = percentA,
+                                   percent_B = percentB, 
+                                   percent_C = percentC,
+                                   percent_D = percentD,
+                                   percent_F = percentF,
+                                   percent_Q = percentQ
                                 )[0]
                                 new_course_prof.save()
                             except Exception as e:
