@@ -55,17 +55,17 @@ class RateMyProfScraper:
 
     def PrintProfessorInfo(self):  # print search professor's name and RMP score
         if self.indexnumber == False:
-            print("error")
+            continue
         else:
             print(self.professorlist[self.indexnumber])
 
     def WriteProfessorDetails(self):  # print search professor's name and RMP score
         if self.indexnumber == False:
-            print("error")
+            print("Professor not found: " + str(self))
             return "error"
         else:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
-            print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
+            #print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
             
             #write to DB here
             prof_json = self.professorlist[self.indexnumber]
@@ -76,43 +76,29 @@ class RateMyProfScraper:
             prof_rating_class = str(prof_json['rating_class'])
             prof_num_ratings = int(prof_json['tNumRatings'])
             prof_rmp_link = str(RMP_link)
+            
+            try:
+                overwrite_prof = Professor.objects.get(
+                    name = prof_name
+                )
 
-            overwrite_prof = Professor.objects.get(
-                name = prof_name
-            )
+                overwrite_prof.overall_rating = prof_overall_rating
+                overwrite_prof.rating_class = prof_rating_class
+                overwrite_prof.num_ratings = prof_num_ratings
+                overwrite_prof.rmp_link = prof_rmp_link
+                overwrite_prof.save()
+            except Exception as e:
+                print(str(e))
 
-            overwrite_prof.overall_rating = prof_overall_rating
-            overwrite_prof.rating_class = prof_rating_class
-            overwrite_prof.num_ratings = prof_num_ratings
-            overwrite_prof.rmp_link = prof_rmp_link
-            overwrite_prof.save()
-            #print("Prof object get and/or prof write to db failed")
-           
-            #try:
-            #    overwrite_prof = Professor.objects.get(
-            #        name = str(self.professorlist[self.indexnumber]['tFname'] + " " + self.professorlist[self.indexnumber]['tLname'])
-            #    )[0]
-            #    
-            #    overwrite_prof.overall_rating = str(self.professorlist[self.indexnumber]["overall_rating"])
-            #    overwrite_prof.rating_class   = str(self.professorlist[self.indexnumber]["rating_class"])
-            #    overwrite_prof.tNumRatings    = str(self.professorlist[self.indexnumber]["tNumRatings"])
-            #    overwrite_prof.RMP_link       = str(RMP_link)
-            #    
-            #    overwrite_prof.save()
-            #except:
-            #    print("prof object get and/or prof write to db failed")
 
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
-        #professors = ["Tracy Hammond"] #access db for professor list
+    
         professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
-        #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk #for handling of actual professor objects instead of string
         professors = [prof.name for prof in professors_queryset]
         print("Initializing Scraper... (may take a bit)")
         TAMU = RateMyProfScraper(1003) #1003 is tamus code
         for professor in professors: 
             print("Scraping: " + professor)
-            #print("Scraping: " + professor.name) #for handling of actual professor objects instead of string
             TAMU.SearchProfessor(professor)
-            #TAMU.SearchProfessor(professor.name) #for handling of actual professor objects instead of string
             TAMU.WriteProfessorDetails()
