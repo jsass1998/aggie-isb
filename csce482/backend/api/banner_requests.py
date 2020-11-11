@@ -126,7 +126,7 @@ class BannerRequests():
 
         data = json['data']
 
-        #print(str(data) + "\r\n")
+        #print(str(data) + "\r\n" + "\r\n")
         return data
 
     def get_departments(self, term: str, amount: int = 300) -> List[Dict]:

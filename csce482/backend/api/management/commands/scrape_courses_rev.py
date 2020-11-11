@@ -161,23 +161,53 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
     #meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
     
     ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
-
-    class_days = parse_meeting_days(meetings_data)    
-    start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
-    end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
-    building = meetings_data['meetingTime']['building']
+    print("\r\n")
+    print(course_data)
+    print("\r\n")
     
-    if building is not None: # Must be escaped for O&M building
-        building = unescape(building)
-        
-    for day in class_days: ##THIS NEEDS WORK    
+    monday = False
+    tuesday = False
+    wednesday = False
+    thursday = False
+    friday = False
+    
+    try:
+        #class_days = parse_meeting_days(meetings_data)
+        monday = course_data['meetingTime']['monday']
+        tuesday = course_data['meetingTime']['tuesday']
+        wednesday = course_data['meetingTime']['wednesday']
+        thursday = course_data['meetingTime']['thursday']
+        friday = course_data['meetingTime']['friday']
 
+        #start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
+        start_time = convert_meeting_time(course_data['meetingTime']['beginTime'])
+        #end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
+        end_time = convert_meeting_time(course_data['meetingTime']['endTime'])
+        #building = meetings_data['meetingTime']['building']
         
+        if building is not None: # Must be escaped for O&M building
+            building = unescape(course_data['meetingTime']['building'])
+    except Exception as e:
+            print(str(e) + " accessing meeting time failed")
+        
+    if monday:
         try:
             _activity_instance = models.Activity_Instance.objects.get_or_create(
                 activity = _activity,
                 location = building,
-                day = day,
+                day = "monday",
+                starttime = start_time,
+                endtime = end_time
+            )[0]
+            _activity_instance.save()
+        except Exception as e:
+            print(str(e))
+    elif tuesday:
+        try:
+            _activity_instance = models.Activity_Instance.objects.get_or_create(
+                activity = _activity,
+                location = building,
+                day = "tuesday",
                 starttime = start_time,
                 endtime = end_time
             )[0]
@@ -185,7 +215,59 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         except Exception as e:
             print(str(e))
             
-    return _section
+    elif wednesday:
+        try:
+            _activity_instance = models.Activity_Instance.objects.get_or_create(
+                activity = _activity,
+                location = building,
+                day = "wednesday",
+                starttime = start_time,
+                endtime = end_time
+            )[0]
+            _activity_instance.save()
+        except Exception as e:
+            print(str(e))
+    elif thursday:
+        try:
+            _activity_instance = models.Activity_Instance.objects.get_or_create(
+                activity = _activity,
+                location = building,
+                day = "thursday",
+                starttime = start_time,
+                endtime = end_time
+            )[0]
+            _activity_instance.save()
+        except Exception as e:
+            print(str(e))
+    elif friday:
+        try:
+            _activity_instance = models.Activity_Instance.objects.get_or_create(
+                activity = _activity,
+                location = building,
+                day = "friday",
+                starttime = start_time,
+                endtime = end_time
+            )[0]
+            _activity_instance.save()
+        except Exception as e:
+            print(str(e)) 
+    else:
+        if _section.web:
+            start_time = convert_meeting_time('2000')
+            end_time = convert_meeting_time('2100')
+            
+            try:
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = "ONLINE",
+                    day = "ONLINE",
+                    starttime = "ONLINE",
+                    endtime = "ONLINE"
+                )[0]
+                _activity_instance.save()
+            except Exception as e:
+                print(str(e))
+    return None
     
 def parse_instructor(course_data, dept) -> models.Professor:
     """ Parses the instructor data and saves it as a Instructor model.
