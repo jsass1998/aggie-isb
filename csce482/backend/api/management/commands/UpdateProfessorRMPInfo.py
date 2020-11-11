@@ -66,7 +66,7 @@ class RateMyProfScraper:
         else:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
             #print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
-            
+            print("Professor found!")
             #write to DB here
             prof_json = self.professorlist[self.indexnumber]
             prof_fname = str(prof_json['tFname'])
