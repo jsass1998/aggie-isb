@@ -82,7 +82,7 @@ def get_department_names(terms: List[str]) -> List[Tuple[str,str,str,str]]:
 
     #return ((dept['code'], term) for term, group in grouped for dept in group)
     
-def parse_section(course_data, professor: models.Professor) -> Tuple[models.Section, List[models.Activity]]: # pylint: disable=too-many-locals
+def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: # pylint: disable=too-many-locals
     """ Puts section data in database & calls parse_meeting.
         Called from parse_course.
     """
@@ -115,6 +115,8 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
             term = term_code
             )[0]
         _activity.save()
+        
+        print("wrote new activity")
     except Exception as e:
         print(str(e))
         
@@ -126,7 +128,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
         name = faculty_data.get("displayName")
 
         if name is None:
-            return None
+            name = "None"
 
     try:
         _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
@@ -136,6 +138,8 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
             professor = _prof
         )[0]
         _course_prof.save()
+        
+        print("wrote new course_prof")
     except Exception as e:
         print(str(e))
         
@@ -144,14 +148,16 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
             activity = _activity,
             course_prof = _course_prof,
             term = term_code,
+            section_num = section_number,
             crn = crn,
-            credit_hours = max_credits,
+            credit_hours = min_credits,
             honors = honors,
             web = web,
             total_seats = max_enrollment,
             seats_taken = current_enrollment
         )[0]
         _section.save()
+        print("wrote new section")
     except Exception as e:
         print(str(e))
         
@@ -171,24 +177,23 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
     thursday = False
     friday = False
     
-    try:
-        #class_days = parse_meeting_days(meetings_data)
-        monday = course_data['meetingTime']['monday']
-        tuesday = course_data['meetingTime']['tuesday']
-        wednesday = course_data['meetingTime']['wednesday']
-        thursday = course_data['meetingTime']['thursday']
-        friday = course_data['meetingTime']['friday']
-
-        #start_time = convert_meeting_time(meetings_data['meetingTime']['beginTime'])
-        start_time = convert_meeting_time(course_data['meetingTime']['beginTime'])
-        #end_time = convert_meeting_time(meetings_data['meetingTime']['endTime'])
-        end_time = convert_meeting_time(course_data['meetingTime']['endTime'])
-        #building = meetings_data['meetingTime']['building']
+    for meetingData in course_data['meetingsFaculty']:
+        monday = meetingData['meetingTime']['monday']
+        tuesday = meetingData['meetingTime']['tuesday']
+        wednesday = meetingData['meetingTime']['wednesday']
+        thursday = meetingData['meetingTime']['thursday']
+        friday = meetingData['meetingTime']['friday']
         
-        if building is not None: # Must be escaped for O&M building
-            building = unescape(course_data['meetingTime']['building'])
-    except Exception as e:
-            print(str(e) + " accessing meeting time failed")
+        _starttime = meetingData['meetingTime']['beginTime']
+        _endtime = meetingData['meetingTime']['endTime']
+        
+        start_time = convert_meeting_time(_starttime)
+        end_time = convert_meeting_time(_endtime)
+        
+        building = meetingData['meetingTime']['building']
+        
+        if building is not None:
+            building = unescape(building)
         
     if monday:
         try:
@@ -200,6 +205,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
                 endtime = end_time
             )[0]
             _activity_instance.save()
+            print("wrote new monday")
         except Exception as e:
             print(str(e))
     elif tuesday:
@@ -212,6 +218,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
                 endtime = end_time
             )[0]
             _activity_instance.save()
+            print("wrote new tuesday")
         except Exception as e:
             print(str(e))
             
@@ -225,6 +232,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
                 endtime = end_time
             )[0]
             _activity_instance.save()
+            print("wrote new weds")
         except Exception as e:
             print(str(e))
     elif thursday:
@@ -237,6 +245,7 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
                 endtime = end_time
             )[0]
             _activity_instance.save()
+            print("wrote new thurs")
         except Exception as e:
             print(str(e))
     elif friday:
@@ -249,24 +258,26 @@ def parse_section(course_data, professor: models.Professor) -> Tuple[models.Sect
                 endtime = end_time
             )[0]
             _activity_instance.save()
+            print("wrote new fri")
         except Exception as e:
             print(str(e)) 
     else:
-        if _section.web:
-            start_time = convert_meeting_time('2000')
-            end_time = convert_meeting_time('2100')
-            
-            try:
+        try:
+            if _section.web:
+                start_time = convert_meeting_time('2000')
+                end_time = convert_meeting_time('2100')
+
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
                     location = "ONLINE",
                     day = "ONLINE",
-                    starttime = "ONLINE",
-                    endtime = "ONLINE"
+                    starttime = start_time,
+                    endtime = end_time
                 )[0]
                 _activity_instance.save()
-            except Exception as e:
-                print(str(e))
+                print("wrote new web")
+        except Exception as e:
+            print(str(e))
     return None
     
 def parse_instructor(course_data, dept) -> models.Professor:
@@ -292,12 +303,12 @@ def parse_instructor(course_data, dept) -> models.Professor:
         #f.close()
         
         new_name_array = name.split()
-        print(new_name_array)
+        #print(new_name_array)
         new_name_zero = new_name_array[0]
         new_name = new_name_array[len(new_name_array)-1] + " " + new_name_zero[0]
-        print(new_name)
+        #print(new_name)
         updated_name = new_name_array[0] + " " + new_name_array[len(new_name_array)-1]
-        print (updated_name)
+        #print (updated_name)
         
         try:
             prof = models.Professor.objects.get(name=new_name, dept=dept)[0]
@@ -308,6 +319,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
                 office = ""
             )[0]
             updated_prof.save()
+            print("wrote new prof")
             return updated_prof
         try:
             updated_prof = models.Professor.objects.get_or_create(
@@ -318,6 +330,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
             prof.delete()
             prof.save()
             updated_prof.save()
+            print("wrote to prof")
             
             #check = models.Professor.objects.get_or_create(name = updated_name)[0]
             #if check:
@@ -354,7 +367,8 @@ def parse_course(course_data: List,
 
     # Parse the instructor, then send the returned Instructor model to parse_section
     instructor_model = parse_instructor(course_data, dept)
-    section_data = parse_section(course_data, instructor_model)
+    section_data = parse_section(course_data)
+    #print("parsing a section")
 
     if instructor_model is not None and instructor_model not in instructors_set:
         instructors_set.add(instructor_model)
@@ -362,17 +376,6 @@ def parse_course(course_data: List,
         # Set it to None so that it doesn't get added to the list of instructors to save
         instructor_model = None
 
-    # Save course only if it hasn't already been created
-    #$%if course_id not in courses_set:
-    #$%    course_model = Course(id=course_id, dept=dept, course_num=course_number,
-    #$%                          title=title, credit_hours=credit_hours, term=term_code)
-    #$%    courses_set.add(course_id)
-    #$%    return (course_model, instructor_model, section_data)
-    
-    #f = open("debug.txt", "a")
-    #f.write("wtf is going on")
-    #f.close()
-    
     return (None, instructor_model, section_data)    
 
 def parse_all_courses(course_list, term: str, courses_set: set,
@@ -387,9 +390,12 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     
     dept_name = course_list[0].get('subject', '') if course_list else ''
 
-    #print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
-
-    return (parse_course(course, courses_set, instructors_set) for course in course_list)
+    #print(course_list)
+    for course in course_list:
+        parse_course(course, courses_set, instructors_set) 
+    
+    print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
+    return None
     
 def get_course_data(  # pylint: disable=too-many-locals
         depts_terms,
@@ -414,20 +420,6 @@ def get_course_data(  # pylint: disable=too-many-locals
     courses = []
     
     #print(data_set)
-    
-    for course_data in data_set:
-        f = open("debug.txt", "a")
-        f.write("course data block start")
-        f.close()
-        for (course, instructor, (section, meetings_list)) in course_data:
-            if course is not None:
-                courses.append(course)
-            if instructor is not None:
-                instructors.append(instructor)
-
-            sections.append(section)
-            meetings.extend(meetings_list)
-
     return (instructors, sections, meetings, courses)    
 
 class Command(base.BaseCommand):
