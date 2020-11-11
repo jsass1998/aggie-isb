@@ -20,6 +20,6 @@ class Command(base.BaseCommand):
         else:
             management.call_command('scrape_courses')
             management.call_command('scrape_grades')
-            management.call_command('scrape_dept_rev')
+            management.call_command('scrape_depts_rev')
             management.call_command('scrape_courses_rev')
             management.call_command('UpdateProfessorRMPInfo')
