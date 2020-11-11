@@ -116,7 +116,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             )[0]
         _activity.save()
         
-        print("wrote new activity")
+        #print("wrote new activity")
     except Exception as e:
         print(str(e))
         
@@ -139,7 +139,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
         )[0]
         _course_prof.save()
         
-        print("wrote new course_prof")
+        #print("wrote new course_prof")
     except Exception as e:
         print(str(e))
         
@@ -157,7 +157,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             seats_taken = current_enrollment
         )[0]
         _section.save()
-        print("wrote new section")
+        #print("wrote new section")
     except Exception as e:
         print(str(e))
         
@@ -167,9 +167,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
     #meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
     
     ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
-    print("\r\n")
-    print(course_data)
-    print("\r\n")
+    #print("\r\n")
+    #print(course_data)
+    #print("\r\n")
     
     monday = False
     tuesday = False
@@ -205,7 +205,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 endtime = end_time
             )[0]
             _activity_instance.save()
-            print("wrote new monday")
+            #print("wrote new monday")
         except Exception as e:
             print(str(e))
     elif tuesday:
@@ -218,7 +218,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 endtime = end_time
             )[0]
             _activity_instance.save()
-            print("wrote new tuesday")
+            #print("wrote new tuesday")
         except Exception as e:
             print(str(e))
             
@@ -232,7 +232,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 endtime = end_time
             )[0]
             _activity_instance.save()
-            print("wrote new weds")
+            #print("wrote new weds")
         except Exception as e:
             print(str(e))
     elif thursday:
@@ -245,7 +245,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 endtime = end_time
             )[0]
             _activity_instance.save()
-            print("wrote new thurs")
+            #print("wrote new thurs")
         except Exception as e:
             print(str(e))
     elif friday:
@@ -258,7 +258,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 endtime = end_time
             )[0]
             _activity_instance.save()
-            print("wrote new fri")
+            #print("wrote new fri")
         except Exception as e:
             print(str(e)) 
     else:
@@ -275,7 +275,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new web")
+                #print("wrote new web")
         except Exception as e:
             print(str(e))
     return None
@@ -319,7 +319,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
                 office = ""
             )[0]
             updated_prof.save()
-            print("wrote new prof")
+            #print("wrote new prof")
             return updated_prof
         try:
             updated_prof = models.Professor.objects.get_or_create(
@@ -330,7 +330,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
             prof.delete()
             prof.save()
             updated_prof.save()
-            print("wrote to prof")
+            #print("wrote to prof")
             
             #check = models.Professor.objects.get_or_create(name = updated_name)[0]
             #if check:
