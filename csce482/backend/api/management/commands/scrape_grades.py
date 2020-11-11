@@ -7,6 +7,8 @@ from typing import List
 import bs4
 import os
 
+from decimal import *
+
 
 ROOT_URL = "http://web-as.tamu.edu/gradereport/"
 PDF_URL = "http://web-as.tamu.edu/gradereport/PDFReports/{}/grd{}{}.pdf"
@@ -116,19 +118,12 @@ class Command(base.BaseCommand):
                             
                             grades, (dept, course_num, section_num, prof_data), gpa = dist
                             total = gpa[0] + gpa[1] + gpa[2] + gpa[3] + gpa[4] + gpa[5]
-                            percentA = 100.0 * float(gpa[0])/float(total)
-                            percentB = 100.0 * float(gpa[1])/float(total)
-                            percentC = 100.0 * float(gpa[2])/float(total)
-                            percentD = 100.0 * float(gpa[3])/float(total)
-                            percentF = 100.0 * float(gpa[4])/float(total)
-                            percentQ = 100.0 * float(gpa[5])/float(total)
-                            
-                            print(percentA)
-                            print(percentB)
-                            print(percentC)
-                            print(percentD)
-                            print(percentF)
-                            print(percentQ)
+                            percentA = int(100.0 * float(gpa[0])/float(total))
+                            percentB = int(100.0 * float(gpa[1])/float(total))
+                            percentC = int(100.0 * float(gpa[2])/float(total))
+                            percentD = int(100.0 * float(gpa[3])/float(total))
+                            percentF = int(100.0 * float(gpa[4])/float(total))
+                            percentQ = int(100.0 * float(gpa[5])/float(total))
                             
                             try:
                                 ###course object
@@ -161,13 +156,22 @@ class Command(base.BaseCommand):
                                 new_course_prof = scraper_models.Course_Prof.objects.get_or_create(
                                    course = valid_course,
                                    professor = new_prof, 
-                                   percent_A = percentA,
-                                   percent_B = percentB, 
-                                   percent_C = percentC,
-                                   percent_D = percentD,
-                                   percent_F = percentF,
-                                   percent_Q = percentQ
                                 )[0]
+                                
+                                oldA = int(new_course_prof.percent_A)
+                                oldB = int(new_course_prof.percent_B)
+                                oldC = int(new_course_prof.percent_C)
+                                oldD = int(new_course_prof.percent_D)
+                                oldF = int(new_course_prof.percent_F)
+                                oldQ = int(new_course_prof.percent_Q)
+                                
+                                new_course_prof.percent_A = Decimal((percentA + oldA)/2)
+                                new_course_prof.percent_B = Decimal((percentB + oldB)/2)
+                                new_course_prof.percent_C = Decimal((percentC + oldC)/2)
+                                new_course_prof.percent_D = Decimal((percentD + oldD)/2)
+                                new_course_prof.percent_F = Decimal((percentF + oldF)/2)
+                                new_course_prof.percent_Q = Decimal((percentQ + oldQ)/2)
+                                
                                 new_course_prof.save()
                             except Exception as e:
                                 print(str(e) + " new_course_prof")
