@@ -44,7 +44,7 @@ class RateMyProfScraper:
 
     def SearchProfessor(self, ProfessorName):
         self.indexnumber = self.GetProfessorIndex(ProfessorName)
-        self.PrintProfessorInfo()
+        #self.PrintProfessorInfo()
         return self.indexnumber
 
     def GetProfessorIndex(self,ProfessorName):  # function searches for professor in list
@@ -59,10 +59,10 @@ class RateMyProfScraper:
         else:
             print(self.professorlist[self.indexnumber])
 
-    def WriteProfessorDetails(self, counter):  # print search professor's name and RMP score
+    def WriteProfessorDetails(self, yes_counter):  # print search professor's name and RMP score
         if self.indexnumber == False:
             print("Professor not found!")
-            return counter
+            return yes_counter
         else:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
             #print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
@@ -104,8 +104,8 @@ class RateMyProfScraper:
                             _overwrite_prof.save()
                         except:
                             continue
-                    counter = counter+1
-                    return counter
+                    yes_counter = yes_counter+1
+                    return yes_counter
             except Exception as e:
                 print(str(e))
 
@@ -113,13 +113,15 @@ class RateMyProfScraper:
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
         
-        counter = 0
+        yes_counter = 0
+        total = 0
         professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
         professors = [prof.name for prof in professors_queryset]
         print("Initializing Scraper... (may take a bit)")
         TAMU = RateMyProfScraper(1003) #1003 is tamus code
-        for professor in professors: 
+        for professor in professors:
+            total = total+1
             print("Scraping: " + professor)
             TAMU.SearchProfessor(professor)
-            counter = TAMU.WriteProfessorDetails(counter)
-        print("Total professors found: " + str(counter))
+            yes_counter = TAMU.WriteProfessorDetails(yes_counter)
+        print("Total professors found: " + str(yes_counter) + " Total professors not found: " + str(total - yes_counter))
