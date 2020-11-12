@@ -147,6 +147,12 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             return None
     if _course_prof:    
         try:
+            try:
+                new_section_number = int(section_number)
+                section_number = new_section_number
+            except:
+                new_section_number = section_number[1:2]
+                section_number = new_section_number
             _section = models.Section.objects.get_or_create(
                 activity = _activity,
                 course_prof = _course_prof,
