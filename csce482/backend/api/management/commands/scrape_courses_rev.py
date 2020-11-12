@@ -155,6 +155,21 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             except:
                 new_section_number = section_number[1:2]
                 section_number = new_section_number
+            #try:
+            #    term_desc = course_data['termDesc']
+            #    term_array = term_desc.split()
+            #    count_term = 0
+            #    for term in term_array:
+            #        count_term = count_term + 1
+            #        if term == "-":
+            #            campus = "" 
+            #            for i in range(count_term, len(term_array)-2):
+            #                campus = campus + term_array[count_term + 1]
+            #except:
+            #    campus = "No Campus"
+                        
+                        
+            ###*** ADD CAMPUS FIELD TO SECTION MODEL WHEN MIGRATION COMPLETE ***###            
             _section = models.Section.objects.get_or_create(
                 activity = _activity,
                 course_prof = _course_prof,
@@ -424,7 +439,7 @@ def parse_all_courses(course_list, term: str, courses_set: set,
         time.sleep(1)
         parse_course(course, courses_set, instructors_set) 
     
-    #print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
+    print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
     return None
     
 def get_course_data(  # pylint: disable=too-many-locals
