@@ -1,5 +1,6 @@
 from django.core import management
 from django.core.management import base
+import time
 
 class Command(base.BaseCommand):
 
@@ -10,7 +11,9 @@ class Command(base.BaseCommand):
     def handle(self, *args, **options):
         if options['CoursesRecent']:
             management.call_command('scrape_depts_rev')
+            time.sleep(60)
             management.call_command('scrape_courses_rev')
+            time.sleep(60)
             management.call_command('UpdateProfessorRMPInfo')
             
         elif options['OneCommand']:
@@ -18,8 +21,18 @@ class Command(base.BaseCommand):
             management.call_command(command)
             
         else:
+            start = time.time()
             management.call_command('scrape_courses')
+            time.sleep(60)
             management.call_command('scrape_grades')
+            time.sleep(60)
             management.call_command('scrape_depts_rev')
+            time.sleep(60)
             management.call_command('scrape_courses_rev')
+            time.sleep(60)
             management.call_command('UpdateProfessorRMPInfo')
+            end = time.time()
+            
+            seconds_elapsed = int(end - start)
+            time_delta = datetime.timedelta(seconds=seconds_elapsed)
+            print(f"Finished scraping in {time_delta/60} minutes")

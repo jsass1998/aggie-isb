@@ -29,22 +29,22 @@ from .serializers import AppUserSerializer
 #    serializer_class = ScheduleSerializer
 
 class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all().order_by('course_id')
+    queryset = Course.objects.all().order_by('course_id')[:100]
     serializer_class = CourseSerializer
 
 class ProfessorViewSet(viewsets.ModelViewSet):
-    queryset = Professor.objects.all().order_by('id')
+    queryset = Professor.objects.all().order_by('id')[:100]
     serializer_class = ProfessorSerializer
 
 class CourseProfViewSet(viewsets.ModelViewSet):
-    queryset = Course_Prof.objects.all().order_by('id')
+    queryset = Course_Prof.objects.all().order_by('id')[:100]
     serializer_class = CourseProfSerializer
 
 class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
     
     def get_queryset(self):
-        queryset = Activity.objects.all().order_by('id')
+        queryset = Activity.objects.all().order_by('id')[:100]
         course_param = self.request.query_params.get('course', None)
         term_param = self.request.query_params.get('term', None)
         if (course_param is not None):
@@ -57,15 +57,15 @@ class ActivityViewSet(viewsets.ModelViewSet):
         return queryset
 
 class SectionViewSet(viewsets.ModelViewSet):
-    queryset = Section.objects.all().order_by('activity')
+    queryset = Section.objects.all().order_by('activity')[:100]
     serializer_class = SectionSerializer
 
 class ScheduleViewSet(viewsets.ModelViewSet):
-    queryset = Schedule.objects.all().order_by('id')
+    queryset = Schedule.objects.all().order_by('id')[:100]
     serializer_class = ScheduleSerializer
 
 class ActivityInstanceViewSet(viewsets.ModelViewSet):
-    queryset = Activity_Instance.objects.all().order_by('id')
+    queryset = Activity_Instance.objects.all().order_by('id')[:100]
     serializer_class = ActivityInstanceSerializer
 
 class AppUserViewSet(viewsets.ModelViewSet):

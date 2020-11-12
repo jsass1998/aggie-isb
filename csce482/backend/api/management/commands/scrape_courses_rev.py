@@ -115,57 +115,55 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             term = term_code
             )[0]
         _activity.save()
-        
-        #print("wrote new activity")
+        print("wrote new activity")
     except Exception as e:
         print(str(e))
-        
-    for faculty_data in course_data['faculty']:
-        # We only care about the primary instructor, so skip all of the other ones
-        if not faculty_data['primaryIndicator']:
-            continue
+        return None
+    if _activity:    
+        try:
+            for faculty_data in course_data['faculty']:
+            # We only care about the primary instructor, so skip all of the other ones
+                if not faculty_data['primaryIndicator']:
+                    continue
+                name = faculty_data.get("displayName")
+                if name is None:
+                    name = "None"
 
-        name = faculty_data.get("displayName")
-
-        if name is None:
-            name = "None"
-
-    try:
-        _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
-        _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
-        _course_prof = models.Course_Prof.objects.get_or_create(
-            course = _course,
-            professor = _prof
-        )[0]
-        _course_prof.save()
-        
-        #print("wrote new course_prof")
-    except Exception as e:
-        print(str(e))
-        
-    try:
-        _section = models.Section.objects.get_or_create(
-            activity = _activity,
-            course_prof = _course_prof,
-            term = term_code,
-            section_num = section_number,
-            crn = crn,
-            credit_hours = min_credits,
-            honors = honors,
-            web = web,
-            total_seats = max_enrollment,
-            seats_taken = current_enrollment
-        )[0]
-        _section.save()
-        #print("wrote new section")
-    except Exception as e:
-        print(str(e))
-        
-    #meetings = (parse_meeting(meetings_data, section_model, i)
-    #        for i, meetings_data in enumerate(course_data['meetingsFaculty']))    
+            _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
+            try:
+                _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
+            except:
+                _prof = models.Professor.objects.get_or_create(name = "TBD")[0]
+            _course_prof = models.Course_Prof.objects.get_or_create(
+                course = _course,
+                professor = _prof
+            )[0]
+            _course_prof.save()
             
-    #meeting_id = generate_meeting_id(section_id, str(meeting_count)) 
-    
+            print("wrote new course_prof")
+        except Exception as e:
+            print(str(e))
+            return None
+    if _course_prof:    
+        try:
+            _section = models.Section.objects.get_or_create(
+                activity = _activity,
+                course_prof = _course_prof,
+                term = term_code,
+                section_num = section_number,
+                crn = crn,
+                credit_hours = min_credits,
+                honors = honors,
+                web = web,
+                total_seats = max_enrollment,
+                seats_taken = current_enrollment
+            )[0]
+            _section.save()
+            print("wrote new section")
+        except Exception as e:
+            print(str(e))
+            return None
+        
     ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
     #print("\r\n")
     #print(course_data)
@@ -177,107 +175,124 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
     thursday = False
     friday = False
     
-    for meetingData in course_data['meetingsFaculty']:
-        monday = meetingData['meetingTime']['monday']
-        tuesday = meetingData['meetingTime']['tuesday']
-        wednesday = meetingData['meetingTime']['wednesday']
-        thursday = meetingData['meetingTime']['thursday']
-        friday = meetingData['meetingTime']['friday']
-        
-        _starttime = meetingData['meetingTime']['beginTime']
-        _endtime = meetingData['meetingTime']['endTime']
-        
-        start_time = convert_meeting_time(_starttime)
-        end_time = convert_meeting_time(_endtime)
-        
-        building = meetingData['meetingTime']['building']
-        
-        if building is not None:
-            building = unescape(building)
-        
-    if monday:
-        try:
-            _activity_instance = models.Activity_Instance.objects.get_or_create(
-                activity = _activity,
-                location = building,
-                day = "monday",
-                starttime = start_time,
-                endtime = end_time
-            )[0]
-            _activity_instance.save()
-            #print("wrote new monday")
-        except Exception as e:
-            print(str(e))
-    elif tuesday:
-        try:
-            _activity_instance = models.Activity_Instance.objects.get_or_create(
-                activity = _activity,
-                location = building,
-                day = "tuesday",
-                starttime = start_time,
-                endtime = end_time
-            )[0]
-            _activity_instance.save()
-            #print("wrote new tuesday")
-        except Exception as e:
-            print(str(e))
+    if _section:
+        for meetingData in course_data['meetingsFaculty']:
+            monday = meetingData['meetingTime']['monday']
+            tuesday = meetingData['meetingTime']['tuesday']
+            wednesday = meetingData['meetingTime']['wednesday']
+            thursday = meetingData['meetingTime']['thursday']
+            friday = meetingData['meetingTime']['friday']
             
-    elif wednesday:
-        try:
-            _activity_instance = models.Activity_Instance.objects.get_or_create(
-                activity = _activity,
-                location = building,
-                day = "wednesday",
-                starttime = start_time,
-                endtime = end_time
-            )[0]
-            _activity_instance.save()
-            #print("wrote new weds")
-        except Exception as e:
-            print(str(e))
-    elif thursday:
-        try:
-            _activity_instance = models.Activity_Instance.objects.get_or_create(
-                activity = _activity,
-                location = building,
-                day = "thursday",
-                starttime = start_time,
-                endtime = end_time
-            )[0]
-            _activity_instance.save()
-            #print("wrote new thurs")
-        except Exception as e:
-            print(str(e))
-    elif friday:
-        try:
-            _activity_instance = models.Activity_Instance.objects.get_or_create(
-                activity = _activity,
-                location = building,
-                day = "friday",
-                starttime = start_time,
-                endtime = end_time
-            )[0]
-            _activity_instance.save()
-            #print("wrote new fri")
-        except Exception as e:
-            print(str(e)) 
-    else:
-        try:
-            if _section.web:
+            _starttime = meetingData['meetingTime']['beginTime']
+            _endtime = meetingData['meetingTime']['endTime']
+            
+            if _starttime is not None:
+                start_time = convert_meeting_time(_starttime)
+            else:
                 start_time = convert_meeting_time('2000')
-                end_time = convert_meeting_time('2100')
-
+                
+            if _endtime is not None:
+                end_time = convert_meeting_time(_endtime)
+            else:
+                start_time = convert_meeting_time('2100')    
+            
+            
+            building = meetingData['meetingTime']['building']
+            
+            if building is not None:
+                building = unescape(building)
+            else:
+                building = "None"
+            
+        if monday:
+            try:
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
-                    location = "ONLINE",
-                    day = "ONLINE",
+                    location = building,
+                    day = "monday",
                     starttime = start_time,
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new web")
-        except Exception as e:
-            print(str(e))
+                print("wrote new monday")
+            except Exception as e:
+                print(str(e))
+                return None
+        elif tuesday:
+            try:
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = building,
+                    day = "tuesday",
+                    starttime = start_time,
+                    endtime = end_time
+                )[0]
+                _activity_instance.save()
+                print("wrote new tuesday")
+            except Exception as e:
+                print(str(e))
+                return None
+                
+        elif wednesday:
+            try:
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = building,
+                    day = "wednesday",
+                    starttime = start_time,
+                    endtime = end_time
+                )[0]
+                _activity_instance.save()
+                print("wrote new weds")
+            except Exception as e:
+                print(str(e))
+                return None
+        elif thursday:
+            try:
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = building,
+                    day = "thursday",
+                    starttime = start_time,
+                    endtime = end_time
+                )[0]
+                _activity_instance.save()
+                print("wrote new thurs")
+            except Exception as e:
+                print(str(e))
+                return None
+        elif friday:
+            try:
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = building,
+                    day = "friday",
+                    starttime = start_time,
+                    endtime = end_time
+                )[0]
+                _activity_instance.save()
+                print("wrote new fri")
+            except Exception as e:
+                print(str(e)) 
+                return None
+        else:
+            try:
+                if _section.web:
+                    start_time = convert_meeting_time('2000')
+                    end_time = convert_meeting_time('2100')
+
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = "ONLINE",
+                        day = "ONLINE",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                    print("wrote new web")
+            except Exception as e:
+                print(str(e))
+                return None
     return None
     
 def parse_instructor(course_data, dept) -> models.Professor:
@@ -350,7 +365,8 @@ def parse_course(course_data: List,
     """ Creates Course model and saves it to the databsae.
         Calls parse_instructor and parse_section
     """
-    #print("parse course begin")
+    print(course_data)
+    
     dept = course_data['subject']
     course_number = course_data['courseNumber']
     term_code = course_data['term']
@@ -391,7 +407,9 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     dept_name = course_list[0].get('subject', '') if course_list else ''
 
     #print(course_list)
+    time.sleep(5)
     for course in course_list:
+        time.sleep(1)
         parse_course(course, courses_set, instructors_set) 
     
     print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
@@ -409,16 +427,25 @@ def get_course_data(  # pylint: disable=too-many-locals
     loop = asyncio.get_event_loop()
 
     start = time.time()
-    data_set = loop.run_until_complete(banner.search(depts_terms, sem,
-                                                     parse_all_courses))
-    print(f"Downloaded and scraped {len(data_set)} departments data in"
-          f" {time.time() - start:.2f} seconds")
-
-    instructors = []
-    sections = []
-    meetings = []
-    courses = []
+    counter = 0
+    while True:
+        try:
+            data_set = loop.run_until_complete(banner.search(depts_terms, sem,
+                                                         parse_all_courses))
+            print(f"Downloaded and scraped {len(data_set)} departments data in"
+                f" {time.time() - start:.2f} seconds")
+            instructors = []
+            sections = []
+            meetings = []
+            courses = []
     
+            #print(data_set)
+            return (instructors, sections, meetings, courses)
+        except:
+            counter = counter+1
+            print("On Attempt: " + str(counter))
+            continue
+            
     #print(data_set)
     return (instructors, sections, meetings, courses)    
 
