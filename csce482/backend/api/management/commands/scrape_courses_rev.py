@@ -116,9 +116,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             term = term_code
             )[0]
         _activity.save()
-        print("wrote new activity")
+        #print("wrote new activity")
     except Exception as e:
-        print(str(e))
+        #print(str(e))
         return None
     if _activity:    
         try:
@@ -129,21 +129,22 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 name = faculty_data.get("displayName")
                 if name is None:
                     name = "TBD"
+                    #print("name is TBD")
 
             _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
             try:
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
-                print("prof failed")
+                #print("prof failed")
             _course_prof = models.Course_Prof.objects.get_or_create(
                 course = _course,
                 professor = _prof
             )[0]
             _course_prof.save()
             
-            print("wrote new course_prof")
+            #print("wrote new course_prof")
         except Exception as e:
-            print(str(e))
+            #print(str(e))
             return None
     if _course_prof:    
         try:
@@ -166,9 +167,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 seats_taken = current_enrollment
             )[0]
             _section.save()
-            print("wrote new section")
+            #print("wrote new section")
         except Exception as e:
-            print(str(e))
+            #print(str(e))
             return None
         
     ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
@@ -221,9 +222,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new monday")
+                #print("wrote new monday")
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 return None
         if tuesday:
             try:
@@ -235,9 +236,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new tuesday")
+                #print("wrote new tuesday")
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 return None
                 
         if wednesday:
@@ -250,9 +251,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new weds")
+                #print("wrote new weds")
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 return None
         if thursday:
             try:
@@ -264,9 +265,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new thurs")
+                #print("wrote new thurs")
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 return None
         if friday:
             try:
@@ -278,9 +279,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new fri")
+                #print("wrote new fri")
             except Exception as e:
-                print(str(e)) 
+                #print(str(e)) 
                 return None
         if _section.web and not monday and not tuesday and not wednesday and not thursday and not friday:
             try:
@@ -295,9 +296,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                print("wrote new web")
+                #print("wrote new web")
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 return None
     return None
     
@@ -358,9 +359,10 @@ def parse_instructor(course_data, dept) -> models.Professor:
             #    print("true: " + check.name)
             #else:
             #    print("false: " + prof.name)
-            return updated_prof
+            #return updated_prof
         except Exception as e:
-            print(str(e))
+            #print(str(e))
+
 
     return None  #I DO NOT KNOW WHAT TO RETURN HERE. FUTURE JOSH PROBLEM :)  
     
@@ -371,7 +373,7 @@ def parse_course(course_data: List,
     """ Creates Course model and saves it to the databsae.
         Calls parse_instructor and parse_section
     """
-    print(course_data)
+    #print(course_data)
     
     dept = course_data['subject']
     course_number = course_data['courseNumber']
@@ -420,7 +422,7 @@ def parse_all_courses(course_list, term: str, courses_set: set,
         time.sleep(1)
         parse_course(course, courses_set, instructors_set) 
     
-    print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
+    #print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
     return None
     
 def get_course_data(  # pylint: disable=too-many-locals
@@ -450,7 +452,7 @@ def get_course_data(  # pylint: disable=too-many-locals
             #print(data_set)
             return (instructors, sections, meetings, courses)
         except Exception as e:
-            print(str(e))
+            #print(str(e))
             counter = counter+1
             print("On Attempt: " + str(counter))
             continue
