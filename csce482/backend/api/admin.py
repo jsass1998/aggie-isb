@@ -7,6 +7,7 @@ from .models import Activity
 from .models import Section
 from .models import Schedule
 from .models import Activity_Instance
+from .models import Term_Location
 
 admin.site.register(Course)
 admin.site.register(Professor)
@@ -15,3 +16,4 @@ admin.site.register(Activity)
 admin.site.register(Section)
 admin.site.register(Schedule)
 admin.site.register(Activity_Instance)
+admin.site.register(Term_Location)

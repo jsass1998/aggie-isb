@@ -1,0 +1,73 @@
+#side-panel {
+    position: absolute;
+    margin-top: -5vh;
+    margin-left: -31vw;
+    height: var(--sidepanel-height);
+    width: 45vw;
+    z-index: 1;
+    transition: margin-left 0.75s;
+    background-color: white;
+}
+
+#course-selection-panel {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding-top: 50px;
+    padding-left: 45px;
+    padding-right: 30px;
+    overflow-x: hidden;
+}
+
+#course-selection-panel > * {
+    width: 85%;
+    max-width: -webkit-fill-available;
+    max-width: -moz-available;
+}
+
+#schedule-list-panel {
+    height: 100%;
+    display: flex;
+}
+
+#schedule-list {
+    width: 100%;
+    height: var(--sidepanel-height);
+    background-color: #e1e1e1;
+    overflow-y: auto;
+}
+
+.schedule {
+    min-width: 50px;
+    margin: 10px
+}
+
+#empty-schedule-message {
+    position: relative;
+    top: 35%;
+    width: 75%;
+    margin: auto;
+    color: #808080;
+    font-size: 2vw;
+}
+
+#panel-expansion-button {
+    height: 100%;
+    width: 25px;
+    margin-left: 1vw;
+    background-color: var(--maroon);
+}
+
+#panel-expansion-button:hover {
+    background-color: #300000;
+}
+
+#panel-expansion-button-icon {
+    margin-top: 45vh;
+    transform: rotate(0deg);
+    color: white;
+}
+
+.side-panel-column {
+    height: 100%;
+}

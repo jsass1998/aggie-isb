@@ -6,6 +6,10 @@ import { GOOGLE_CLIENT_ID } from "../utils/constants";
 class TopBar extends Component {
     constructor(props) {
         super(props);
+        let user = localStorage.getItem('user');
+        this.state = {
+          userName: user? user: 'Sign in',
+        };
     }
 
     // TODO: Update Sign In button text with user name after authentication
@@ -16,15 +20,23 @@ class TopBar extends Component {
           access_token: token.accessToken,
         }
       );
-      console.log(res);
-      if (res.data.key)
+
+      // Maybe unnecessary?
+      if (res.data.key) {
         localStorage.setItem('api_key', res.data.key);
-      return res.status;
+      }
+      localStorage.setItem('user', token.profileObj.name);
+      localStorage.setItem('email', token.profileObj.email);
+
+      this.setState({
+        userName: token.profileObj.name, // Kind of cheap, should try to fetch automatically if user has already signed in before
+      });
+      this.props.updateUserData({email: token.profileObj.email});
     }
 
     render() {
         const googleErrorResponse = (response) => {
-          console.log(response);
+          console.error(response);
         }
         return(
             <div className='aisb-topbar aisb-card'>
@@ -33,8 +45,8 @@ class TopBar extends Component {
                 <div id='sign-in'>
                     <GoogleLogin
                       clientId={GOOGLE_CLIENT_ID}
-                      buttonText="Sign in"
-                      onSuccess={this.signInUser}
+                      buttonText={this.state.userName}
+                      onSuccess={this.signInUser.bind(this)}
                       onFailure={googleErrorResponse}
                     />
                 </div>

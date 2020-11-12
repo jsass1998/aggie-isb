@@ -3,6 +3,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
+import PropTypes from 'prop-types';
 import {
   Dialog,
   DialogActions,
@@ -21,10 +22,15 @@ function PopUpDialog(props) {
       </DialogContent>
       <DialogActions>
         <FormGroup row>
-          <FormControlLabel
-            control={<Checkbox checked={checked} color='primary' onChange={() => { setChecked(!checked); props.handleCheckChanged()}} name='showAgain' />}
-            label={'Don\'t show again'}
-          />
+          { props.showCheckbox &&
+            <FormControlLabel
+              control={<Checkbox checked={checked} color='primary' onChange={() => {
+                setChecked(!checked);
+                props.handleCheckChanged(!checked)
+              }} name='showAgain'/>}
+              label={props.checkboxText}
+            />
+          }
           <Button onClick={props.onClose}>
             Close
           </Button>
@@ -32,6 +38,13 @@ function PopUpDialog(props) {
       </DialogActions>
     </Dialog>
   );
+}
+
+PopUpDialog.propTypes = {
+  active: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  showCheckbox: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default PopUpDialog;

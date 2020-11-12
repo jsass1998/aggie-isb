@@ -6,6 +6,7 @@ from .models import Activity
 from .models import Section
 from .models import Schedule
 from .models import Activity_Instance
+from .models import Term_Location
 from users.models import User
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -70,6 +71,7 @@ class SectionSerializer(serializers.ModelSerializer):
             'section_num',
             'crn',
             'credit_hours',
+            'campus',
             'honors',
             'web',
             'total_seats',
@@ -109,8 +111,27 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'activities',
+            'term',
+            'campus',
+            'avg_starttime',
+            'avg_endtime',
+            'avg_day_length',
+            'num_free_days',
+            'free_on_monday',
+            'free_on_tuesday',
+            'free_on_wednesday',
+            'free_on_thursday',
+            'free_on_friday',
         )
         model = Schedule
+
+class TermLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'term',
+            'location',
+        )
+        model = Term_Location
 
 class AppUserSerializer(serializers.ModelSerializer):
     schedule_set = ScheduleSerializer(many=True)

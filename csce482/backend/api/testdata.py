@@ -5,6 +5,7 @@ from api.models import Activity
 from api.models import Section
 from api.models import Schedule
 from api.models import Activity_Instance
+from api.models import Term_Location
 from users.models import User
 
 course1, created = Course.objects.get_or_create(
@@ -144,6 +145,7 @@ activity6.save()
 
 section1, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity1,
     course_prof = course_prof1,
     section_num = 900,
@@ -154,6 +156,7 @@ section1, created = Section.objects.get_or_create(
 section1.save()
 section2, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity2,
     course_prof = course_prof2,
     section_num = 500,
@@ -164,6 +167,7 @@ section2, created = Section.objects.get_or_create(
 section2.save()
 section3, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity3,
     course_prof = course_prof3,
     section_num = 500,
@@ -174,6 +178,7 @@ section3, created = Section.objects.get_or_create(
 section3.save()
 section4, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity5,
     course_prof = course_prof4,
     section_num = 901,
@@ -184,6 +189,7 @@ section4, created = Section.objects.get_or_create(
 section4.save()
 section5, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity6,
     course_prof = course_prof5,
     section_num = 930,
@@ -343,4 +349,29 @@ act_inst18, created = Activity_Instance.objects.get_or_create(
     day = "THU",
     starttime = "14:30:00",
     endtime = "17:00:00"
+)
+
+term_loc1, created = Term_Location.objects.get_or_create(
+    term = "FALL 2020",
+    location = "College Station"
+)
+term_loc2, created = Term_Location.objects.get_or_create(
+    term = "SPRING 2021",
+    location = "College Station"
+)
+term_loc3, created = Term_Location.objects.get_or_create(
+    term = "SUMMER 2021",
+    location = "College Station"
+)
+term_loc4, created = Term_Location.objects.get_or_create(
+    term = "FALL 2020",
+    location = "Galveston"
+)
+term_loc5, created = Term_Location.objects.get_or_create(
+    term = "SPRING 2021",
+    location = "Galveston"
+)
+term_loc6, created = Term_Location.objects.get_or_create(
+    term = "SUMMER 2021",
+    location = "Qatar"
 )

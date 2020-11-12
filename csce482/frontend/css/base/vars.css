@@ -1,6 +1,9 @@
 :root {
     /* Colors */
     --maroon: #500000;
+    --maroon-light: #800000;
     --white: #FFFFFF;
     --grey: #c1c1c1;
+    /* Sizes & Lengths */
+    --sidepanel-height: 93.6vh;
 }
