@@ -44,7 +44,7 @@ class RateMyProfScraper:
 
     def SearchProfessor(self, ProfessorName):
         self.indexnumber = self.GetProfessorIndex(ProfessorName)
-        self.PrintProfessorInfo()
+        #self.PrintProfessorInfo()
         return self.indexnumber
 
     def GetProfessorIndex(self,ProfessorName):  # function searches for professor in list
@@ -55,64 +55,73 @@ class RateMyProfScraper:
 
     def PrintProfessorInfo(self):  # print search professor's name and RMP score
         if self.indexnumber == False:
-            print("error")
+            return None
         else:
             print(self.professorlist[self.indexnumber])
 
-    def WriteProfessorDetails(self):  # print search professor's name and RMP score
+    def WriteProfessorDetails(self, yes_counter):  # print search professor's name and RMP score
         if self.indexnumber == False:
-            print("error")
-            return "error"
+            print("Professor not found!")
+            return yes_counter
         else:
             RMP_link = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + str(self.professorlist[self.indexnumber]["tid"])
-            print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
-            
+            #print(str(self.professorlist[self.indexnumber]["overall_rating"]) + " " + str(self.professorlist[self.indexnumber]["rating_class"]) + " " + str(self.professorlist[self.indexnumber]["tNumRatings"]) + " " + str(RMP_link))
+            print("Professor found!")
             #write to DB here
             prof_json = self.professorlist[self.indexnumber]
             prof_fname = str(prof_json['tFname'])
             prof_lname = str(prof_json['tLname'])
             prof_name = prof_fname + " " + prof_lname
-            prof_overall_rating = decimal.Decimal(prof_json["overall_rating"])
+            try:
+                prof_overall_rating = decimal.Decimal(prof_json["overall_rating"])
+            except: 
+                prof_overall_rating = 0.0
             prof_rating_class = str(prof_json['rating_class'])
             prof_num_ratings = int(prof_json['tNumRatings'])
             prof_rmp_link = str(RMP_link)
+            
+            try:
+                overwrite_prof = Professor.objects.filter(
+                    name = prof_name
+                )
+                
+                if overwrite_prof.exists():
+                    for prof in overwrite_prof:
+                        try:
+                            try:
+                                prof_overall_rating = decimal.Decimal(prof_json["overall_rating"])
+                            except: 
+                                prof_overall_rating = 0.0
+                            prof_rating_class = str(prof_json['rating_class'])
+                            prof_num_ratings = int(prof_json['tNumRatings'])
+                            prof_rmp_link = str(RMP_link)
+                            
+                            _overwrite_prof = overwrite_prof[prof]
+                            _overwrite_prof.overall_rating = prof_overall_rating
+                            _overwrite_prof.rating_class = prof_rating_class
+                            _overwrite_prof.num_ratings = prof_num_ratings
+                            _overwrite_prof.rmp_link = prof_rmp_link
+                            _overwrite_prof.save()
+                        except:
+                            continue
+                    yes_counter = yes_counter+1
+                    return yes_counter
+            except Exception as e:
+                print(str(e))
 
-            overwrite_prof = Professor.objects.get(
-                name = prof_name
-            )
-
-            overwrite_prof.overall_rating = prof_overall_rating
-            overwrite_prof.rating_class = prof_rating_class
-            overwrite_prof.num_ratings = prof_num_ratings
-            overwrite_prof.rmp_link = prof_rmp_link
-            overwrite_prof.save()
-            #print("Prof object get and/or prof write to db failed")
-           
-            #try:
-            #    overwrite_prof = Professor.objects.get(
-            #        name = str(self.professorlist[self.indexnumber]['tFname'] + " " + self.professorlist[self.indexnumber]['tLname'])
-            #    )[0]
-            #    
-            #    overwrite_prof.overall_rating = str(self.professorlist[self.indexnumber]["overall_rating"])
-            #    overwrite_prof.rating_class   = str(self.professorlist[self.indexnumber]["rating_class"])
-            #    overwrite_prof.tNumRatings    = str(self.professorlist[self.indexnumber]["tNumRatings"])
-            #    overwrite_prof.RMP_link       = str(RMP_link)
-            #    
-            #    overwrite_prof.save()
-            #except:
-            #    print("prof object get and/or prof write to db failed")
 
 class Command(base.BaseCommand):
     def handle(self, *args, **options):
-        #professors = ["Tracy Hammond"] #access db for professor list
+        
+        yes_counter = 0
+        total = 0
         professors_queryset = Professor.objects.all() #for handling of actual professor objects instead of string
-        #professors = list(professors_queryset) #this needs to be tested, unexpected behavior can happen but idk #for handling of actual professor objects instead of string
         professors = [prof.name for prof in professors_queryset]
         print("Initializing Scraper... (may take a bit)")
         TAMU = RateMyProfScraper(1003) #1003 is tamus code
-        for professor in professors: 
+        for professor in professors:
+            total = total+1
             print("Scraping: " + professor)
-            #print("Scraping: " + professor.name) #for handling of actual professor objects instead of string
             TAMU.SearchProfessor(professor)
-            #TAMU.SearchProfessor(professor.name) #for handling of actual professor objects instead of string
-            TAMU.WriteProfessorDetails()
+            yes_counter = TAMU.WriteProfessorDetails(yes_counter)
+        print("Total professors found: " + str(yes_counter) + " Total professors not found: " + str(total - yes_counter))
