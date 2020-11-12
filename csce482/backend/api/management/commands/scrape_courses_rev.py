@@ -3,6 +3,7 @@ import asyncio
 from html import unescape
 import time
 import datetime
+import random
 from itertools import groupby
 from typing import List, Tuple
 from django.core.management import base
@@ -218,7 +219,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             except Exception as e:
                 print(str(e))
                 return None
-        elif tuesday:
+        if tuesday:
             try:
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
@@ -233,7 +234,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 print(str(e))
                 return None
                 
-        elif wednesday:
+        if wednesday:
             try:
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
@@ -247,7 +248,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             except Exception as e:
                 print(str(e))
                 return None
-        elif thursday:
+        if thursday:
             try:
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
@@ -261,7 +262,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             except Exception as e:
                 print(str(e))
                 return None
-        elif friday:
+        if friday:
             try:
                 _activity_instance = models.Activity_Instance.objects.get_or_create(
                     activity = _activity,
@@ -275,21 +276,20 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             except Exception as e:
                 print(str(e)) 
                 return None
-        else:
+        if _section.web and not monday and not tuesday and not wednesday and not thursday and not friday:
             try:
-                if _section.web:
-                    start_time = convert_meeting_time('2000')
-                    end_time = convert_meeting_time('2100')
+                start_time = convert_meeting_time('2000')
+                end_time = convert_meeting_time('2100')
 
-                    _activity_instance = models.Activity_Instance.objects.get_or_create(
-                        activity = _activity,
-                        location = "ONLINE",
-                        day = "ONLINE",
-                        starttime = start_time,
-                        endtime = end_time
-                    )[0]
-                    _activity_instance.save()
-                    print("wrote new web")
+                _activity_instance = models.Activity_Instance.objects.get_or_create(
+                    activity = _activity,
+                    location = "ONLINE",
+                    day = "ONLINE",
+                    starttime = start_time,
+                    endtime = end_time
+                )[0]
+                _activity_instance.save()
+                print("wrote new web")
             except Exception as e:
                 print(str(e))
                 return None
@@ -406,6 +406,8 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     
     dept_name = course_list[0].get('subject', '') if course_list else ''
 
+    random.shuffle(course_list)
+    
     #print(course_list)
     time.sleep(5)
     for course in course_list:
