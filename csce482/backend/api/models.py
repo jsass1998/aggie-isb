@@ -9,10 +9,14 @@ class Course(models.Model):
     def __str__(self):
         return self.course_id
 
-    def get_sections(self, t):
+    def get_sections(self, term, campus):
         sections=[]
         for cp in self.course_prof_set.all():
-            for s in cp.section_set.all().filter(term__exact = t):
+            section_qset = cp.section_set.all().filter(
+                term__exact = term,
+                campus__exact = campus
+            )
+            for s in section_qset:
                 sections = sections + [s.activity]
         return sections
 

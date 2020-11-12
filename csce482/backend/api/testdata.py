@@ -145,6 +145,7 @@ activity6.save()
 
 section1, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity1,
     course_prof = course_prof1,
     section_num = 900,
@@ -155,6 +156,7 @@ section1, created = Section.objects.get_or_create(
 section1.save()
 section2, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity2,
     course_prof = course_prof2,
     section_num = 500,
@@ -165,6 +167,7 @@ section2, created = Section.objects.get_or_create(
 section2.save()
 section3, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity3,
     course_prof = course_prof3,
     section_num = 500,
@@ -175,6 +178,7 @@ section3, created = Section.objects.get_or_create(
 section3.save()
 section4, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity5,
     course_prof = course_prof4,
     section_num = 901,
@@ -185,6 +189,7 @@ section4, created = Section.objects.get_or_create(
 section4.save()
 section5, created = Section.objects.get_or_create(
     term = "FALL 2020",
+    campus = "College Station",
     activity = activity6,
     course_prof = course_prof5,
     section_num = 930,
