@@ -443,7 +443,8 @@ def get_course_data(  # pylint: disable=too-many-locals
     
             #print(data_set)
             return (instructors, sections, meetings, courses)
-        except:
+        except Exception as e:
+            print(str(e))
             counter = counter+1
             print("On Attempt: " + str(counter))
             continue
