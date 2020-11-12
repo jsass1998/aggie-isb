@@ -128,13 +128,13 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     continue
                 name = faculty_data.get("displayName")
                 if name is None:
-                    name = "None"
+                    name = "TBD"
 
             _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
             try:
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
-                _prof = models.Professor.objects.get_or_create(name = "TBD")[0]
+                print("prof failed")
             _course_prof = models.Course_Prof.objects.get_or_create(
                 course = _course,
                 professor = _prof
