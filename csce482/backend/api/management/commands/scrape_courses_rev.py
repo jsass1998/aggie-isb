@@ -136,6 +136,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
                 #print("prof failed")
+                statement = 5
             _course_prof = models.Course_Prof.objects.get_or_create(
                 course = _course,
                 professor = _prof
@@ -362,6 +363,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
             #return updated_prof
         except Exception as e:
             #print(str(e))
+            statement = 5
 
 
     return None  #I DO NOT KNOW WHAT TO RETURN HERE. FUTURE JOSH PROBLEM :)  
