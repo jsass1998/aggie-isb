@@ -159,15 +159,16 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             #    term_desc = course_data['termDesc']
             #    term_array = term_desc.split()
             #    count_term = 0
+            #    campus = "" 
             #    for term in term_array:
             #        count_term = count_term + 1
             #        if term == "-":
-            #            campus = "" 
             #            for i in range(count_term, len(term_array)-2):
             #                campus = campus + term_array[count_term + 1]
+            #    if campus == "":
+            #        campus = "No Campus"
             #except:
             #    campus = "No Campus"
-                        
                         
             ###*** ADD CAMPUS FIELD TO SECTION MODEL WHEN MIGRATION COMPLETE ***###            
             _section = models.Section.objects.get_or_create(
