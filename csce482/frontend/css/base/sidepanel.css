@@ -42,6 +42,11 @@
     margin: 10px
 }
 
+.schedule-contents {
+    display: flex;
+    flex-direction: column;
+}
+
 #empty-schedule-message {
     position: relative;
     top: 35%;

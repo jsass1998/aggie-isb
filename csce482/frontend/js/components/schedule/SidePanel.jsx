@@ -86,8 +86,11 @@ function ScheduleListPanel(props) {
     return(
       <Card className={classes.root} onClick={() => props.loadSchedule(props.schedule.activities)}>
         <CardContent className='schedule'>
-          <div>
-            {props.schedule.id}
+          <div className='schedule-contents'>
+            {/*<span>{props.schedule.campus}, {props.schedule.term} - {props.schedule.id}</span>*/}
+            <span>Avg. Start: {props.schedule.avg_starttime}</span>
+            <span>Avg. End: {props.schedule.avg_endtime}</span>
+            <span>Avg. Day Length: {props.schedule.avg_day_length}</span>
           </div>
         </CardContent>
       </Card>
