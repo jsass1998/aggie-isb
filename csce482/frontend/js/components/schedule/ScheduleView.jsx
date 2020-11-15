@@ -25,6 +25,7 @@ class ScheduleView extends Component {
       courseList: [],
       semesterList: [], // List term dicts containing time & location (i.e. 'FALL 2020' and 'College Station'
       selectedSemester: '',
+      selectedCampus: '',
       selectedCourses: [],
       scheduleList: [],
       userActivity: [], // A list of activity instances where each instance is a list with day, start & end times (string format)
@@ -179,6 +180,7 @@ class ScheduleView extends Component {
   onSemesterUpdated(selectedSemester) {
     this.setState({
       selectedSemester: selectedSemester.split('-')[0],
+      selectedCampus: selectedSemester.split('-')[1],
     });
   }
 
@@ -203,6 +205,7 @@ class ScheduleView extends Component {
       csrfmiddlewaretoken: this.state.csrfToken,
       user_id: this.state.currentUser ? this.state.currentUser.id : null,
       term: this.state.selectedSemester,
+      campus: this.state.selectedCampus,
       courses: this.state.selectedCourses,
       blocked_times: this.state.userActivity
     };

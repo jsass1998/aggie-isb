@@ -169,6 +169,7 @@ class GenerateSchedule(APIView):
         else:
             user = None
         term = request.data['term']
+        campus = request.data['campus']
         course_ids = request.data['courses']
         course_qset = Course.objects.all().filter(
             course_id__in=course_ids
@@ -177,7 +178,7 @@ class GenerateSchedule(APIView):
         blocked_times = request.data['blocked_times']
 
         # Generate list of schedules
-        schedule_list = generate_schedules(user, term, courses, blocked_times)
+        schedule_list = generate_schedules(user, term, campus, courses, blocked_times)
 
         # Convert list to queryset and then serialize
         schedule_ids = [schedule.id for schedule in schedule_list]
