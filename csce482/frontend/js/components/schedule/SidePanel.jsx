@@ -11,6 +11,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 function CourseSelectionPanel(props) {
   const [semester, setSemester] = useState('');
@@ -88,6 +89,7 @@ function ScheduleListPanel(props) {
         <CardContent className='schedule'>
           <div className='schedule-contents'>
             {/*<span>{props.schedule.campus}, {props.schedule.term} - {props.schedule.id}</span>*/}
+            <BookmarkBorderIcon className='bookmark-schedule-icon'/>
             <span>Avg. Start: {props.schedule.avg_starttime}</span>
             <span>Avg. End: {props.schedule.avg_endtime}</span>
             <span>Avg. Day Length: {props.schedule.avg_day_length}</span>

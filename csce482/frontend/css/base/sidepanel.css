@@ -47,6 +47,10 @@
     flex-direction: column;
 }
 
+.bookmark-schedule-icon {
+    color: hotpink;
+}
+
 #empty-schedule-message {
     position: relative;
     top: 35%;
