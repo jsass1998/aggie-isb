@@ -53,8 +53,6 @@ def refine_schedules(schedule_user, schedule_term, schedule_campus, activity_lis
         schedules = refine_schedules(schedule_user, schedule_term, schedule_campus, activity_lists, count-1)
         next_schedules = []
         for schedule in schedules:
-            if count == len(activity_lists)-1:
-                schedule.generate_descriptors()
             for activity in activity_lists[count]:
                 if not schedule.conflicts_with(activity):
                     curr_activities = schedule.get_activities_list()
@@ -65,6 +63,9 @@ def refine_schedules(schedule_user, schedule_term, schedule_campus, activity_lis
                     if schedule_user is not None:
                         next_schedule.user = schedule_user
                     
+                    next_schedule.activities.set(curr_activities)
+                    if count == len(activity_lists)-1:
+                        next_schedule.generate_descriptors()
                     next_schedule.activities.set(curr_activities + [activity])
                     if schedule_user is not None:
                         next_schedule.save()
