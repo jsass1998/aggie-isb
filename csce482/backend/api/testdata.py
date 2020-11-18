@@ -114,37 +114,37 @@ course_prof5.save()
 
 activity1, created = Activity.objects.get_or_create(
     title = "CSCE 482-900",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity1.save()
 activity2, created = Activity.objects.get_or_create(
     title = "CSCE 436-500",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity2.save()
 activity3, created = Activity.objects.get_or_create(
     title = "MATH 407-500",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity3.save()
 activity4, created = Activity.objects.get_or_create(
     title = "Weekly Watch Party",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity4.save()
 activity5, created = Activity.objects.get_or_create(
     title = "CSCE 482-901",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity5.save()
 activity6, created = Activity.objects.get_or_create(
     title = "CSCE 482-930",
-    term = "FALL 2020"
+    term = "202031"
 )
 activity6.save()
 
 section1, created = Section.objects.get_or_create(
-    term = "FALL 2020",
+    term = "202031",
     campus = "College Station",
     activity = activity1,
     course_prof = course_prof1,
@@ -155,7 +155,7 @@ section1, created = Section.objects.get_or_create(
 )
 section1.save()
 section2, created = Section.objects.get_or_create(
-    term = "FALL 2020",
+    term = "202031",
     campus = "College Station",
     activity = activity2,
     course_prof = course_prof2,
@@ -166,7 +166,7 @@ section2, created = Section.objects.get_or_create(
 )
 section2.save()
 section3, created = Section.objects.get_or_create(
-    term = "FALL 2020",
+    term = "202031",
     campus = "College Station",
     activity = activity3,
     course_prof = course_prof3,
@@ -177,7 +177,7 @@ section3, created = Section.objects.get_or_create(
 )
 section3.save()
 section4, created = Section.objects.get_or_create(
-    term = "FALL 2020",
+    term = "202031",
     campus = "College Station",
     activity = activity5,
     course_prof = course_prof4,
@@ -188,7 +188,7 @@ section4, created = Section.objects.get_or_create(
 )
 section4.save()
 section5, created = Section.objects.get_or_create(
-    term = "FALL 2020",
+    term = "202031",
     campus = "College Station",
     activity = activity6,
     course_prof = course_prof5,
@@ -202,14 +202,14 @@ section5.save()
 USER = User.objects.first()
 schedule1, created = Schedule.objects.get_or_create(
     user = USER,
-    term = "FALL 2020"
+    term = "202031"
 )
 schedule1.activities.set([activity1,activity2,activity3,activity4])
 schedule1.save()
 
 schedule2, created = Schedule.objects.get_or_create(
     user = USER,
-    term = "FALL 2020"
+    term = "202031"
 )
 schedule2.activities.set([activity1,activity2,activity3])
 schedule2.save()
@@ -301,6 +301,7 @@ act_inst11, created = Activity_Instance.objects.get_or_create(
     starttime = "09:00:00",
     endtime = "09:25:00"
 )
+act_inst11.save()
 act_inst12, created = Activity_Instance.objects.get_or_create(
     activity = activity5,
     location = "EABA 118",
@@ -308,6 +309,7 @@ act_inst12, created = Activity_Instance.objects.get_or_create(
     starttime = "09:30:00",
     endtime = "12:00:00"
 )
+act_inst12.save()
 act_inst13, created = Activity_Instance.objects.get_or_create(
     activity = activity5,
     location = "EABA 118",
@@ -315,6 +317,7 @@ act_inst13, created = Activity_Instance.objects.get_or_create(
     starttime = "09:00:00",
     endtime = "09:25:00"
 )
+act_inst13.save()
 act_inst14, created = Activity_Instance.objects.get_or_create(
     activity = activity5,
     location = "EABA 118",
@@ -322,6 +325,7 @@ act_inst14, created = Activity_Instance.objects.get_or_create(
     starttime = "09:30:00",
     endtime = "12:00:00"
 )
+act_inst14.save()
 act_inst15, created = Activity_Instance.objects.get_or_create(
     activity = activity6,
     location = "EABA 118",
@@ -329,6 +333,7 @@ act_inst15, created = Activity_Instance.objects.get_or_create(
     starttime = "14:00:00",
     endtime = "14:25:00"
 )
+act_inst15.save()
 act_inst16, created = Activity_Instance.objects.get_or_create(
     activity = activity6,
     location = "EABA 118",
@@ -336,6 +341,7 @@ act_inst16, created = Activity_Instance.objects.get_or_create(
     starttime = "14:30:00",
     endtime = "17:00:00"
 )
+act_inst16.save()
 act_inst17, created = Activity_Instance.objects.get_or_create(
     activity = activity6,
     location = "EABA 118",
@@ -343,6 +349,7 @@ act_inst17, created = Activity_Instance.objects.get_or_create(
     starttime = "14:00:00",
     endtime = "14:25:00"
 )
+act_inst17.save()
 act_inst18, created = Activity_Instance.objects.get_or_create(
     activity = activity6,
     location = "EABA 118",
@@ -350,6 +357,7 @@ act_inst18, created = Activity_Instance.objects.get_or_create(
     starttime = "14:30:00",
     endtime = "17:00:00"
 )
+act_inst18.save()
 
 term_loc1, created = Term_Location.objects.get_or_create(
     term = "FALL 2020",
