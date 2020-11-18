@@ -1,9 +1,6 @@
 import json
 
-from django.http import JsonResponse
 from django.http import HttpResponse
-from django.shortcuts import render
-from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.views import APIView
 
@@ -28,6 +25,7 @@ from .serializers import TermLocationSerializer
 from .serializers import AppUserSerializer
 
 from .generate_schedules import generate_schedules
+from .utils import *
 
 #class ListSchedule(generics.ListCreateAPIView):
 #    queryset = Schedule.objects.all()
@@ -46,6 +44,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         queryset = Course.objects.all().order_by('course_id')
         term_param = self.request.query_params.get('term', None)
         campus_param = self.request.query_params.get('campus', None)
+        term_code = get_term_code_from_semester_string(term_param, campus_param)
         if (term_param is not None) and (campus_param is not None):
             sections_qset = Section.objects.all().filter(
                 term__iexact = term_param,
