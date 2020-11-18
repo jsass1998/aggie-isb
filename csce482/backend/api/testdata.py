@@ -242,8 +242,8 @@ act_inst4, created = Activity_Instance.objects.get_or_create(
     activity = activity1,
     location = "ONLINE",
     day = "WED",
-    starttime = "09:00:00",
-    endtime = "09:25:00"
+    starttime = "09:30:00",
+    endtime = "12:00:00"
 )
 act_inst4.save()
 act_inst5, created = Activity_Instance.objects.get_or_create(
