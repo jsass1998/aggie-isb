@@ -62,11 +62,20 @@ const EventContent = function CustomEventContent(props) {
   const getInstanceData = useContext(ScheduleContext);
   const instanceData = getInstanceData(props.dateRange);
 
-  const instanceTitle = instanceData ? instanceData.title : 'NULL';
+  const getBreakIfDateRangeIsLarge = function() {
+    if ((Math.abs(props.dateRange[1] - props.dateRange[0]) / 60000) >= 70) {
+      return <br/>;
+    }
+    else {
+      return ' - ';
+    }
+  }
 
   return (
     <div className='event-content'>
-      {instanceTitle}
+      {instanceData ? instanceData.title : '...'}
+      {getBreakIfDateRangeIsLarge()}
+      {instanceData ? instanceData.timeRange : ''}
     </div>
   )
 }

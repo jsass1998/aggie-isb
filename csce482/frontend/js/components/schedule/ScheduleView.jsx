@@ -140,8 +140,8 @@ class ScheduleView extends Component {
     }, () => this.onGridUpdated(newGridInstances, true));
   }
 
-  // TODO: Watch out for when activities are programmatically added to grid
-  //  - not currently handled
+  // TODO: Watch out for when activities are programmatically added to grid vs manually added
+  //  - not currently handled well
   /**
    * Takes a list of lists where the inner list contains two Date objects
    * representing the start and end time of a particular activity.
@@ -156,13 +156,19 @@ class ScheduleView extends Component {
     // Only write to dict & update if user is manually adding to grid
     if (!isLoadOperation)
       params.forEach(activityInstance => {
+        // Add the dict key to the user activity list
         updatedUserActivity.push([
           weekdayMap[activityInstance[0].getDay()],
           activityInstance[0].toString().split(' ')[4],
           activityInstance[1].toString().split(' ')[4],
         ]);
 
-        updatedDataDict[`${weekdayMap[activityInstance[0].getDay()]}-${activityInstance[0].toString().split(' ')[4]}-${activityInstance[1].toString().split(' ')[4]}`] = weekdayMap[activityInstance[0].getDay()];
+        // Set key to 'DAY-HH:MM:SS-HH:MM:SS' and data to an object containing a title string and a time range formatted as 'HH:MM-HH:MM'
+        updatedDataDict[`${weekdayMap[activityInstance[0].getDay()]}-${activityInstance[0].toString().split(' ')[4]}-${activityInstance[1].toString().split(' ')[4]}`]
+          = {
+          title: weekdayMap[activityInstance[0].getDay()],
+          timeRange: `${activityInstance[0].toString().split(' ')[4].substring(0, 5)}-${activityInstance[1].toString().split(' ')[4].substring(0, 5)}`
+        };
       });
 
     if (!isLoadOperation)
