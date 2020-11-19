@@ -1,9 +1,6 @@
 import json
 
-from django.http import JsonResponse
 from django.http import HttpResponse
-from django.shortcuts import render
-from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.views import APIView
 
@@ -28,6 +25,7 @@ from .serializers import TermLocationSerializer
 from .serializers import AppUserSerializer
 
 from .generate_schedules import generate_schedules
+from .utils import get_term_code_from_semester_string
 
 #class ListSchedule(generics.ListCreateAPIView):
 #    queryset = Schedule.objects.all()
@@ -39,32 +37,32 @@ from .generate_schedules import generate_schedules
 
 class CourseViewSet(viewsets.ModelViewSet):
     #queryset = Course.objects.all().order_by('course_id')[:100]
-    queryset = Course.objects.all().order_by('course_id')
     serializer_class = CourseSerializer
 
     def get_queryset(self):
         queryset = Course.objects.all().order_by('course_id')
         term_param = self.request.query_params.get('term', None)
         campus_param = self.request.query_params.get('campus', None)
-        if (term_param is not None) and (campus_param is not None):
+        if (term_param is not None):
+            term_code = get_term_code_from_semester_string(term_param, campus_param)
             sections_qset = Section.objects.all().filter(
-                term__iexact = term_param,
-                campus__iexact = campus_param
+                term__iexact = term_code
+                #campus__iexact = campus_param
             ).select_related('course_prof__course')
             course_list = [section.course_prof.course.course_id for section in sections_qset]
             queryset = Course.objects.filter(course_id__in=course_list).distinct()
-        elif term_param is not None:
-            sections_qset = Section.objects.all().filter(
-                term__iexact = term_param
-            ).select_related('course_prof__course')
-            course_list = [section.course_prof.course.course_id for section in sections_qset]
-            queryset = Course.objects.filter(course_id__in=course_list).distinct()
-        elif campus_param is not None:
-            sections_qset = Section.objects.all().filter(
-                campus__iexact = campus_param
-            ).select_related('course_prof__course')
-            course_list = [section.course_prof.course.course_id for section in sections_qset]
-            queryset = Course.objects.filter(course_id__in=course_list).distinct()
+        # elif term_param is not None:
+        #     sections_qset = Section.objects.all().filter(
+        #         term__iexact = term_param
+        #     ).select_related('course_prof__course')
+        #     course_list = [section.course_prof.course.course_id for section in sections_qset]
+        #     queryset = Course.objects.filter(course_id__in=course_list).distinct()
+        # elif campus_param is not None:
+        #     sections_qset = Section.objects.all().filter(
+        #         campus__iexact = campus_param
+        #     ).select_related('course_prof__course')
+        #     course_list = [section.course_prof.course.course_id for section in sections_qset]
+        #     queryset = Course.objects.filter(course_id__in=course_list).distinct()
         return queryset
 
 class ProfessorViewSet(viewsets.ModelViewSet):
@@ -79,67 +77,74 @@ class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
 
     def get_queryset(self):
-        queryset = Activity.objects.all().order_by('id')[:100]
+        queryset = Activity.objects.all().order_by('id')
         course_param = self.request.query_params.get('course', None)
         term_param = self.request.query_params.get('term', None)
         campus_param = self.request.query_params.get('campus', None)
-        if (course_param is not None) and (term_param is not None) and (campus_parm is not None):
-            queryset = Course.objects.get(course_id__iexact=course_param).get_sections(term_param, campus_param)
-        elif (course_param is not None) and (term_param is not None):
-            queryset = queryset.filter(
-                section__isnull = False,
-                term__iexact = term_param,
-                section__course_prof__course__course_id__iexact = course_param
-            )
-        elif (course_param is not None) and (campus_param is not None):
-            queryset = queryset.filter(
-                section__isnull = False,
-                campus__iexact = campus_param,
-                section__course_prof__course__course_id__iexact = course_param
-            )
-        elif (term_param is not None) and (campus_param is not None):
-            queryset = queryset.filter(
-                section__isnull = False,
-                term__iexact = term_param,
-                campus__iexact = campus_param
-            )
+        if (course_param is not None) and (term_param is not None):
+            # queryset = Course.objects.get(course_id__iexact=course_param).get_sections(term_param, campus_param)
+            term_code = get_term_code_from_semester_string(term_param, campus_param)
+            queryset = Course.objects.get(course_id__iexact=course_param).get_sections(term_code)
+        # if (course_param is not None) and (term_param is not None):
+        #     queryset = queryset.filter(
+        #         section__isnull = False,
+        #         term__iexact = term_param,
+        #         section__course_prof__course__course_id__iexact = course_param
+        #     )
+        # elif (course_param is not None) and (campus_param is not None):
+        #     queryset = queryset.filter(
+        #         section__isnull = False,
+        #         #campus__iexact = campus_param,
+        #         section__course_prof__course__course_id__iexact = course_param
+        #     )
+        # elif (term_param is not None) and (campus_param is not None):
+        #     queryset = queryset.filter(
+        #         section__isnull = False,
+        #         term__iexact = term_param
+        #         #campus__iexact = campus_param
+        #     )
         elif course_param is not None:
             queryset = queryset.filter(
                 section__isnull = False,
                 section__course_prof__course__course_id__iexact = course_param
             )
         elif term_param is not None:
+            term_code = get_term_code_from_semester_string(term_param)
             queryset = queryset.filter(
                 section__isnull = False,
-                term__iexact = term_param
+                term__iexact = term_code
             )
-        elif campus_param is not None:
-            queryset = queryset.filter(
-                section__isnull = False,
-                section__campus__iexact = campus_param
-            )
-        return queryset
+        # elif campus_param is not None:
+        #     queryset = queryset.filter(
+        #         section__isnull = False,
+        #         section__campus__iexact = campus_param
+        #     )
+        return queryset[:100]
 
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all().order_by('activity')[:100]
     serializer_class = SectionSerializer
 
 class ScheduleViewSet(viewsets.ModelViewSet):
-    #queryset = Schedule.objects.all().order_by('id')[:100]
-    queryset = Schedule.objects.all().order_by('id')
+    #queryset = Schedule.objects.all().order_by('id')
     serializer_class = ScheduleSerializer
 
     def get_queryset(self):
-        #queryset = Schedule.objects.all().order_by('id')
+        queryset = Schedule.objects.all().order_by('id')
         user_param = self.request.query_params.get('user', None)
         term_param = self.request.query_params.get('term', None)
         campus_param = self.request.query_params.get('campus', None)
-        if (user_param is not None) and (term_param is not None) and (campus_param is not None):
+        if (user_param is not None) and (term_param is not None):
+            term_code = get_term_code_from_semester_string(term_param, campus_param)
             queryset = Schedule.objects.all().filter(
                 user__exact=user_param,
-                term__iexact=term_param,
-                campus__iexact=campus_param,
+                term__iexact=term_code
             )
+        # elif (user_param is not None) and (term_param is not None):
+        #     queryset = Schedule.objects.all().filter(
+        #         user__exact=user_param,
+        #         term__iexact=term_param
+        #     )
         return queryset
 
 class ActivityInstanceViewSet(viewsets.ModelViewSet):

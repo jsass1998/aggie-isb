@@ -9,12 +9,22 @@ class Course(models.Model):
     def __str__(self):
         return self.course_id
 
-    def get_sections(self, term, campus):
+    # def get_sections(self, term, campus):
+    #     sections=[]
+    #     for cp in self.course_prof_set.all():
+    #         section_qset = cp.section_set.all().filter(
+    #             term__exact = term,
+    #             campus__exact = campus
+    #         )
+    #         for s in section_qset:
+    #             sections = sections + [s.activity]
+    #     return sections
+    
+    def get_sections(self, termcode):
         sections=[]
         for cp in self.course_prof_set.all():
             section_qset = cp.section_set.all().filter(
-                term__exact = term,
-                campus__exact = campus
+                term__exact = termcode
             )
             for s in section_qset:
                 sections = sections + [s.activity]
@@ -212,9 +222,11 @@ class Schedule(models.Model):
                 ).first().starttime
                 stime_sec = stime.hour*3600+stime.minute*60
                 stime_sum = stime_sum + stime_sec
-        stime_avg_sec = round(stime_sum / 5)
+        stime_avg_sec=0
+        if self.num_free_days is not 5:
+            stime_avg_sec = round(stime_sum / (5-self.num_free_days))
         stime_avg = time.strftime('%H:%M:%S', time.gmtime(stime_avg_sec))
-        self.avg_starttime = stime_avg
+        self.__setattr__("avg_starttime", stime_avg)
         return stime_avg
             
     def compute_avg_endtime(self):
@@ -231,9 +243,11 @@ class Schedule(models.Model):
                 ).first().endtime
                 etime_sec = etime.hour*3600+etime.minute*60
                 etime_sum = etime_sum + etime_sec
-        etime_avg_sec = round(etime_sum / 5)
+        etime_avg_sec = 0
+        if self.num_free_days is not 5:
+            etime_avg_sec = round(etime_sum / (5-self.num_free_days))
         etime_avg = time.strftime('%H:%M:%S', time.gmtime(etime_avg_sec))
-        self.avg_endtime = etime_avg
+        self.__setattr__("avg_endtime", etime_avg)
         return etime_avg
 
     def compute_avg_day_length(self):
@@ -255,20 +269,22 @@ class Schedule(models.Model):
                 etime_sec = etime.hour*3600+etime.minute*60
                 day_length_sec = etime_sec-stime_sec
                 day_length_sum = day_length_sum+day_length_sec
-        day_length_avg_sec = round(day_length_sum / 5)
+        day_length_avg_sec = 0
+        if self.num_free_days is not 5:
+            day_length_avg_sec = round(day_length_sum / (5-self.num_free_days))
         day_length_avg = time.strftime('%H:%M:%S', time.gmtime(day_length_avg_sec))
-        self.avg_day_length = day_length_avg
+        self.__setattr__("avg_day_length", day_length_avg)
         return day_length_avg
 
     def find_free_days(self):
         schedule_instances = self.get_instances()
         week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
         free_on = {
-            "MON": self.free_on_monday,
-            "TUE": self.free_on_tuesday,
-            "WED": self.free_on_wednesday,
-            "THU": self.free_on_thursday,
-            "FRI": self.free_on_friday
+            "MON": "free_on_monday",
+            "TUE": "free_on_tuesday",
+            "WED": "free_on_wednesday",
+            "THU": "free_on_thursday",
+            "FRI": "free_on_friday"
         }
         free_day_count = 0
         for day in week:
@@ -276,16 +292,16 @@ class Schedule(models.Model):
                 day__exact = day,
             )
             if daily_instances.count() is 0:
-                free_on[day] = True
+                self.__setattr__(free_on[day], True)
                 free_day_count = free_day_count+1
-        self.num_free_days = free_day_count
+        self.__setattr__("num_free_days", free_day_count)
         return free_day_count
 
     def generate_descriptors(self):
+        self.find_free_days()
         self.compute_avg_starttime()
         self.compute_avg_endtime()
         self.compute_avg_day_length()
-        self.find_free_days()
 
 class Term_Location(models.Model):
     term = models.CharField(max_length=16)

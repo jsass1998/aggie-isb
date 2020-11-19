@@ -10,6 +10,8 @@ import config from './webpack.config';
 // and `webpack.local.config.js`
 
 new WebpackDevServer(webpack(config), {
+  compress: true,
+  public: 'aggieisb.com',
   publicPath: config.output.publicPath,
   port: 3000,
   hot: true, // reload webpack every time it detects changes, not working for some reason
