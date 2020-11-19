@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GoogleLogin from "react-google-login";
 import axios from 'axios';
 import { GOOGLE_CLIENT_ID } from "../utils/constants";
+import Cookies from 'js-cookie';
 
 class TopBar extends Component {
     constructor(props) {
@@ -18,6 +19,12 @@ class TopBar extends Component {
         '/rest-auth/google/',
         {
           access_token: token.accessToken,
+          csrfmiddlewaretoken: Cookies.get('csrftoken')
+        },
+        {
+          headers: {
+            'X-CSRFToken': Cookies.get('csrftoken'),
+          }
         }
       );
 
