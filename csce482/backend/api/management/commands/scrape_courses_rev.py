@@ -24,8 +24,8 @@ from api.management.commands.utils.scraper_utils import (
 
 # Set of the courses' ID's
 
-def generate_course_id(dept: str, course_num: str, term: str):
-    return "".join((dept, course_num, '-', term))
+#def generate_course_id(dept: str, course_num: str, term: str):
+#    return "".join((dept, course_num, '-', term))
 
 def generate_meeting_id(section_id: str, meetings_count: str):
     return "".join((section_id, meetings_count))
@@ -87,7 +87,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
     """ Puts section data in database & calls parse_meeting.
         Called from parse_course.
     """
-
+    #print(course_data['courseTitle'])
     section_id = int(course_data['id'])
     subject = course_data['subject']
     course_number = course_data['courseNumber']
@@ -131,6 +131,12 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     #print("name is TBD")
 
             _course = models.Course.objects.get_or_create(course_id = subject + "-" + str(course_number))[0]
+            try:
+                _course.description = course_data['courseTitle']
+                #print(_course.description)
+                _course.save()
+            except:
+                statement = 5
             try:
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
@@ -397,7 +403,7 @@ def parse_course(course_data: List,
     term_code = course_data['term']
 
     # Generate the course's id using the above data
-    course_id = generate_course_id(dept, course_number, term_code)
+    #course_id = generate_course_id(dept, course_number, term_code)
 
     # Some course titles contain escaped characters(ex. &amp;), so unescape them
     title = unescape(course_data['courseTitle'])
