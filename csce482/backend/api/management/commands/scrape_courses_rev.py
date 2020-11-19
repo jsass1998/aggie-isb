@@ -108,11 +108,10 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             break
 
     web = course_data.get('instructionalMethod', "") == "Web Based"
-
      
     try:
         _activity = models.Activity.objects.get_or_create(
-            title = subject + str(course_number) + "-" + str(section_number),
+            title = subject + "-" + str(course_number) + "-" + str(section_number),
             term = term_code
             )[0]
         _activity.save()
@@ -131,7 +130,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     name = "TBD"
                     #print("name is TBD")
 
-            _course = models.Course.objects.get_or_create(course_id = subject + str(course_number))[0]
+            _course = models.Course.objects.get_or_create(course_id = subject + "-" + str(course_number))[0]
             try:
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
@@ -432,7 +431,7 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     
     dept_name = course_list[0].get('subject', '') if course_list else ''
 
-    random.shuffle(course_list)
+    #random.shuffle(course_list)
     
     #print(course_list)
     time.sleep(5)
@@ -455,25 +454,24 @@ def get_course_data(  # pylint: disable=too-many-locals
     loop = asyncio.get_event_loop()
 
     start = time.time()
-    counter = 0
-    while True:
-        try:
-            data_set = loop.run_until_complete(banner.search(depts_terms, sem,
-                                                         parse_all_courses))
-            print(f"Downloaded and scraped {len(data_set)} departments data in"
-                f" {time.time() - start:.2f} seconds")
-            instructors = []
-            sections = []
-            meetings = []
-            courses = []
+    #counter = 0
+    #while True:
+        #try:
+    data_set = loop.run_until_complete(banner.search(depts_terms, sem, parse_all_courses))
+    print(f"Downloaded and scraped {len(data_set)} departments data in"
+        f" {time.time() - start:.2f} seconds")
+    instructors = []
+    sections = []
+    meetings = []
+    courses = []
     
             #print(data_set)
-            return (instructors, sections, meetings, courses)
-        except Exception as e:
+    return (instructors, sections, meetings, courses)
+        #except Exception as e:
             #print(str(e))
-            counter = counter+1
-            print("On Attempt: " + str(counter))
-            continue
+            #counter = counter+1
+            #print("On Attempt: " + str(counter))
+            #continue
             
     #print(data_set)
     return (instructors, sections, meetings, courses)    
@@ -515,8 +513,21 @@ class Command(base.BaseCommand):
                 terms = get_recent_terms()
 
             depts_terms = get_department_names(terms)
-
-        instructors, sections, meetings, courses = get_course_data(depts_terms)
-        #$%save_models(instructors, sections, meetings, courses, term, terms, options)
-
-        print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
+        
+        finished = True
+        counter = 1
+        #print("finished var is working now")
+        while (finished == True):
+            try:
+                random.shuffle(depts_terms)
+                
+                instructors, sections, meetings, courses = get_course_data(depts_terms)
+                print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
+                finished = False
+            except:
+                counter = counter + 1
+                print("\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n")
+                print("connection reset, restarting... attempt: " + str(counter))
+                time.sleep(60)
+                finished = True
+        #print("finished")

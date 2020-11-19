@@ -64,7 +64,8 @@ class Command(base.BaseCommand):
         for dept in depts:
             f = open("departments.txt", "a")
             dept_zero = ''.join(c for c in dept[0] if c.isdigit())
-            f.write(dept_zero + " " + dept[1] + " " + dept[2] + " " + dept[3] + "\r\n")
+            if dept_zero[5] == '1': #this line is filtering to just college station departments.
+                f.write(dept_zero + " " + dept[1] + " " + dept[2] + " " + dept[3] + "\r\n")
             f.close()
 
         end = time.time()

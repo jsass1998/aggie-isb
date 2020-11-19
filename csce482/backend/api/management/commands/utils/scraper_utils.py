@@ -19,6 +19,7 @@ def get_all_terms(year: int = -1) -> List[str]:
         years = [year]
 
     semesters = range(1, 4)
+    #locations = range(1, 4)
     locations = range(1, 4)
 
     return [f"{year}{semester}{location}"
