@@ -67,7 +67,6 @@ def get_department_names(terms: List[str]) -> List[Tuple[str,str,str,str]]:
         checked = _dept[len(_dept)-1]
         
         dept = (code_term, department, checked, code)
-        
         depts.append(dept)
     f.close()
     
@@ -331,7 +330,7 @@ def parse_instructor(course_data, dept) -> models.Professor:
             statement = 5
 
 
-    return None  #I DO NOT KNOW WHAT TO RETURN HERE. FUTURE JOSH PROBLEM :)  
+    return None 
     
 def parse_course(course_data: List,
                  courses_set: set,
@@ -343,10 +342,6 @@ def parse_course(course_data: List,
     
     dept = course_data['subject']
     course_number = course_data['courseNumber']
-    term_code = course_data['term']
-
-    # Generate the course's id using the above data
-    #course_id = generate_course_id(dept, course_number, term_code)
 
     # Some course titles contain escaped characters(ex. &amp;), so unescape them
     title = unescape(course_data['courseTitle'])
@@ -418,7 +413,7 @@ def get_course_data(  # pylint: disable=too-many-locals
     banner = BannerRequests()
     loop = asyncio.get_event_loop()
 
-    start = time.time()
+    start = time.time()*
     new_depts_terms = []
     
     for dept in depts_terms:
@@ -470,7 +465,6 @@ class Command(base.BaseCommand):
                 terms = get_all_terms(options['year'])
             elif options['recent']:
                 terms = get_recent_terms()
-   
         finished = True
         counter = 1
         while (finished == True):

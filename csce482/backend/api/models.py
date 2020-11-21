@@ -210,7 +210,7 @@ class Schedule(models.Model):
 
     def compute_avg_starttime(self):
         schedule_instances = self.get_instances()
-        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         stime_sum = 0
         for day in week:
             daily_instances = schedule_instances.filter(
@@ -231,7 +231,7 @@ class Schedule(models.Model):
             
     def compute_avg_endtime(self):
         schedule_instances = self.get_instances()
-        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         etime_sum = 0
         for day in week:
             daily_instances = schedule_instances.filter(
@@ -252,7 +252,7 @@ class Schedule(models.Model):
 
     def compute_avg_day_length(self):
         schedule_instances = self.get_instances()
-        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         day_length_sum = 0
         for day in week:
             daily_instances = schedule_instances.filter(
@@ -278,13 +278,13 @@ class Schedule(models.Model):
 
     def find_free_days(self):
         schedule_instances = self.get_instances()
-        week = ['MON', 'TUE', 'WED', 'THU', 'FRI']
+        week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         free_on = {
-            "MON": "free_on_monday",
-            "TUE": "free_on_tuesday",
-            "WED": "free_on_wednesday",
-            "THU": "free_on_thursday",
-            "FRI": "free_on_friday"
+            "monday": "free_on_monday",
+            "tuesday": "free_on_tuesday",
+            "wednesday": "free_on_wednesday",
+            "thursday": "free_on_thursday",
+            "friday": "free_on_friday"
         }
         free_day_count = 0
         for day in week:
