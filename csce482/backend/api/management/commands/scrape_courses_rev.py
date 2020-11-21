@@ -68,20 +68,16 @@ def get_department_names(terms: List[str]) -> List[Tuple[str,str,str,str]]:
         code_term = _dept[0]
         department = _dept[1]
         garbageimnotworriedabout = _dept[2]
-        code = _dept[len(_dept)-1]
+        code = _dept[len(_dept)-2]
+        checked = _dept[len(_dept)-1]
         
-        dept = (code_term, department, garbageimnotworriedabout, code)
+        dept = (code_term, department, checked, code)
         #print(dept)
         
         depts.append(dept)
+    f.close()
     
-    #print("returning depts to home: " + str(len(depts)))
     return depts
-    ###depts = (Department.objects.filter(term__in=terms).order_by('term')
-    ###         .values('code', 'term'))
-    #grouped = groupby(depts, key=lambda x: x['term'])
-
-    #return ((dept['code'], term) for term, group in grouped for dept in group)
     
 def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: # pylint: disable=too-many-locals
     """ Puts section data in database & calls parse_meeting.
@@ -444,7 +440,32 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     for course in course_list:
         time.sleep(1)
         parse_course(course, courses_set, instructors_set) 
+        
+    f = open("departments.txt", "r")
+    lines = f.readlines()
+    line_counter = 0
     
+    for line in lines:
+        string = line.strip()
+        _dept = string.split()
+        
+        code_term = _dept[0]
+        department = _dept[1]
+        garbageimnotworriedabout = _dept[2]
+        code = _dept[len(_dept)-2]
+        checked = _dept[len(_dept)-1]
+        
+        if department == dept_name:
+            lines[line_counter] = code_term + " " + department + " " + "FINISHED" + " " + code_term + " T" + "\r\n"
+            print("Found it!! Editing... " + department)
+            break
+        else:    
+            line_counter += 1
+    f.close()
+    
+    with open('departments.txt', 'w') as file:
+        file.writelines((lines))
+    file.close()
     print(f'{dept_name} {term}: Scraped {len(course_list)} sections')
     return None
     
@@ -463,24 +484,23 @@ def get_course_data(  # pylint: disable=too-many-locals
     #counter = 0
     #while True:
         #try:
-    data_set = loop.run_until_complete(banner.search(depts_terms, sem, parse_all_courses))
+    new_depts_terms = []
+    
+    for dept in depts_terms:
+        if dept[2] == "F":
+            new_depts_terms.append(dept)
+        else:
+            print("already checked! skipping...")
+    print("Heres how many depts we have left! " + str(len(new_depts_terms)))
+    data_set = loop.run_until_complete(banner.search(new_depts_terms, sem, parse_all_courses))
     print(f"Downloaded and scraped {len(data_set)} departments data in"
         f" {time.time() - start:.2f} seconds")
     instructors = []
     sections = []
     meetings = []
     courses = []
-    
-            #print(data_set)
-    return (instructors, sections, meetings, courses)
-        #except Exception as e:
-            #print(str(e))
-            #counter = counter+1
-            #print("On Attempt: " + str(counter))
-            #continue
-            
-    #print(data_set)
-    return (instructors, sections, meetings, courses)    
+
+    return (instructors, sections, meetings, courses)  
 
 class Command(base.BaseCommand):
     """ Gets course information from banner and adds it to the database """
@@ -518,20 +538,18 @@ class Command(base.BaseCommand):
             elif options['recent']:
                 terms = get_recent_terms()
 
-            depts_terms = get_department_names(terms)
-        
+        depts_terms = get_department_names(terms)    
         finished = True
         counter = 1
         #print("finished var is working now")
         while (finished == True):
             try:
-                random.shuffle(depts_terms)
-                
                 instructors, sections, meetings, courses = get_course_data(depts_terms)
                 print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
                 finished = False
-            except:
+            except Exception as e:
                 counter = counter + 1
+                #print(str(e))
                 print("\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n")
                 print("connection reset, restarting... attempt: " + str(counter))
                 time.sleep(60)
