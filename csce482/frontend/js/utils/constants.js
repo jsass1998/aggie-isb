@@ -2,24 +2,24 @@ export const GOOGLE_CLIENT_ID = '627245330757-i02jh16q75ba38fldohh71d5euth1dp2.a
 
 // map from Date().getDay() to a 3-letter string compatible with the database
 export const weekdayMap = {
-    0: "SUN",
-    1: "MON",
-    2: "TUE",
-    3: "WED",
-    4: "THU",
-    5: "FRI",
-    6: "SAT",
+    0: "sunday",
+    1: "monday",
+    2: "tuesday",
+    3: "wednesday",
+    4: "thursday",
+    5: "friday",
+    6: "saturday",
 };
 
 // map from db-compatible weekday string to a date used by the TimeGrid to plot new time blocks
 export const dayToDateMap = {
-    "SUN": "2019-03-03",
-    "MON": "2019-03-04",
-    "TUE": "2019-03-05",
-    "WED": "2019-03-06",
-    "THU": "2019-03-07",
-    "FRI": "2019-03-08",
-    "SAT": "2019-03-09",
+    "sunday": "2019-03-03",
+    "monday": "2019-03-04",
+    "tuesday": "2019-03-05",
+    "wednesday": "2019-03-06",
+    "thursday": "2019-03-07",
+    "friday": "2019-03-08",
+    "saturday": "2019-03-09",
 };
 
 export const create_schedule_tooltip = 'This is where you can block out time for extracurriculars, work, ' +
