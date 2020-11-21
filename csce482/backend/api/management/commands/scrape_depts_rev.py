@@ -13,7 +13,7 @@ def parse_departments(json, term) -> List[Tuple[str,str,str,str]]:
     """ Takes in a json list of departments and returns a list of Department objects """
     
     departments = []
-    
+
     for dept in json:
         departments.append((f"{dept['code']}{term}", dept["code"], dept["description"], term))
 
@@ -55,7 +55,7 @@ class Command(base.BaseCommand):
         
         try:
             os.remove("departments.txt")
-        except:
+        except Exception as e:
             print(str(e))
         
         f = open("departments.txt", "w")
@@ -65,7 +65,7 @@ class Command(base.BaseCommand):
             f = open("departments.txt", "a")
             dept_zero = ''.join(c for c in dept[0] if c.isdigit())
             if dept_zero[5] == '1': #this line is filtering to just college station departments.
-                f.write(dept_zero + " " + dept[1] + " " + dept[2] + " " + dept[3] + "\r\n")
+                f.write(dept_zero + " " + dept[1] + " " + dept[2] + " " + dept[3] + " F" + "\r\n")
             f.close()
 
         end = time.time()
