@@ -156,20 +156,8 @@ def calculate_gpa(letter_grades: Dict) -> Tuple[int, int, int, int, int, int]:
     Returns:
         The calculated gpa.
     """
-    #A = 4.0
-    #B = 3.0
-    #C = 2.0
-    #D = 1.0
-    #F = 0.0
-    #WEIGHTS = [A, B, C, D, F]
-    #grades = [letter_grades[char] for char in ["A", "B", "C", "D", "F"]]
-    #num_students = sum(grades)
-    #print(letter_grades)
-    #gpa = 0.0
     grades = (letter_grades['A'],letter_grades['B'],letter_grades['C'],letter_grades['D'],letter_grades['F'],letter_grades['Q'])
-    #for students_with_grade, weight in zip(grades, WEIGHTS):
-    #    gpa += students_with_grade * weight
-    #return gpa / num_students
+
     return grades
 
 def parse_pdf(pdf_path: str) -> List[Tuple[Dict, Tuple[str, str, str], Tuple[int, int, int, int, int, int]]]:

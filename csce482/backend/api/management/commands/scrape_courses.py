@@ -184,13 +184,7 @@ class Command(base.BaseCommand):
             loop = asyncio.get_event_loop()
             parameters = loop.run_until_complete(scrape_departments(url_dept_pairs))
             with transaction.atomic():
-                #*iterator = 0
                 for params in parameters:
-                    #*iterator += 1
-                    #*print(iterator)
-                    
-                    #***fetch course object, build from there with given info. 
-                    
                     _id, rest = params
                     
                     try:
@@ -198,25 +192,10 @@ class Command(base.BaseCommand):
                             course_id = _id,
                             title = rest['name']
                         )[0]
+                        new_course.save()
                     except:
                         continue
-                    
-                    ###im handling this bonus info but not using:
-                    ###"dept": dept,
-                    ###"course_num": course_num,
-                    ###"name": name,
-                    ###"min_credits": min_credits,
-                    ###"max_credits": max_credits,
-                    ###"distribution_of_hours": distribution_of_hours,
-                    ###"description": description if description else None,
-                    ###"prerequisites": prerequsites,
-                    ###"corequisites": corequisites,
-                    
-                    new_course.save()
-                    
-                    #_id, rest = params
-                    #course = scraper_models.Course(id=_id, **rest)
-                    #course.save()
+                        
         end = time.time()
         seconds_elapsed = int(end - start)
         td = datetime.timedelta(seconds=seconds_elapsed)

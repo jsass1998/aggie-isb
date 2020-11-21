@@ -123,10 +123,8 @@ class BannerRequests():
             json = await response.json()
 
         await self.reset_search(session)
-
         data = json['data']
 
-        #print(str(data) + "\r\n" + "\r\n")
         return data
 
     def get_departments(self, term: str, amount: int = 300) -> List[Dict]:
@@ -172,9 +170,8 @@ class BannerRequests():
                         # Must limit the number of concurrent requests, otherwise will get
                         # a "too many file descriptors in select()" error from aiohttp
                         async with sem:
-                            print(f"Starting {dept} {term}")
+                            #print(f"Starting {dept} {term}")
                             session_id = await self.create_session(session, term)
-                            #print("dept: " + str(dept) + " term: " + str(term) + " amount: " + str(amount))
                             course_list = await self.get_courses(session, session_id,
                                                                  dept, term, amount)
 
@@ -185,16 +182,13 @@ class BannerRequests():
                         # outside of the semaphore
                         ret = parse_all_courses(course_list, term, courses_set,
                                                 instructors_set)
-                        #print("ret" + str(ret))
                         return ret
 
                     except (ClientConnectorError, ContentTypeError):
                         # Empty lines help it stand out from the rest of the outputs
                         print(f"\n\nNETWORK ERROR: Retrying {dept} {term}: Take {i} \n\n")
 
-        #tasks = [perform_search(dept, term) for dept, term  in depts_terms]
         tasks = [perform_search(dept, term) for (term, dept, gRBage, code)  in depts_terms]
-        #print(tasks)
         results = []
 
         # Runs all of the tasks concurrently, stopping in this for loop after each one is
@@ -202,7 +196,6 @@ class BannerRequests():
         for result in await asyncio.gather(*tasks, loop=loop):
             results.append(result)
         
-        #print(results)
         return results
 
     async def reset_search(self, session: ClientSession):
