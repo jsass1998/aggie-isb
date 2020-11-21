@@ -22,11 +22,6 @@ from api.management.commands.utils.scraper_utils import (
     get_all_terms, get_recent_terms,
 )
 
-# Set of the courses' ID's
-
-#def generate_course_id(dept: str, course_num: str, term: str):
-#    return "".join((dept, course_num, '-', term))
-
 def generate_meeting_id(section_id: str, meetings_count: str):
     return "".join((section_id, meetings_count))
 
@@ -72,8 +67,6 @@ def get_department_names(terms: List[str]) -> List[Tuple[str,str,str,str]]:
         checked = _dept[len(_dept)-1]
         
         dept = (code_term, department, checked, code)
-        #print(dept)
-        
         depts.append(dept)
     f.close()
     
@@ -83,7 +76,6 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
     """ Puts section data in database & calls parse_meeting.
         Called from parse_course.
     """
-    #print(course_data['courseTitle'])
     section_id = int(course_data['id'])
     subject = course_data['subject']
     course_number = course_data['courseNumber']
@@ -111,9 +103,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
             term = term_code
             )[0]
         _activity.save()
-        #print("wrote new activity")
     except Exception as e:
-        #print(str(e))
         return None
     if _activity:    
         try:
@@ -124,30 +114,25 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 name = faculty_data.get("displayName")
                 if name is None:
                     name = "TBD"
-                    #print("name is TBD")
 
             _course = models.Course.objects.get_or_create(course_id = subject + "-" + str(course_number))[0]
             try:
                 _course.description = course_data['courseTitle']
-                #print(_course.description)
                 _course.save()
             except:
                 statement = 5
             try:
                 _prof = models.Professor.objects.get_or_create(name = name, dept = subject)[0]
             except:
-                #print("prof failed")
                 statement = 5
             _course_prof = models.Course_Prof.objects.get_or_create(
                 course = _course,
                 professor = _prof
             )[0]
             _course_prof.save()
-            
-            #print("wrote new course_prof")
         except Exception as e:
-            #print(str(e))
             return None
+            
     if _course_prof:    
         try:
             try:
@@ -185,16 +170,9 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                 seats_taken = current_enrollment
             )[0]
             _section.save()
-            #print("wrote new section")
         except Exception as e:
-            #print(str(e))
             return None
         
-    ### MINOR ISSUES HERE  !!!!!! FIX FIX FIX
-    #print("\r\n")
-    #print(course_data)
-    #print("\r\n")
-    
     monday = False
     tuesday = False
     wednesday = False
@@ -240,9 +218,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new monday")
             except Exception as e:
-                #print(str(e))
                 return None
         if tuesday:
             try:
@@ -254,9 +230,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new tuesday")
             except Exception as e:
-                #print(str(e))
                 return None
                 
         if wednesday:
@@ -269,9 +243,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new weds")
             except Exception as e:
-                #print(str(e))
                 return None
         if thursday:
             try:
@@ -283,9 +255,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new thurs")
             except Exception as e:
-                #print(str(e))
                 return None
         if friday:
             try:
@@ -297,9 +267,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new fri")
             except Exception as e:
-                #print(str(e)) 
                 return None
         if _section.web and not monday and not tuesday and not wednesday and not thursday and not friday:
             try:
@@ -314,9 +282,7 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
                     endtime = end_time
                 )[0]
                 _activity_instance.save()
-                #print("wrote new web")
             except Exception as e:
-                #print(str(e))
                 return None
     return None
     
@@ -336,19 +302,10 @@ def parse_instructor(course_data, dept) -> models.Professor:
         if name is None:
             return None
 
-        #email = faculty_data['emailAddress']
-
-        #f = open("debug.txt", "a")
-        #f.write(name)
-        #f.close()
-        
         new_name_array = name.split()
-        #print(new_name_array)
         new_name_zero = new_name_array[0]
         new_name = new_name_array[len(new_name_array)-1] + " " + new_name_zero[0]
-        #print(new_name)
         updated_name = new_name_array[0] + " " + new_name_array[len(new_name_array)-1]
-        #print (updated_name)
         
         try:
             prof = models.Professor.objects.get(name=new_name, dept=dept)[0]
@@ -359,7 +316,6 @@ def parse_instructor(course_data, dept) -> models.Professor:
                 office = ""
             )[0]
             updated_prof.save()
-            #print("wrote new prof")
             return updated_prof
         try:
             updated_prof = models.Professor.objects.get_or_create(
@@ -370,20 +326,11 @@ def parse_instructor(course_data, dept) -> models.Professor:
             prof.delete()
             prof.save()
             updated_prof.save()
-            #print("wrote to prof")
-            
-            #check = models.Professor.objects.get_or_create(name = updated_name)[0]
-            #if check:
-            #    print("true: " + check.name)
-            #else:
-            #    print("false: " + prof.name)
-            #return updated_prof
         except Exception as e:
-            #print(str(e))
             statement = 5
 
 
-    return None  #I DO NOT KNOW WHAT TO RETURN HERE. FUTURE JOSH PROBLEM :)  
+    return None 
     
 def parse_course(course_data: List,
                  courses_set: set,
@@ -392,14 +339,9 @@ def parse_course(course_data: List,
     """ Creates Course model and saves it to the databsae.
         Calls parse_instructor and parse_section
     """
-    #print(course_data)
     
     dept = course_data['subject']
     course_number = course_data['courseNumber']
-    term_code = course_data['term']
-
-    # Generate the course's id using the above data
-    #course_id = generate_course_id(dept, course_number, term_code)
 
     # Some course titles contain escaped characters(ex. &amp;), so unescape them
     title = unescape(course_data['courseTitle'])
@@ -411,7 +353,6 @@ def parse_course(course_data: List,
     # Parse the instructor, then send the returned Instructor model to parse_section
     instructor_model = parse_instructor(course_data, dept)
     section_data = parse_section(course_data)
-    #print("parsing a section")
 
     if instructor_model is not None and instructor_model not in instructors_set:
         instructors_set.add(instructor_model)
@@ -426,16 +367,8 @@ def parse_all_courses(course_list, term: str, courses_set: set,
     """ Helper function that's passed to banner.search so we can download the dept data
         and parse it on one thread.
     """
-    #print("parse all course begin")
-    #f = open("debug.txt", "a")
-    #f.write("parse all course begin")
-    #f.close()
-    
     dept_name = course_list[0].get('subject', '') if course_list else ''
 
-    #random.shuffle(course_list)
-    
-    #print(course_list)
     time.sleep(5)
     for course in course_list:
         time.sleep(1)
@@ -457,7 +390,7 @@ def parse_all_courses(course_list, term: str, courses_set: set,
         
         if department == dept_name:
             lines[line_counter] = code_term + " " + department + " " + "FINISHED" + " " + code_term + " T" + "\r\n"
-            print("Found it!! Editing... " + department)
+            #print("Found it!! Editing... " + department)
             break
         else:    
             line_counter += 1
@@ -480,17 +413,12 @@ def get_course_data(  # pylint: disable=too-many-locals
     banner = BannerRequests()
     loop = asyncio.get_event_loop()
 
-    start = time.time()
-    #counter = 0
-    #while True:
-        #try:
+    start = time.time()*
     new_depts_terms = []
     
     for dept in depts_terms:
         if dept[2] == "F":
             new_depts_terms.append(dept)
-        else:
-            print("already checked! skipping...")
     print("Heres how many depts we have left! " + str(len(new_depts_terms)))
     data_set = loop.run_until_complete(banner.search(new_depts_terms, sem, parse_all_courses))
     print(f"Downloaded and scraped {len(data_set)} departments data in"
@@ -537,21 +465,20 @@ class Command(base.BaseCommand):
                 terms = get_all_terms(options['year'])
             elif options['recent']:
                 terms = get_recent_terms()
-
-        depts_terms = get_department_names(terms)    
         finished = True
         counter = 1
-        #print("finished var is working now")
         while (finished == True):
             try:
+                depts_terms = get_department_names(terms)
                 instructors, sections, meetings, courses = get_course_data(depts_terms)
                 print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
                 finished = False
             except Exception as e:
-                counter = counter + 1
-                #print(str(e))
+                counter =+ 1
                 print("\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n")
                 print("connection reset, restarting... attempt: " + str(counter))
-                time.sleep(60)
+                if counter < 5:
+                    time.sleep(60)
+                else:
+                    time.sleep(600)
                 finished = True
-        #print("finished")

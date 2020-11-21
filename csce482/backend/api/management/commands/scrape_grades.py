@@ -80,7 +80,6 @@ def build_term_code(year_semester: str, abbr: str) -> str:
 
 class Command(base.BaseCommand):
     def handle(self, *args, **kwargs):
-        #courses_missed = []
         yrs = years()
         college_abbrevs = colleges()
         for year in yrs:
@@ -97,24 +96,6 @@ class Command(base.BaseCommand):
                         iterator = 0
                         for dist in distribution_fields:
                             iterator += 1
-                            #*print(iterator)
-                        
-                            #***I need to generate a course object, fetch/generate a professor object
-                            #***I need to get these two objects and associate them via course_prof object
-                            
-                            ##grades, (dept, course_num, section_num), gpa = dist
-                            ##section = scraper_models.Section.objects.filter(
-                            ##    dept=dept,
-                            ##    course_num=course_num,
-                            ##    section_num=section_num,
-                            ##    term=int(term),
-                            ##).first()
-                            
-                            ##if section:
-                            ##    grades, _ = scraper_models.Grades.objects.update_or_create(
-                            ##        section=section, defaults={**grades, "gpa": gpa}
-                            ##    )
-                            ##    section.grades = grades
                             
                             grades, (dept, course_num, section_num, prof_data), gpa = dist
                             total = gpa[0] + gpa[1] + gpa[2] + gpa[3] + gpa[4] + gpa[5]
@@ -128,15 +109,14 @@ class Command(base.BaseCommand):
                             try:
                                 ###course object
                                 _course_id = str(dept) + "-" + str(course_num)
-                                #print("Starting try: " + _course_id)
                                 valid_course = scraper_models.Course.objects.get(course_id = _course_id)
                             except Exception as e:
-                                #courses_missed.append(str(_course_id) + "-" + year_semester)
                                 print(str(e) + " Generating: " + _course_id)
                                 new_course = scraper_models.Course.objects.get_or_create(
                                     course_id = _course_id,
                                     title = "Outdated Course: No Info"
                                 )[0]
+                                new_course.save()
                                 continue                            
                              
                             try: 
@@ -189,15 +169,10 @@ class Command(base.BaseCommand):
                                 
                             try:    
                                 ###section object
-                                #if isinstance(section_num, str):
-                                #    _section_num = int(section_num[1:2])
-                                #    print("its true: " + section_num)
-                                #_section_num = section_num
                                 try:
                                     _section_num = int(section_num)
                                 except:
                                     _section_num = int(section_num[1:2])
-                                    #print("its true: " + section_num)
                                 
                                 new_section = scraper_models.Section.objects.get_or_create(
                                     activity = new_activity,
@@ -211,7 +186,4 @@ class Command(base.BaseCommand):
                                 new_section.save()
                             except Exception as e:
                                 print(str(e))
-                                continue     
-                                
-        #print(*courses_missed)
-
+                                continue

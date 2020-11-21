@@ -18,9 +18,6 @@ def parse_departments(json, term) -> List[Tuple[str,str,str,str]]:
         departments.append((f"{dept['code']}{term}", dept["code"], dept["description"], term))
 
     return departments
-    ###return [Department(id=f"{dept['code']}{term}", code=dept["code"],
-    ###                   description=dept["description"], term=term)
-    ###        for dept in json]
 
 def scrape_departments(term) -> List[Tuple[str,str,str,str]]:
     """ Takes term input and collects json object of departments """
@@ -49,9 +46,6 @@ class Command(base.BaseCommand):
             for term in terms:
                 print(f"Scraping depts for {term}")
                 depts.extend(scrape_departments(term))
-
-        #Department.objects.bulk_create(depts, ignore_conflicts=True)
-        #im writing the depts to a text file, scuffed i know
         
         try:
             os.remove("departments.txt")
