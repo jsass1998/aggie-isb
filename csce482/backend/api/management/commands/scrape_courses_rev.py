@@ -474,7 +474,8 @@ class Command(base.BaseCommand):
                 print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
                 finished = False
             except Exception as e:
-                counter =+ 1
+                print(str(e))
+                counter += 1
                 print("\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n")
                 print("connection reset, restarting... attempt: " + str(counter))
                 if counter < 5:
