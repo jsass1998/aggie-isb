@@ -413,7 +413,7 @@ def get_course_data(  # pylint: disable=too-many-locals
     banner = BannerRequests()
     loop = asyncio.get_event_loop()
 
-    start = time.time()*
+    start = time.time()
     new_depts_terms = []
     
     for dept in depts_terms:
