@@ -76,18 +76,19 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
     """ Puts section data in database & calls parse_meeting.
         Called from parse_course.
     """
+
     section_id = int(course_data['id'])
     subject = course_data['subject']
     course_number = course_data['courseNumber']
     section_number = course_data['sequenceNumber']
     term_code = course_data['term']
-
     crn = course_data['courseReferenceNumber']
 
     min_credits = course_data['creditHourLow']
     max_credits = course_data['creditHourHigh']
     max_enrollment = course_data['maximumEnrollment']
     current_enrollment = course_data['enrollment']
+    #print(course_number)
     # Go through section attributes to determine if the class is honors
     honors = False
     for attributes in course_data.get('sectionAttributes', []):
@@ -173,117 +174,121 @@ def parse_section(course_data) -> Tuple[models.Section, List[models.Activity]]: 
         except Exception as e:
             return None
         
-    monday = False
-    tuesday = False
-    wednesday = False
-    thursday = False
-    friday = False
-    
     if _section:
         for meetingData in course_data['meetingsFaculty']:
+            monday = False
+            tuesday = False
+            wednesday = False
+            thursday = False
+            friday = False
             monday = meetingData['meetingTime']['monday']
             tuesday = meetingData['meetingTime']['tuesday']
             wednesday = meetingData['meetingTime']['wednesday']
             thursday = meetingData['meetingTime']['thursday']
             friday = meetingData['meetingTime']['friday']
-            
+                
             _starttime = meetingData['meetingTime']['beginTime']
             _endtime = meetingData['meetingTime']['endTime']
-            
+                
             if _starttime is not None:
                 start_time = convert_meeting_time(_starttime)
             else:
                 start_time = convert_meeting_time('2000')
-                
+                    
             if _endtime is not None:
                 end_time = convert_meeting_time(_endtime)
             else:
                 start_time = convert_meeting_time('2100')    
-            
-            
+                
+                
             building = meetingData['meetingTime']['building']
-            
+                
             if building is not None:
                 building = unescape(building)
             else:
                 building = "None"
-            
-        if monday:
-            try:
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = building,
-                    day = "monday",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
-        if tuesday:
-            try:
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = building,
-                    day = "tuesday",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
                 
-        if wednesday:
-            try:
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = building,
-                    day = "wednesday",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
-        if thursday:
-            try:
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = building,
-                    day = "thursday",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
-        if friday:
-            try:
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = building,
-                    day = "friday",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
-        if _section.web and not monday and not tuesday and not wednesday and not thursday and not friday:
-            try:
-                start_time = convert_meeting_time('2000')
-                end_time = convert_meeting_time('2100')
+            if monday:
+                try:
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = building,
+                        day = "monday",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None
+            if tuesday:
+                try:
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = building,
+                        day = "tuesday",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None   
+            if wednesday:
+                try:
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = building,
+                        day = "wednesday",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None
+            if thursday:
+                try:
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = building,
+                        day = "thursday",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None
+            if friday:
+                try:
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = building,
+                        day = "friday",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None
+            if _section.web and not monday and not tuesday and not wednesday and not thursday and not friday:
+                try:
+                    start_time = convert_meeting_time('2000')
+                    end_time = convert_meeting_time('2100')
 
-                _activity_instance = models.Activity_Instance.objects.get_or_create(
-                    activity = _activity,
-                    location = "ONLINE",
-                    day = "ONLINE",
-                    starttime = start_time,
-                    endtime = end_time
-                )[0]
-                _activity_instance.save()
-            except Exception as e:
-                return None
+                    _activity_instance = models.Activity_Instance.objects.get_or_create(
+                        activity = _activity,
+                        location = "ONLINE",
+                        day = "ONLINE",
+                        starttime = start_time,
+                        endtime = end_time
+                    )[0]
+                    _activity_instance.save()
+                except Exception as e:
+                    print(str(e))
+                    return None
     return None
     
 def parse_instructor(course_data, dept) -> models.Professor:
@@ -472,14 +477,15 @@ class Command(base.BaseCommand):
                 depts_terms = get_department_names(terms)
                 instructors, sections, meetings, courses = get_course_data(depts_terms)
                 print(f"Finished scraping in {time.time() - start_all:.2f} seconds")
+                quit()
                 finished = False
             except Exception as e:
                 print(str(e))
                 counter += 1
                 print("\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n")
                 print("connection reset, restarting... attempt: " + str(counter))
-                if counter < 5:
-                    time.sleep(60)
-                else:
-                    time.sleep(600)
+                #if counter < 5:
+                #    time.sleep(60)
+                #else:
+                #    time.sleep(600)
                 finished = True

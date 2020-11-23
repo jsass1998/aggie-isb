@@ -135,7 +135,7 @@ class Activity_Instance(models.Model):
         on_delete=models.CASCADE
     )
     location = models.CharField(max_length=64)
-    day = models.CharField(max_length=8)
+    day = models.CharField(max_length=16)
     starttime = models.TimeField()
     endtime = models.TimeField()
 
