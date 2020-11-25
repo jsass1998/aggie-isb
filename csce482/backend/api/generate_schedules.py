@@ -11,7 +11,9 @@ from .utils import get_term_code_from_semester_string
 def generate_schedules(schedule_user, schedule_term, schedule_campus, selected_courses, blocked_times):
     count = len(selected_courses)+1
     term_code = get_term_code_from_semester_string(schedule_term, schedule_campus)
-    section_lists = [course.get_x_sections(term_code, 3).sort(key=lambda s: s.course_prof__percent_A) for course in selected_courses]
+    section_lists = [course.get_x_sections(term_code, 3) for course in selected_courses]
+    for section in section_lists:
+        section.sort(key=lambda s: s.section.course_prof.percent_A)
     blocked_time_activity = Activity.objects.create(
         title = 'Blocked Time',
         term = term_code

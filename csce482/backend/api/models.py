@@ -214,15 +214,15 @@ class Schedule(models.Model):
     def get_instances(self): #O(Sigma_a*A_i+log(I))
         instance_list = []
         for activity in self.activities.all():
-            instance_list = instance_list + activity.get_instances_list()
+            instance_list = instance_list + activity.get_instances_list() #O(Sigma_a*A_i)
         instance_ids = [instance.id for instance in instance_list]
-        instances = Activity_Instance.objects.all().filter( #O(I) (speed up w/ indexing?)
+        instances = Activity_Instance.objects.all().filter( #O(log(I))
             id__in=instance_ids
         )
         return instances
 
     def compute_avg_starttime(self): #O(Sigma_a*A_i)
-        schedule_instances = self.get_instances() #O(Sigma_a*A_i+I)
+        schedule_instances = self.get_instances() #O(Sigma_a*A_i+log(I))
         week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         stime_sum = 0
         for day in week:
