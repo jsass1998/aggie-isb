@@ -433,7 +433,7 @@ def get_course_data(  # pylint: disable=too-many-locals
     meetings = []
     courses = []
 
-    return (instructors, sections, meetings, courses)  
+    return (instructors, sections, meetings, courses)
 
 class Command(base.BaseCommand):
     """ Gets course information from banner and adds it to the database """

@@ -19,8 +19,8 @@ class Course(models.Model):
     #         for s in section_qset:
     #             sections = sections + [s.activity]
     #     return sections
-    
-    def get_sections(self, termcode):
+
+    def get_sections(self, termcode): #O(C_s)
         sections=[]
         for cp in self.course_prof_set.all():
             section_qset = cp.section_set.all().filter(
@@ -28,7 +28,8 @@ class Course(models.Model):
             )
             for s in section_qset:
                 sections = sections + [s.activity]
-        return sections
+        cap = min(len(sections), 10)
+        return sections[:cap]
 
     def get_x_sections(self, termcode, x) :
         sections = []
@@ -89,14 +90,14 @@ class Activity(models.Model):
     def __str__(self):
         return self.title+" - "+self.term
 
-    def conflicts_with(self, other_activity):
+    def conflicts_with(self, other_activity): #O(A_i^2)
         for a in self.activity_instance_set.all():
             for b in other_activity.activity_instance_set.all():
                 if a.conflicts_with(b):
                     return True
         return False
 
-    def get_instances_list(self):
+    def get_instances_list(self): #O(A_i)
         instances_queryset = self.activity_instance_set.all()
         instances_list = [instance for instance in instances_queryset]
         return instances_list
@@ -160,7 +161,7 @@ class Activity_Instance(models.Model):
         s=s+")"
         return s
 
-    def conflicts_with(self, other_instance):
+    def conflicts_with(self, other_instance): #O(1)
         b = self.day == other_instance.day
         b = b and self.starttime < other_instance.endtime
         b = b and self.endtime > other_instance.starttime
@@ -194,38 +195,38 @@ class Schedule(models.Model):
         s=s+" ("+str(self.activities.count())+" activities)"
         return s
 
-    def conflicts_with(self, activity):
+    def conflicts_with(self, activity): #O(Sigma_a*A_i^2)
         for a in self.activities.all():
             if a.conflicts_with(activity):
                 return True
         return False
 
-    def get_activities_list(self):
+    def get_activities_list(self): #O(Sigma_a)
         activities_queryset = self.activities.all()
         activities_list = [activity for activity in activities_queryset]
         return activities_list
 
-    def add_activity(self, activity):
-        #curr_activities = self.get_activities_list()
-        #new_activities = curr_activities+[activity]
+    def add_activity(self, activity): #O(Sigma_a)
+        # curr_activities = self.get_activities_list()
+        # new_activities = curr_activities+[activity]
         self.activities.add(activity)
 
-    def get_instances(self):
+    def get_instances(self): #O(Sigma_a*A_i+log(I))
         instance_list = []
         for activity in self.activities.all():
             instance_list = instance_list + activity.get_instances_list()
         instance_ids = [instance.id for instance in instance_list]
-        instances = Activity_Instance.objects.all().filter(
+        instances = Activity_Instance.objects.all().filter( #O(I) (speed up w/ indexing?)
             id__in=instance_ids
         )
         return instances
 
-    def compute_avg_starttime(self):
-        schedule_instances = self.get_instances()
+    def compute_avg_starttime(self): #O(Sigma_a*A_i)
+        schedule_instances = self.get_instances() #O(Sigma_a*A_i+I)
         week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         stime_sum = 0
         for day in week:
-            daily_instances = schedule_instances.filter(
+            daily_instances = schedule_instances.filter( #O(Sigma_a*A_i)
                 day__exact = day,
             )
             if daily_instances.count() is not 0:
@@ -240,8 +241,8 @@ class Schedule(models.Model):
         stime_avg = time.strftime('%H:%M:%S', time.gmtime(stime_avg_sec))
         self.__setattr__("avg_starttime", stime_avg)
         return stime_avg
-            
-    def compute_avg_endtime(self):
+
+    def compute_avg_endtime(self): #O(Sigma_a*A_i)
         schedule_instances = self.get_instances()
         week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         etime_sum = 0
@@ -262,7 +263,7 @@ class Schedule(models.Model):
         self.__setattr__("avg_endtime", etime_avg)
         return etime_avg
 
-    def compute_avg_day_length(self):
+    def compute_avg_day_length(self): #O(Sigma_a*A_i) (Speed this up)
         schedule_instances = self.get_instances()
         week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         day_length_sum = 0
@@ -288,7 +289,7 @@ class Schedule(models.Model):
         self.__setattr__("avg_day_length", day_length_avg)
         return day_length_avg
 
-    def find_free_days(self):
+    def find_free_days(self): #O(Sigma_a*A_i)
         schedule_instances = self.get_instances()
         week = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
         free_on = {
@@ -309,7 +310,7 @@ class Schedule(models.Model):
         self.__setattr__("num_free_days", free_day_count)
         return free_day_count
 
-    def generate_descriptors(self):
+    def generate_descriptors(self): #O(Sigma_a*A_i)
         self.find_free_days()
         self.compute_avg_starttime()
         self.compute_avg_endtime()
