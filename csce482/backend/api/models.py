@@ -31,13 +31,13 @@ class Course(models.Model):
         cap = min(len(sections), 10)
         return sections[:cap]
 
-    def get_x_sections(self, termcode, x) :
+    def get_x_sections(self, termcode, x):
         sections = []
         for cp in self.course_prof_set.all() :
             section_qset = cp.section_set.all().filter(
                 term__exact = termcode
             )
-            for s in section_qset :
+            for s in section_qset:
                 sections = sections + [s.activity]
         cap = min(len(sections), x)
         return sections[:cap]
