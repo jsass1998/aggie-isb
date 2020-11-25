@@ -11,7 +11,7 @@ from .utils import get_term_code_from_semester_string
 def generate_schedules(schedule_user, schedule_term, schedule_campus, selected_courses, blocked_times):
     count = len(selected_courses)+1
     term_code = get_term_code_from_semester_string(schedule_term, schedule_campus)
-    section_lists = [course.get_sections(term_code) for course in selected_courses]
+    section_lists = [course.get_x_sections(term_code, 3) for course in selected_courses]
     blocked_time_activity = Activity.objects.create(
         title = 'Blocked Time',
         term = term_code
@@ -44,8 +44,8 @@ def refine_schedules(schedule_user, term_code, activity_lists, count):
                 new_schedule.user = schedule_user
             
             new_schedule.activities.set([activity])
-            if schedule_user is not None:
-                new_schedule.save()
+            #if schedule_user is not None:
+            #    new_schedule.save()
 
             schedules.append(new_schedule)
         return schedules
@@ -65,11 +65,13 @@ def refine_schedules(schedule_user, term_code, activity_lists, count):
                     next_schedule.activities.set(curr_activities)
                     if count == len(activity_lists)-1:
                         next_schedule.generate_descriptors()
-                    next_schedule.activities.set(curr_activities + [activity])
-                    if schedule_user is not None:
-                        next_schedule.save()
-
+                    next_schedule.activities.add(activity)
+                    #if schedule_user is not None:
+                    #    next_schedule.save()
+                    if count == len(activity_lists) - 1 :    
+                        if  schedule_user is not None :
+                            next_schedule.save()
                     next_schedules.append(next_schedule)
-            schedule.delete()
+            #schedule.delete()
         return next_schedules
 

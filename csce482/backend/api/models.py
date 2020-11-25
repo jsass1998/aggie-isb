@@ -30,6 +30,18 @@ class Course(models.Model):
                 sections = sections + [s.activity]
         return sections
 
+    def get_x_sections(self, termcode, x) :
+        sections = []
+        for cp in self.course_prof_set.all() :
+            section_qset = cp.section_set.all().filter(
+                term__exact = termcode
+            )
+            for s in section_qset :
+                sections = sections + [s.activity]
+        cap = min(len(sections), x)
+        return sections[:cap]
+
+
 class Professor(models.Model):
     name = models.CharField(max_length=50)
     dept = models.CharField(max_length=50, default="")
@@ -194,9 +206,9 @@ class Schedule(models.Model):
         return activities_list
 
     def add_activity(self, activity):
-        curr_activities = self.get_activities_list()
-        new_activities = curr_activities+[activity]
-        self.activities.set(new_activities)
+        #curr_activities = self.get_activities_list()
+        #new_activities = curr_activities+[activity]
+        self.activities.add(activity)
 
     def get_instances(self):
         instance_list = []
